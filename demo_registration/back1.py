@@ -17,9 +17,13 @@ def query_db(query, args=(), one=False):
 def index():
     return render_template('index.html')
 
+@app.route('/settime')
+def settime():
+    return render_template('settime.html')
+
 @app.route('/set_enrollment_period', methods=['POST'])
 def set_enrollment_period():
-    data = request.json
+    data = request.json   
     period_type = data['period_type']
     start_time = data['start_time']
     end_time = data['end_time']
@@ -30,6 +34,7 @@ def set_enrollment_period():
 @app.route('/check_enrollment_period', methods=['GET'])
 def check_enrollment_period():
     now = datetime.now()
+    print(now)
     period = query_db('SELECT * FROM EnrollmentPeriod WHERE ? BETWEEN start_time AND end_time', [now], one=True)
     if period:
         return jsonify({'status': 'open'})

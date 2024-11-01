@@ -1,7 +1,6 @@
 -- 1. 使用者資料表 (User)
 CREATE TABLE User (
     user_id INT PRIMARY KEY,
-    role VARCHAR(20) NOT NULL,     -- 使用者身分（學生、教師、行政人員）
     class VARCHAR(50)              -- 班級名稱（僅學生適用）
 );
 
@@ -70,7 +69,8 @@ CREATE TABLE Enrollment (
 
 -- 9. 加退選時間資料表 (EnrollmentPeriod)
 CREATE TABLE EnrollmentPeriod (
-    period_type VARCHAR(20) PRIMARY KEY,         -- 類別（加選、退選）
+    period_type VARCHAR(20) NOT NULL,         -- 類別（加選、退選）
     start_time DATETIME NOT NULL,                -- 開始時間
-    end_time DATETIME NOT NULL                   -- 結束時間
+    end_time DATETIME NOT NULL,                   -- 結束時間
+    PRIMARY KEY (period_type, start_time, end_time )
 );

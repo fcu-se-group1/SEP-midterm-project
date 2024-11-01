@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template
-from datetime import datetime
+import datetime
 import sqlite3
 
 app = Flask(__name__, static_folder='.', template_folder='.')
@@ -24,20 +24,23 @@ def settime():
 @app.route('/set_enrollment_period', methods=['POST'])
 def set_enrollment_period():
     data = request.json   
-    period_type = data['period_type']
+    # period_type = data['period_type']
     start_time = data['start_time']
     end_time = data['end_time']
-    query_db('INSERT INTO EnrollmentPeriod (period_type, start_time, end_time) VALUES (?, ?, ?)',
-             [period_type, start_time, end_time])
+    query_db('UPDATE EnrollmentPeriod SET start_time=?, end_time=? WHERE period_type=\"加選\"',
+             [start_time, end_time])
     return jsonify({'status': 'success'})
 
 @app.route('/check_enrollment_period', methods=['GET'])
 def check_enrollment_period():
-    now = datetime.now()
-    print(now)
-    period = query_db('SELECT * FROM EnrollmentPeriod WHERE ? BETWEEN start_time AND end_time', [now], one=True)
-    if period:
-        return jsonify({'status': 'open'})
+    now = datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8)))
+    settime = query_db('SELECT * FROM EnrollmentPeriod WHERE period_type=\"加選\"', one=True)
+    starttime = datetime.datetime.strptime(settime[1], "%Y-%m-%dT%H:%M")
+    starttime = starttime.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=8)))
+    endtime = datetime.datetime.strptime(settime[2], "%Y-%m-%dT%H:%M")
+    endtime = endtime.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=8)))
+    if starttime<=now<=endtime:
+        return jsonify({'status': 'open', 'start time': starttime, 'end time': endtime, 'now': now})
     else:
         return jsonify({'status': 'closed'})
 

@@ -78,11 +78,15 @@ def check_user_credits():
     data = request.json
     user_id = data['user_id']
     course_code = data['course_code']
+    actor = data['actor']
+    print(actor)
     course = query_db('SELECT credits FROM Course WHERE course_code = ?', [course_code], one=True)[0]
     current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?', [user_id], one=True)[0]
     if current_credits is None:
         current_credits = 0
-    if current_credits + course <= 25:  # Assuming 20 is the credit limit
+    if current_credits + course <= 25 and actor=="student":  # Assuming 25 is the credit limit
+        return jsonify({'status': 'within_limit'})
+    elif current_credits + course <= 30 and actor=="admin":
         return jsonify({'status': 'within_limit'})
     else:
         return jsonify({'status': 'exceeds_limit'})
@@ -92,9 +96,12 @@ def check_class_restrictions():
     data = request.json
     user_id = data['user_id']
     course_code = data['course_code']
+    atcor = data['actor']
     user = query_db('SELECT class FROM User WHERE user_id = ?', [user_id], one=True)[0]
     restriction = query_db('SELECT * FROM Course_Class_Restriction WHERE course_code = ? AND class_name = ?', [course_code, user], one=True)
     if restriction:
+        return jsonify({'status': 'allowed'})
+    elif atcor=="admin":
         return jsonify({'status': 'allowed'})
     else:
         return jsonify({'status': 'restricted'})

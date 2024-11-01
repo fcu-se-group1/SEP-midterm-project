@@ -16,10 +16,11 @@
 
         async function checkUserId() {
             let userId = document.getElementById('user_id').value;
+            let actor = document.getElementById('actor').value;
             let response = await fetch('/check_user_id', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({user_id: userId})
+                body: JSON.stringify({user_id: userId, actor: actor})
             });
             let data = await response.json();
             if (data.status === 'not_exists') {
@@ -34,10 +35,13 @@
             if (!await checkUserId()) return;
 
             let courseCode = prompt('請問你想加選哪個課程代碼');
+            let actor = document.getElementById('actor').value;
+            let userId = document.getElementById('user_id').value;
+
             let response = await fetch('/check_course_code', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({course_code: courseCode})
+                body: JSON.stringify({course_code: courseCode, actor: actor})
             });
             let data = await response.json();
             if (data.status === 'not_exists') {
@@ -48,7 +52,7 @@
             response = await fetch('/check_course_availability', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({course_code: courseCode})
+                body: JSON.stringify({course_code: courseCode, actor: actor})
             });
             data = await response.json();
             if (data.status === 'full') {
@@ -59,7 +63,7 @@
             response = await fetch('/check_user_credits', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({user_id: document.getElementById('user_id').value, course_code: courseCode})
+                body: JSON.stringify({user_id: userId, course_code: courseCode, actor: actor})
             });
             data = await response.json();
             if (data.status === 'exceeds_limit') {
@@ -70,7 +74,7 @@
             response = await fetch('/check_class_restrictions', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({user_id: document.getElementById('user_id').value, course_code: courseCode})
+                body: JSON.stringify({user_id: userId, course_code: courseCode, actor: actor})
             });
             data = await response.json();
             if (data.status === 'restricted') {
@@ -81,7 +85,7 @@
             response = await fetch('/check_schedule_conflicts', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({user_id: document.getElementById('user_id').value, course_code: courseCode})
+                body: JSON.stringify({user_id: userId, course_code: courseCode, actor: actor})
             });
             data = await response.json();
             if (data.status === 'conflict') {
@@ -92,7 +96,7 @@
             response = await fetch('/enroll_course', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({user_id: document.getElementById('user_id').value, course_code: courseCode})
+                body: JSON.stringify({user_id: userId, course_code: courseCode, actor: actor})
             });
             data = await response.json();
             if (data.status === 'success') {
@@ -106,6 +110,11 @@
     <form onsubmit="event.preventDefault(); enrollCourse();">
         <label for="user_id">學號：</label>
         <input type="text" id="user_id" name="user_id" required>
+        <label for="actor">角色：</label>
+        <select id="actor" name="actor" required>
+            <option value="student">學生</option>
+            <option value="admin">行政</option>
+        </select>
         <button type="submit">加選課程</button>
     </form>
 </body>

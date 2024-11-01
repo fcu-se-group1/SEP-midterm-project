@@ -65,8 +65,10 @@ def check_course_code():
 def check_course_availability():
     data = request.json
     course_code = data['course_code']
-    course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)
-    if course and course['max_students'] > 0:
+    course = query_db('SELECT max_students FROM Course WHERE course_code = ?', [course_code], one=True)
+    nowstudent = query_db("SELECT count(*) from Enrollment where course_code=? and status=?", [course_code, '已選'], one=True)
+    print(course[0], nowstudent[0])
+    if course[0]- nowstudent[0] > 0:
         return jsonify({'status': 'available'})
     else:
         return jsonify({'status': 'full'})
@@ -76,23 +78,22 @@ def check_user_credits():
     data = request.json
     user_id = data['user_id']
     course_code = data['course_code']
-    user = query_db('SELECT * FROM User WHERE user_id = ?', [user_id], one=True)
-    course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)
-    if user and course:
-        current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?', [user_id], one=True)[0]
-        if current_credits + course['credits'] <= 20:  # Assuming 20 is the credit limit
-            return jsonify({'status': 'within_limit'})
-        else:
-            return jsonify({'status': 'exceeds_limit'})
-    return jsonify({'status': 'error'})
+    course = query_db('SELECT credits FROM Course WHERE course_code = ?', [course_code], one=True)[0]
+    current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?', [user_id], one=True)[0]
+    if current_credits is None:
+        current_credits = 0
+    if current_credits + course <= 25:  # Assuming 20 is the credit limit
+        return jsonify({'status': 'within_limit'})
+    else:
+        return jsonify({'status': 'exceeds_limit'})
 
 @app.route('/check_class_restrictions', methods=['POST'])
 def check_class_restrictions():
     data = request.json
     user_id = data['user_id']
     course_code = data['course_code']
-    user = query_db('SELECT * FROM User WHERE user_id = ?', [user_id], one=True)
-    restriction = query_db('SELECT * FROM Course_Class_Restriction WHERE course_code = ? AND class_name = ?', [course_code, user['class']], one=True)
+    user = query_db('SELECT class FROM User WHERE user_id = ?', [user_id], one=True)[0]
+    restriction = query_db('SELECT * FROM Course_Class_Restriction WHERE course_code = ? AND class_name = ?', [course_code, user], one=True)
     if restriction:
         return jsonify({'status': 'allowed'})
     else:
@@ -107,7 +108,7 @@ def check_schedule_conflicts():
     current_schedules = query_db('SELECT * FROM Course_Schedule JOIN Enrollment ON Course_Schedule.course_code = Enrollment.course_code WHERE user_id = ?', [user_id])
     for new in new_schedule:
         for current in current_schedules:
-            if new['weekday'] == current['weekday'] and new['time_slot'] == current['time_slot']:
+            if new[2] == current[2] and new[1] == current[1]:
                 return jsonify({'status': 'conflict'})
     return jsonify({'status': 'no_conflict'})
 

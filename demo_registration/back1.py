@@ -24,11 +24,16 @@ def settime():
 @app.route('/set_enrollment_period', methods=['POST'])
 def set_enrollment_period():
     data = request.json   
-    # period_type = data['period_type']
+    period_type = data['period_type']
     start_time = data['start_time']
     end_time = data['end_time']
-    query_db('UPDATE EnrollmentPeriod SET start_time=?, end_time=? WHERE period_type=\"加選\"',
-             [start_time, end_time])
+    if query_db('SELECT * FROM EnrollmentPeriod WHERE period_type=?', [period_type], one=True):
+        query_db('UPDATE EnrollmentPeriod SET start_time=?, end_time=? WHERE period_type=?',
+                 [start_time, end_time, period_type])
+    else:
+        query_db('INSERT INTO EnrollmentPeriod(period_type, start_time, end_time) WHERE period_type=?',
+             [start_time, end_time, period_type])
+    
     return jsonify({'status': 'success'})
 
 @app.route('/check_enrollment_period', methods=['GET'])

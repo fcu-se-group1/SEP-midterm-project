@@ -27,12 +27,11 @@ def set_enrollment_period():
     period_type = data['period_type']
     start_time = data['start_time']
     end_time = data['end_time']
-    if query_db('SELECT * FROM EnrollmentPeriod WHERE period_type=?', [period_type], one=True):
-        query_db('UPDATE EnrollmentPeriod SET start_time=?, end_time=? WHERE period_type=?',
-                 [start_time, end_time, period_type])
-    else:
-        query_db('INSERT INTO EnrollmentPeriod(period_type, start_time, end_time) WHERE period_type=?',
-             [start_time, end_time, period_type])
+    period=query_db('SELECT * FROM EnrollmentPeriod WHERE period_type=?', [period_type], one=True)
+    if period:
+        query_db('DELETE FROM EnrollmentPeriod WHERE period_type=?', [period_type])
+    query_db('INSERT INTO EnrollmentPeriod(period_type, start_time, end_time) VALUES (?, ?, ?)',
+                 [period_type, start_time, end_time])
     
     return jsonify({'status': 'success'})
 

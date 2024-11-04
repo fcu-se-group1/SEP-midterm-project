@@ -84,7 +84,7 @@ CREATE TABLE EnrollmentPeriod (
 );
 
 CREATE TABLE CourseInfo (
-    course_id INT,PRIMARY KEY,
+    course_id INT PRIMARY KEY,
     course_description TEXT,
     instructor_name VARCHAR(255),
     instructor_office_hours VARCHAR(255),

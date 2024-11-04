@@ -1,7 +1,8 @@
 -- 1. 使用者資料表 (User)
 CREATE TABLE User (
     user_id INT PRIMARY KEY,
-    class VARCHAR(50)              -- 班級名稱（僅學生適用）
+    class VARCHAR(50),             -- 班級名稱（僅學生適用）
+    FOREIGN KEY (class) REFERENCES Class(class_name)    
 );
 
 -- 2. 課程資料表 (Course)
@@ -73,4 +74,28 @@ CREATE TABLE EnrollmentPeriod (
     start_time DATETIME NOT NULL,                -- 開始時間
     end_time DATETIME NOT NULL,                   -- 結束時間
     PRIMARY KEY (period_type, start_time, end_time )
+);
+
+CREATE TABLE EnrollmentPeriod (
+    period_type VARCHAR(20) NOT NULL,         -- 類別（加選、退選）
+    start_time DATETIME NOT NULL,                -- 開始時間
+    end_time DATETIME NOT NULL,                   -- 結束時間
+    PRIMARY KEY (period_type, start_time, end_time )
+);
+
+CREATE TABLE CourseInfo (
+    course_id INT,PRIMARY KEY,
+    course_description TEXT,
+    instructor_name VARCHAR(255),
+    instructor_office_hours VARCHAR(255),
+    instructor_office_location VARCHAR(255),
+    instructor_email VARCHAR(255),
+    instructor_extension VARCHAR(50),
+    ta_name VARCHAR(255),
+    ta_email VARCHAR(255),
+    course_materials TEXT,
+    schedule TEXT,
+    grading_rules TEXT,
+    class_rules TEXT,
+    FOREIGN KEY (course_id) REFERENCES Course(course_code)
 );

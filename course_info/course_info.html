@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <title>教學大綱填寫系統</title>
+    <script>
+        async function checkCourseCode() {
+            let courseCode = document.getElementById('course_code').value;
+            let response = await fetch('/check_course_code', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({course_code: courseCode})
+            });
+            let data = await response.json();
+            if (data.status === 'error') {
+                alert('課程代碼錯誤');
+                return false;
+            }
+            return true;
+        }
+
+        async function submitCourseInfo() {
+            if (!await checkCourseCode()) return;
+
+            let courseInfo = {
+                course_code: document.getElementById('course_code').value,
+                course_description: document.getElementById('course_description').value,
+                instructor_name: document.getElementById('instructor_name').value,
+                instructor_office_hours: document.getElementById('instructor_office_hours').value,
+                instructor_office_location: document.getElementById('instructor_office_location').value,
+                instructor_email: document.getElementById('instructor_email').value,
+                instructor_extension: document.getElementById('instructor_extension').value,
+                ta_name: document.getElementById('ta_name').value,
+                ta_email: document.getElementById('ta_email').value,
+                course_materials: document.getElementById('course_materials').value,
+                schedule: document.getElementById('schedule').value,
+                grading_rules: document.getElementById('grading_rules').value,
+                class_rules: document.getElementById('class_rules').value
+            };
+
+            let response = await fetch('/submit_course_info', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(courseInfo)
+            });
+            let data = await response.json();
+            if (data.status === 'error') {
+                alert(data.message);
+                return;
+            }
+            alert('教學大綱填寫成功');
+        }
+    </script>
+</head>
+<body>
+    <h1>教學大綱填寫系統</h1>
+    <form onsubmit="event.preventDefault(); submitCourseInfo();">
+        <label for="course_code">課程代碼：</label>
+        <input type="text" id="course_code" name="course_code" required><br>
+        <label for="course_description">課程描述：</label>
+        <textarea id="course_description" name="course_description"></textarea><br>
+        <label for="instructor_name">授課教師姓名：</label>
+        <input type="text" id="instructor_name" name="instructor_name"><br>
+        <label for="instructor_office_hours">授課教師請益時間：</label>
+        <input type="text" id="instructor_office_hours" name="instructor_office_hours"><br>
+        <label for="instructor_office_location">授課教師辦公室地點：</label>
+        <input type="text" id="instructor_office_location" name="instructor_office_location"><br>
+        <label for="instructor_email">授課教師電子郵件：</label>
+        <input type="email" id="instructor_email" name="instructor_email"><br>
+        <label for="instructor_extension">授課教師分機：</label>
+        <input type="text" id="instructor_extension" name="instructor_extension"><br>
+        <label for="ta_name">教學助理姓名：</label>
+        <input type="text" id="ta_name" name="ta_name"><br>
+        <label for="ta_email">教學助理電子郵件：</label>
+        <input type="email" id="ta_email" name="ta_email"><br>
+        <label for="course_materials">課程教材：</label>
+        <textarea id="course_materials" name="course_materials"></textarea><br>
+        <label for="schedule">授課進度與內容：</label>
+        <textarea id="schedule" name="schedule"></textarea><br>
+        <label for="grading_rules">評分規則：</label>
+        <textarea id="grading_rules" name="grading_rules"></textarea><br>
+        <label for="class_rules">課堂規則：</label>
+        <textarea id="class_rules" name="class_rules"></textarea><br>
+        <button type="submit">完成</button>
+    </form>
+</body>
+</html>

@@ -32,12 +32,13 @@ def course_info(course_code):
     if request.method == 'POST':
         course_name = request.form['course_name']
         credits = request.form['credits']
-        class_time = request.form['class_time']
+        weekdays = request.form.getlist('weekday[]')
+        time_slots = request.form.getlist('time_slot[]')
         instructor = request.form['instructor']
-        class_name = request.form['class_name']
+        class_names = request.form.getlist('class_name[]')
         location = request.form['location']
         compulsory = request.form['compulsory']
-        class_limit = request.form['class_limit']
+        class_limits = request.form.getlist('class_limit[]')
         max_students = request.form['max_students']
 
         existing_course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)
@@ -50,18 +51,24 @@ def course_info(course_code):
             INSERT INTO Course (course_code, course_name, credits, max_students, instructor_name, location, is_mandatory)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         ''', [course_code, course_name, credits, max_students, instructor, location, compulsory])
-        query_db('''
-            INSERT INTO Course_Schedule (course_code, weekday, time_slot)
-            VALUES (?, ?, ?)
-        ''', [course_code, class_time[:3], class_time[3:]])
-        query_db('''
-            INSERT INTO Course_Class_Offering (course_code, class_name)
-            VALUES (?, ?)
-        ''', [course_code, class_name])
-        query_db('''
-            INSERT INTO Course_Class_Restriction (course_code, class_name)
-            VALUES (?, ?)
-        ''', [course_code, class_limit])
+        
+        for weekday, time_slot in zip(weekdays, time_slots):
+            query_db('''
+                INSERT INTO Course_Schedule (course_code, weekday, time_slot)
+                VALUES (?, ?, ?)
+            ''', [course_code, weekday, time_slot])
+        
+        for class_name in class_names:
+            query_db('''
+                INSERT INTO Course_Class_Offering (course_code, class_name)
+                VALUES (?, ?)
+            ''', [course_code, class_name])
+        
+        for class_limit in class_limits:
+            query_db('''
+                INSERT INTO Course_Class_Restriction (course_code, class_name)
+                VALUES (?, ?)
+            ''', [course_code, class_limit])
 
         return render_template('course_info.html', success='已成功紀錄課程資訊', course_code=course_code)
 

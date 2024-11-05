@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>課程查詢</title>
+</head>
+<body>
+    <h1>課程查詢</h1>
+    {% if warning %}
+        <p style="color: red;">{{ warning }}</p>
+    {% endif %}
+    <form method="POST" action="{{ url_for('course_query') }}">
+        <label for="course_code">課程代碼:</label>
+        <input type="text" id="course_code" name="course_code"><br><br>
+
+        <label for="course_name">課程名稱:</label>
+        <input type="text" id="course_name" name="course_name"><br><br>
+
+        <label for="instructor">授課教師:</label>
+        <input type="text" id="instructor" name="instructor"><br><br>
+
+        <label for="class_name">開課班級:</label>
+        <input type="text" id="class_name" name="class_name"><br><br>
+
+        <label for="location">上課地點:</label>
+        <input type="text" id="location" name="location"><br><br>
+
+        <label for="compulsory">必修/選修:</label>
+        <select id="compulsory" name="compulsory">
+            <option value="">--請選擇--</option>
+            <option value="是">必修</option>
+            <option value="否">選修</option>
+        </select><br><br>
+
+        <label for="weekday">星期:</label>
+        <select id="weekday" name="weekday">
+            <option value="">--請選擇--</option>
+            <option value="1">星期一</option>
+            <option value="2">星期二</option>
+            <option value="3">星期三</option>
+            <option value="4">星期四</option>
+            <option value="5">星期五</option>
+            <option value="6">星期六</option>
+            <option value="7">星期日</option>
+        </select><br><br>
+
+        <label for="time_slot">第幾節課:</label>
+        <select id="time_slot" name="time_slot">
+            <option value="">--請選擇--</option>
+            <option value="1">第1節</option>
+            <option value="2">第2節</option>
+            <option value="3">第3節</option>
+            <option value="4">第4節</option>
+            <option value="5">第5節</option>
+            <option value="6">第6節</option>
+            <option value="7">第7節</option>
+            <option value="8">第8節</option>
+            <option value="9">第9節</option>
+            <option value="10">第10節</option>
+            <option value="11">第11節</option>
+            <option value="12">第12節</option>
+            <option value="13">第13節</option>
+            <option value="14">第14節</option>
+        </select><br><br>
+
+        <button type="submit">查詢</button>
+    </form>
+</body>
+</html>

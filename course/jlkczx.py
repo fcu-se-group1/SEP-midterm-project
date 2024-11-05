@@ -47,6 +47,7 @@ def course_info(course_code):
             query_db('''DELETE FROM Course_Schedule WHERE course_code = ?''', [course_code])
             query_db('''DELETE FROM Course_Class_Offering WHERE course_code = ?''', [course_code])
             query_db('''DELETE FROM Course_Class_Restriction WHERE course_code = ?''', [course_code])
+            
         query_db('''
             INSERT INTO Course (course_code, course_name, credits, max_students, instructor_name, location, is_mandatory)
             VALUES (?, ?, ?, ?, ?, ?, ?)

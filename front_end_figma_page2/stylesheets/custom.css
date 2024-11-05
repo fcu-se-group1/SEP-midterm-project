@@ -1,0 +1,41 @@
+.btn-custom {
+    background-color: #6fa6d0;
+    border-color: #6fa6d0;
+    color: #fff; /* 確保文字顏色為白色 */
+}
+
+.btn-custom:hover {
+    background-color: #5a8bb0; /* 調整為你希望的懸停顏色 */
+    border-color: #5a8bb0;
+    color: #fff;
+}
+
+.header{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-position: center bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 56px; /* navbar的高度 */
+    left: 0;
+    width: 100%;
+    bottom: 56px; /* footer的高度 */
+    background-color: rgba(0, 0, 0, 0.3); /* 半透明黑色 */
+    z-index: 1; /* 确保overlay在其他内容之上 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+

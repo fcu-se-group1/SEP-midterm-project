@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <title>退選系統</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>退選系統</h1>
+    <form id="dropForm">
+        <label for="user_id">學號:</label>
+        <input type="text" id="user_id" name="user_id" required><br><br>
+        
+        <label for="actor">身分:</label>
+        <select id="actor" name="actor" required>
+            <option value="student">學生</option>
+            <option value="admin">系所行政人員</option>
+        </select><br><br>
+        
+        <button type="button" onclick="checkUserId()">檢查學號</button><br><br>
+        
+        <div id="courseSection" style="display:none;">
+            <label for="course_code">課程代碼:</label>
+            <input type="text" id="course_code" name="course_code" required><br><br>
+            
+            <button type="button" onclick="dropCourse()">退選課程</button><br><br>
+        </div>
+    </form>
+
+    <script>
+        async function checkEnrollmentPeriod() {
+            let response = await fetch('/check_enrollment_period');
+            let data = await response.json();
+            if (data.status === 'closed') {
+                alert('目前非退選時間');
+                return false;
+            }
+            return true;
+        }
+
+        async function checkUserId() {
+            if (!await checkEnrollmentPeriod()) return;
+            let userId = document.getElementById('user_id').value;
+            let actor = document.getElementById('actor').value;
+            let response = await fetch('/check_user_id', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({user_id: userId, actor: actor})
+            });
+            let data = await response.json();
+            if (data.status === 'not_exists') {
+                alert('輸入的學號不存在');
+                return false;
+            }
+            document.getElementById('courseSection').style.display = 'block';
+        }
+
+        async function dropCourse() {
+            let userId = document.getElementById('user_id').value;
+            let courseCode = document.getElementById('course_code').value;
+            let actor = document.getElementById('actor').value;
+
+            let response = await fetch('/check_course_code', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({user_id: userId, course_code: courseCode})
+            });
+            let data = await response.json();
+            if (data.status === 'not_exists') {
+                alert('課表中查無課程');
+                return false;
+            }
+
+            response = await fetch('/check_class_restrictions', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({user_id: userId, course_code: courseCode, actor: actor})
+            });
+            data = await response.json();
+            if (data.status === 'restricted') {
+                alert('此課程為本班必修課程，您無法退選該課程，如要退選請找系所行政人員');
+                return false;
+            }
+
+            response = await fetch('/check_user_credits', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({user_id: userId, course_code: courseCode, actor: actor})
+            });
+            data = await response.json();
+            if (data.status === 'exceeds_limit') {
+                alert('超出修課學分下限，退選失敗');
+                return false;
+            }
+
+            response = await fetch('/drop_course', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({user_id: userId, course_code: courseCode})
+            });
+            data = await response.json();
+            if (data.status === 'success') {
+                alert(data.message);
+                if (confirm('退選成功，是否繼續退選其他課程？')) {
+                    document.getElementById('courseSection').style.display = 'none';
+                } else {
+                    document.getElementById('dropForm').reset();
+                    document.getElementById('courseSection').style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

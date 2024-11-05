@@ -79,7 +79,7 @@ def course_query():
     return render_template('course_query.html')
 
 @app.route('/course_syllabus/<course_code>')
-def get_course_info(course_code):
+def course_syllabus(course_code):
     course_info = query_db('SELECT * FROM CourseInfo WHERE course_id = ?', [course_code], one=True)
     if not course_info:
         return "尚無教學大綱"

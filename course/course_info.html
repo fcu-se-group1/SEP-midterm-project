@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>輸入課程資訊</title>
+    <title>輸入課程信息</title>
     <script>
         function showAlertAndRedirect(message, redirectUrl) {
             alert(message);
@@ -72,7 +72,10 @@
     </script>
 </head>
 <body>
-    <h1>輸入課程資訊</h1>
+    <h1>輸入課程信息</h1>
+    {% if warning %}
+        <p style="color: red;">{{ warning }}</p>
+    {% endif %}
     {% if success %}
         <script>
             showAlertAndRedirect("{{ success }}", "{{ url_for('course_code') }}");
@@ -122,7 +125,7 @@
         <input type="text" id="instructor" name="instructor" required><br><br>
 
         <div id="class_name_container">
-            <label for="class_name">開課班級:</label>
+            <label for="class_name">班級名稱:</label>
             <input type="text" id="class_name" name="class_name[]" required><br><br>
         </div>
         <button type="button" onclick="addClassName()">+</button>

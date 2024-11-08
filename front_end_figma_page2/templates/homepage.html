@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block content %}
+    <div class="container d-flex flex-column justify-content-center align-items-center h-100">
+        <div class="row w-100 justify-content-center">
+            <div class="col-10 text-center">
+                <h1 class="text-white">簡單易操作的逢甲選課系統<br>Keep it simple, but significant</h1>
+            </div>
+        </div>
+        <div class="row w-100 justify-content-center mt-3">
+            <div class="col-4 text-center">
+                <a href="{{ url_for('chooseFunction') }}" class="btn btn-custom w-100">開始</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

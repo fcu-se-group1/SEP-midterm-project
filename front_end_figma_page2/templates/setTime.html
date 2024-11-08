@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}setTime{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+
+    <!-- <div class="row d-flex justify-content-center align-items-center"> -->
+        
+        <div class="col-lg-6">
+            <div class="card border-primary rounded-4 h-100">
+                <div class="card-header p-3 px-4"><h3 class="fw-bold mb-0">設定加退選時間</h2></div>
+
+                <div class="card-body text-primary d-flex flex-column justify-content-center mb-3 px-4" style="gap: 0.75rem;">
+                    <h5 class="card-title fw-bold">加選時間</h5>
+                    <div class="d-flex justify-content-between align-items-center" style="gap: 0.75rem;">
+                        <div class="col d-flex justify-content-center align-items-center">    
+                            <label class="col-3 col-xl-2" for="add_startDate">開始:</label>
+                            <input class="col" id="add_startDate" class="form-control" type="date" />
+                        </div>
+                        <div class="col d-flex justify-content-center align-items-center">
+                            <label class="col-3 col-xl-2" for="add_endDate">結束:</label>
+                            <input class="col" id="add_endDate" class="form-control" type="date" />
+                        </div>
+                    </div>
+                    <h5 class="card-title fw-bold">退選時間</h5>
+                    <div class="d-flex justify-content-between align-items-center" style="gap: 0.75rem;">
+                        <div class="col d-flex justify-content-center align-items-center">    
+                            <label class="col-3 col-xl-2" for="drop_startDate">開始:</label>
+                            <input class="col" id="drop_startDate" class="form-control" type="date" />
+                        </div>
+                        <div class="col d-flex justify-content-center align-items-center">
+                            <label class="col-3 col-xl-2" for="drop_endDate">結束:</label>
+                            <input class="col" id="drop_endDate" class="form-control" type="date" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer px-4">
+                    <div class="d-flex justify-content-end" style="gap: 2rem;">
+                        <a href="{{ url_for('chooseFunction') }}"><button class="btn btn-primary" type="button">返回</button></a>
+                        <a href="{{ url_for('chooseFunction') }}"><button class="btn btn-primary" type="button">確認</button></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+</div>
+{% endblock %}

@@ -38,8 +38,8 @@
 
                 <div class="card-footer px-4">
                     <div class="d-flex justify-content-end" style="gap: 2rem;">
-                        <a href="{{ url_for('chooseFunction') }}"><button class="btn btn-primary" type="button">返回</button></a>
-                        <a href="{{ url_for('chooseFunction') }}"><button class="btn btn-primary" type="button">確認</button></a>
+                        <a href="{{ url_for('chooseFunction') }}" class="btn btn-primart">返回</a>
+                        <a href="#" id="confirmButton" class="btn btn-success" onclick="validateAndConfirm()">確認</a>
                     </div>
                 </div>
 
@@ -48,4 +48,60 @@
 
 
 </div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    async function validateAndConfirm() {
+        const addStartDate = document.getElementById('add_startDate').value;
+        const addEndDate = document.getElementById('add_endDate').value;
+        const dropStartDate = document.getElementById('drop_startDate').value;
+        const dropEndDate = document.getElementById('drop_endDate').value;
+        
+        const confirmButton = document.getElementById('confirmButton');
+        var chooseFunction_url = "{{ url_for('chooseFunction') }}";
+
+        if (new Date(addStartDate) > new Date(addEndDate) || new Date(dropStartDate) > new Date(dropEndDate)) {
+            alert('加退選開始時間不能晚於結束時間');
+            return;
+        }
+
+        if (confirm(`您確定要設定以下時間嗎？\n\n加選時間: ${addStartDate} 至 ${addEndDate}\n退選時間: ${dropStartDate} 至 ${dropEndDate}`)) {
+            // 發送 POST 請求到伺服器
+            let response = await fetch('/set_enrollment_period', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    add_start_date: addStartDate,
+                    add_end_date: addEndDate,
+                    drop_start_date: dropStartDate,
+                    drop_end_date: dropEndDate
+                })
+            });
+
+            let data = await response.json();
+            if (data.status === 'success') {
+                alert('時間已成功設定');
+                confirmButton.href = chooseFunction_url;
+                return;
+            } else {
+                alert('設定時間時發生錯誤');
+                return;
+            }
+        }else{
+            return;
+        }
+    }
+
+    async function queryEnrollmentPeriod() {
+        let response = await fetch('/get_enrollment_period');
+        let data = await response.json();
+        if (data.status === 'success') {
+            alert(`加選時間: ${data.add_start_date} 至 ${data.add_end_date}\n退選時間: ${data.drop_start_date} 至 ${data.drop_end_date}`);
+        } else {
+            alert('查詢設定日期時發生錯誤');
+        }
+    }
+    queryEnrollmentPeriod();
+</script>
 {% endblock %}

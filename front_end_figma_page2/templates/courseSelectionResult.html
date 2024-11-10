@@ -3,5 +3,35 @@
 {% block title %}courseSelectionResult{% endblock %}
 
 {% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
 
+    <!-- <div class="row d-flex justify-content-center align-items-center"> -->
+        
+        <div class="col-lg-4">
+            <div class="card border-secondary rounded-4 h-100">
+                <div class="card-header p-3 px-4"><h3 class="fw-bold mb-0">選課結果</h2></div>
+                
+                <div class="card-body text-secondary d-flex justify-content-center align-items-center p-2">
+                    <div class="d-flex flex-column justify-content-center align-items-start my-3">
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <p class="fw-bold">課程代碼${}${}成功，是否繼續${}課程？</p>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <span class="fw-bold">目前學分:${} 最低學分:${} 最高學分:${}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer px-4">
+                    <div class="d-flex justify-content-end" style="gap: 2rem;">
+                        <a href="{{ url_for('homepage') }}" class="btn btn-secondary">否</a>
+                        <a href="{{ url_for('enterCourseID') }}" id="confirmButton" class="btn btn-secondary">是</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+</div>
 {% endblock %}

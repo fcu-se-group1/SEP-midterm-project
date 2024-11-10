@@ -9,7 +9,7 @@
         
         <div class="col-lg-6">
             <div class="card border-danger rounded-4 h-100">
-                <div class="card-header p-3 px-4"><h3 class="fw-bold mb-0">請輸入身分和學號</h2></div>
+                <div class="card-header p-3 px-4"><h3 class="fw-bold mb-0">請輸入課程代碼</h2></div>
                 
                 <div class="card-body text-danger d-flex justify-content-center align-items-center p-4">
                     <div class="col-lg-8 d-flex flex-column justify-content-center align-items-start my-3">
@@ -23,7 +23,7 @@
                 <div class="card-footer px-4">
                     <div class="d-flex justify-content-end" style="gap: 2rem;">
                         <a href="{{ url_for('chooseFunction') }}" class="btn btn-danger">返回</a>
-                        <a href="#" id="confirmButton" class="btn btn-danger" onclick="setHref()">確認</a>
+                        <a href="#" id="confirmButton" class="btn btn-danger" onclick="judge()">確認</a>
                     </div>
                 </div>
 
@@ -36,31 +36,50 @@
 
 {% block content1 %}
 <script>
-    function setHref() {
+     
+    async function judge() {
         const selectedFunction = localStorage.getItem('selectedFunction');
-        const studentRadio = document.getElementById('student');
-        const adminRadio = document.getElementById('admin');
+        const studentRadio = localStorage.getItem('identity');
         const confirmButton = document.getElementById('confirmButton');
 
-        var addorDropCourse_url = "{{ url_for('enterCourseID') }}";
-        var searchCurriculum_std_url = "{{ url_for('studentCurriculum') }}";
-        var searchCurriculum_adm_url = "{{ url_for('adminCurriculum') }}";
+        var addorDropCourse_url = "{{ url_for('courseSelectionResult') }}";
+        var recordCourseInfo_url = "{{ url_for('recordCourseInfo') }}";
+
+        // 檢查資料庫是否有該課程代碼
+        let response = await fetch('/check_course_code', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({course_code: courseCode})
+        });
+        let data = await response.json();
+        
+        if (data.status !== 'exists') {
+            alert('請確認課程代碼是否輸入正確');
+            return;
+        }
 
         if (selectedFunction === 'function_addCourse' || selectedFunction === 'function_dropCourse') {
             confirmButton.href = addorDropCourse_url;
-        } else if (selectedFunction === 'function_searchCurriculum') {
-            if (studentRadio.checked) {
-                confirmButton.href = searchCurriculum_std_url;
-            } else if (adminRadio.checked) {
-                confirmButton.href = searchCurriculum_adm_url;
+        } else if (selectedFunction === 'function_recordCourseInfo') {
+            if (confirm('課程代碼已存在，將覆蓋過往資料')) {
+                confirmButton.href = recordCourseInfo_url;
             } else {
-                alert('請選擇身分');
                 return;
             }
+        }
+        
+        confirmButton.click();
+    }
+
+    async function fetchCourseIds() {
+        let response = await fetch('/get_course_ids');
+        let data = await response.json();
+        if (data.length > 0) {
+            console.log('課程ID: ', data.map(course => course.course_code).join(', '));
         } else {
-            alert('未知的功能');
-            return;
+            console.log('沒有找到任何課程ID');
         }
     }
+    fetchCourseIds();
 </script>
 {% endblock %}

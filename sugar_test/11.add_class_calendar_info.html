@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>填寫教學大綱</title>
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 100px;
+            font-size: 48px; /* 修改字體大小 */
+            display: inline-block;
+        }
+        .rectangle {
+            width: 973px;
+            height: 850px;
+            background-color: #BADCFF;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center; /* 文字置中 */
+        }
+        .home-button {
+            font-size: 24px; /* 修改字體大小 */
+            background-color: #FF9494; /* 修改背景顏色 */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 100px;
+            right: calc((100% - 973px) / 2); /* 右側對齊 rectangle */
+            width: 120px 
+        }
+        .action-buttons {
+            display: flex;
+            gap: 20px; /* 設置按鈕之間的間隔 */
+            margin-top: 20px; /* 設置與上方文字的距離 */
+        }
+        .action-buttons button {
+            background-color: #FF9494; /* 修改背景顏色 */
+            font-size: 20px; /* 修改字體大小 */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 80px
+        }
+        .info-text {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .info-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <h1>填寫教學大綱</h1>
+    <button class="home-button">首頁</button>
+    <div class="rectangle">
+        <div class="info-container">
+            <div class="info-text">課程描述：@#%@%!@^$^#</div>
+            <div class="info-text">教師姓名：徐X修</div>
+            <div class="info-text">請益時段：星期:!@$!@$  時段:!@$!%    時段:!@$!%</div>
+            <div class="info-text">辦公室地點：星巴克</div>
+            <div class="info-text">教師電子郵件：o0higyoj@gmail.com</div>
+            <div class="info-text">教師分機：021</div>
+            <div class="info-text">教學助理姓名：邱X霖</div>
+            <div class="info-text">助理電子郵件：venjvgjejp@gmail.com</div>
+            <div class="info-text">課程教材：無</div>
+            <div class="info-text">課程進度與內容：1.jgtgjiegijtgjieijbvhrsvgt
+                2.djjisjofskisjijsdjfvwdiwr</div>
+            <div class="info-text">評分規則：長相*100</div>
+            <div class="info-text">課堂規則：：自習不要吵</div>
+        </div>
+        <div class="action-buttons">
+            <button onclick="confirm()">確認</button>
+            <button onclick="goBack()">返回</button>
+        </div>
+    </div>
+</body>
+</html>

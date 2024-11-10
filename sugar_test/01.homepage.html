@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>逢甲選課系統</title>
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 100px;
+            font-size: 48px; /* 修改字體大小 */
+            display: inline-block;
+        }
+        .rectangle {
+            width: 973px;
+            height: 663px;
+            background-color: #BADCFF;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* 設定按鈕之間的距離 */
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 24px; /* 修改字體大小 */
+            cursor: pointer;
+            width: 240px; /* 設定固定寬度 */
+            background-color: #F9E4C4; /* 修改背景顏色 */
+            border: none;
+            border-radius: 5px;
+        }
+        .home-button {
+            font-size: 24px; /* 修改字體大小 */
+            background-color: #FF9494; /* 修改背景顏色 */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 100px;
+            right: calc((100% - 973px) / 2); /* 右側對齊 rectangle */
+            width: 120px 
+        }
+    </style>
+</head>
+<body>
+    <h1>逢甲選課系統</h1>
+    <button class="home-button">首頁</button>
+    <div class="rectangle">
+        <div class="button-container">
+            <button onclick="setAddDropTime()">設定加退選時間</button>
+            <button onclick="addCourse()">加選</button>
+            <button onclick="dropCourse()">退選</button>
+            <button onclick="viewSchedule()">查看課表</button>
+            <button onclick="searchCourse()">查詢課程</button>
+            <button onclick="recordCourseInfo()">紀錄課程資訊</button>
+            <button onclick="fillSyllabus()">填寫教學大綱</button>
+        </div>
+    </div>
+
+    <script>
+        function setAddDropTime() {
+            alert('設定加退選時間');
+        }
+        function addCourse() {
+            alert('加選');
+        }
+        function dropCourse() {
+            alert('退選');
+        }
+        function viewSchedule() {
+            alert('查看課表');
+        }
+        function searchCourse() {
+            alert('查詢課程');
+        }
+        function recordCourseInfo() {
+            alert('紀錄課程資訊');
+        }
+        function fillSyllabus() {
+            alert('填寫教學大綱');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>紀錄課程資訊</title>
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 100px;
+            font-size: 48px; /* 修改字體大小 */
+            display: inline-block;
+        }
+        .rectangle {
+            width: 973px;
+            height: 663px;
+            background-color: #BADCFF;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center; /* 文字置中 */
+        }
+        .home-button {
+            font-size: 24px; /* 修改字體大小 */
+            background-color: #FF9494; /* 修改背景顏色 */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 100px;
+            right: calc((100% - 973px) / 2); /* 右側對齊 rectangle */
+            width: 120px 
+        }
+        .action-buttons {
+            display: flex;
+            gap: 20px; /* 設置按鈕之間的間隔 */
+            margin-top: 20px; /* 設置與上方文字的距離 */
+        }
+        .action-buttons button {
+            background-color: #FF9494; /* 修改背景顏色 */
+            font-size: 20px; /* 修改字體大小 */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 80px
+        }
+        .info-text {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .input-field, .select-field {
+            font-size: 20px;
+            padding: 5px;
+            margin-left: 10px;
+        }
+        .info-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <h1>紀錄課程資訊</h1>
+    <button class="home-button">首頁</button>
+    <div class="rectangle">
+        <div class="info-container">
+            <div class="info-text">課程名稱：<input type="text" class="input-field" placeholder="請輸入課程名稱："></div>
+            <div class="info-text">學分：
+                <select class="select-field">
+                    <option value="" disabled selected>請選擇</option>
+                    <!-- 可以在這裡添加更多選項 -->
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <div class="info-text">上課時段：
+                <select class="select-field">
+                    <option value="" disabled selected>星期：</option>
+                    <!-- 可以在這裡添加更多選項 -->
+                    <option value="星期一">星期一</option>
+                    <option value="星期二">星期二</option>
+                    <option value="星期三">星期三</option>
+                    <option value="星期四">星期四</option>
+                    <option value="星期五">星期五</option>
+                </select>
+                <select class="select-field">
+                    <option value="" disabled selected>時段：</option>
+                    <!-- 可以在這裡添加更多選項 -->
+                    <option value="第一節">第一節</option>
+                    <option value="第二節">第二節</option>
+                    <option value="第三節">第三節</option>
+                    <option value="第四節">第四節</option>
+                    <option value="第五節">第五節</option>
+                    <option value="第六節">第六節</option>
+                    <option value="第七節">第七節</option>
+                    <option value="第八節">第八節</option>
+                    <option value="第九節">第九節</option>
+                    <option value="第十節">第十節</option>
+                    <option value="第十一節">第十一節</option>
+                    <option value="第十二節">第十二節</option>
+                    <option value="第十三節">第十三節</option>
+                    <option value="第十四節">第十四節</option>
+                </select>
+                <span class="separator">~</span>
+                <select class="select-field">
+                    <option value="" disabled selected>時段：</option>
+                    <!-- 可以在這裡添加更多選項 -->
+                    <option value="第一節">第一節</option>
+                    <option value="第二節">第二節</option>
+                    <option value="第三節">第三節</option>
+                    <option value="第四節">第四節</option>
+                    <option value="第五節">第五節</option>
+                    <option value="第六節">第六節</option>
+                    <option value="第七節">第七節</option>
+                    <option value="第八節">第八節</option>
+                    <option value="第九節">第九節</option>
+                    <option value="第十節">第十節</option>
+                    <option value="第十一節">第十一節</option>
+                    <option value="第十二節">第十二節</option>
+                    <option value="第十三節">第十三節</option>
+                    <option value="第十四節">第十四節</option>
+                </select>
+            </div>
+            <div class="info-text">教師姓名：<input type="text" class="input-field" placeholder="請輸入教師姓名："></div>
+            <div class="info-text">開課班級：<input type="text" class="input-field" placeholder="請輸入開課班級："></div>
+            <div class="info-text">上課地點：<input type="text" class="input-field" placeholder="請輸入上課地點："></div>
+            <div class="info-text">課程類型：
+                <select class="select-field">
+                    <option value="" disabled selected>請選擇</option>
+                    <!-- 可以在這裡添加更多選項 -->
+                    <option value="必修">必修</option>
+                    <option value="選修">選修</option>
+                </select>
+            </div>
+            <div class="info-text">班級限制：<input type="text" class="input-field" placeholder="請輸入班級限制："></div>
+            <div class="info-text">最大修課人數：<input type="text" class="input-field" placeholder="請輸入最大修課人數："></div>
+        </div>
+        <div class="action-buttons">
+            <button onclick="confirm()">確認</button>
+            <button onclick="goBack()">返回</button>
+        </div>
+    </div>
+</body>
+</html>

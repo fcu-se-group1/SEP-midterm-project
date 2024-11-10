@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查看課表</title>
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 100px;
+            font-size: 48px; /* 修改字體大小 */
+            display: inline-block;
+        }
+        .rectangle {
+            width: 973px;
+            height: 663px;
+            background-color: #BADCFF;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center; /* 文字置中 */
+        }
+        .home-button {
+            font-size: 24px; /* 修改字體大小 */
+            background-color: #FF9494; /* 修改背景顏色 */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 100px;
+            right: calc((100% - 973px) / 2); /* 右側對齊 rectangle */
+            width: 120px 
+        }
+        .action-buttons {
+            display: flex;
+            gap: 20px; /* 設置按鈕之間的間隔 */
+            margin-top: 20px; /* 設置與上方文字的距離 */
+        }
+        .action-buttons button {
+            background-color: #FF9494; /* 修改背景顏色 */
+            font-size: 20px; /* 修改字體大小 */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 80px;
+        }
+        table {
+            border-collapse: collapse;
+            margin-bottom: 20px; /* 設置與下方按鈕的距離 */
+        }
+        td {
+            width: 75px;
+            height: 30px;
+            border: 1px solid black;
+            background-color: #D9D9D9; /* 修改背景顏色 */
+        }
+    </style>
+</head>
+<body>
+    <h1>查看課表</h1>
+    <button class="home-button">首頁</button>
+    <div class="rectangle">
+        <table>
+            <tbody>
+                <!-- 生成 15 行 6 列的表格 -->
+                <script>
+                    const headers = ["節次", "星期一", "星期二", "星期三", "星期四", "星期五"];
+                    for (let i = 0; i < 15; i++) {
+                        document.write('<tr>');
+                        for (let j = 0; j < 6; j++) {
+                            if (i === 0) {
+                                document.write(`<td>${headers[j]}</td>`);
+                            } else if (j === 0) {
+                                document.write(`<td>${i}</td>`);
+                            } else {
+                                document.write('<td></td>');
+                            }
+                        }
+                        document.write('</tr>');
+                    }
+                </script>
+            </tbody>
+        </table>
+        <div class="action-buttons">
+            <button onclick="confirm()">確認</button>
+            <button onclick="goBack()">返回</button>
+        </div>
+    </div>
+</body>
+</html>

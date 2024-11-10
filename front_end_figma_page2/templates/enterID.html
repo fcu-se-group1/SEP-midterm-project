@@ -36,8 +36,8 @@
 
                 <div class="card-footer px-4">
                     <div class="d-flex justify-content-end" style="gap: 2rem;">
-                        <a href="{{ url_for('chooseFunction') }}"><button class="btn btn-success" type="button">返回</button></a>
-                        <a href="{{ url_for('chooseFunction') }}"><button class="btn btn-success" type="button">確認</button></a>
+                        <a href="{{ url_for('chooseFunction') }}" class="btn btn-success">返回</a>
+                        <a href="#" id="confirmButton" class="btn btn-success" onclick="setHref()">確認</a>
                     </div>
                 </div>
 
@@ -46,4 +46,35 @@
 
 
 </div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    function setHref() {
+        const selectedFunction = localStorage.getItem('selectedFunction');
+        const studentRadio = document.getElementById('student');
+        const adminRadio = document.getElementById('admin');
+        const confirmButton = document.getElementById('confirmButton');
+
+        var addorDropCourse_url = "{{ url_for('enterCourseID') }}";
+        var searchCurriculum_std_url = "{{ url_for('studentCurriculum') }}";
+        var searchCurriculum_adm_url = "{{ url_for('adminCurriculum') }}";
+
+        if (selectedFunction === 'function_addCourse' || selectedFunction === 'function_dropCourse') {
+            confirmButton.href = addorDropCourse_url;
+        } else if (selectedFunction === 'function_searchCurriculum') {
+            if (studentRadio.checked) {
+                confirmButton.href = searchCurriculum_std_url;
+            } else if (adminRadio.checked) {
+                confirmButton.href = searchCurriculum_adm_url;
+            } else {
+                alert('請選擇身分');
+                return;
+            }
+        } else {
+            alert('未知的功能');
+            return;
+        }
+    }
+</script>
 {% endblock %}

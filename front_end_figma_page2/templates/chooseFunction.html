@@ -12,7 +12,7 @@
         <div class="row row-cols-1 row-cols-md-11 d-flex justify-content-center">
             
             <div class="col-3">
-                <a href="{{ url_for('setTime') }}" class="text-decoration-none">
+                <a href="{{ url_for('setTime') }}" class="text-decoration-none" onclick="chooseFunction('function_setTime')">
                     <div class="card border-primary h-100">
                         <div class="card-header"><h4 class="fw-bold">設定加退選時間</h4></div>
                         <div class="card-body text-primary">
@@ -25,7 +25,7 @@
             </div>
             
             <div class="col-3">
-                <a href="{{ url_for('enterID') }}" class="text-decoration-none">
+                <a href="{{ url_for('enterID') }}" class="text-decoration-none" onclick="chooseFunction('function_addCourse')">
                     <div class="card border-secondary h-100">
                         <div class="card-header"><h4 class="fw-bold">加選</h4></div>
                         <div class="card-body text-secondary">
@@ -38,7 +38,7 @@
             </div>
             
             <div class="col-3">
-                <a href="{{ url_for('enterID') }}" class="text-decoration-none">
+                <a href="{{ url_for('enterID') }}" class="text-decoration-none" onclick="chooseFunction('function_dropCourse')">
                     <div class="card border-success h-100">
                         <div class="card-header"><h4 class="fw-bold">退選</h4></div>
                         <div class="card-body text-success">
@@ -55,7 +55,7 @@
         <div class="row row-cols-1 row-cols-md-4  d-flex justify-content-center">
 
             <div class="col-2">
-                <a href="{{ url_for('enterID') }}" class="text-decoration-none">
+                <a href="{{ url_for('enterID') }}" class="text-decoration-none" onclick="chooseFunction('function_searchCurriculum')">
                     <div class="card border-danger h-100">
                         <div class="card-header"><h4 class="fw-bold">查看課表</h4></div>
                         <div class="card-body text-danger">
@@ -68,7 +68,7 @@
             </div>
 
             <div class="col-2">
-                <a href="{{ url_for('searchCourseInfo') }}" class="text-decoration-none">
+                <a href="{{ url_for('searchCourseInfo') }}" class="text-decoration-none" onclick="chooseFunction('function_searchCourse')">
                     <div class="card border-warning h-100">
                         <div class="card-header"><h4 class="fw-bold">查詢課程</h4></div>
                         <div class="card-body text-warning">
@@ -81,7 +81,7 @@
             </div>
 
             <div class="col-2">
-                <a href="{{ url_for('recordCourseInfo') }}" class="text-decoration-none">
+                <a href="{{ url_for('recordCourseInfo') }}" class="text-decoration-none" onclick="chooseFunction('function_recordCourseInfo')">
                     <div class="card border-info h-100">
                         <div class="card-header"><h4 class="fw-bold">紀錄課程資訊</h4></div>
                         <div class="card-body text-info">
@@ -94,7 +94,7 @@
             </div>
 
             <div class="col-2">
-                <a href="{{ url_for('fillOutSyllabus') }}" class="text-decoration-none">
+                <a href="{{ url_for('fillOutSyllabus') }}" class="text-decoration-none" onclick="chooseFunction('function_fillOutSyllabus')">
                     <div class="card border-dark h-100">
                         <div class="card-header"><h4 class="fw-bold">填寫教學大綱</h4></div>
                         <div class="card-body text-dark">
@@ -108,4 +108,15 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block content1 %}
+    <script>
+        function chooseFunction(functionName){
+            //event.preventDefault();
+            localStorage.setItem('selectedFunction', functionName);
+            //console.log('selectedFunction:', functionName);
+            //window.location.href = event.currentTarget.href;
+        }
+    </script>
 {% endblock %}

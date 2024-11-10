@@ -5,8 +5,8 @@
 {% block content %}
     <div class="container d-flex flex-column justify-content-center align-items-center h-100">
         <div class="row w-100 justify-content-center">
-            <div class="col-10 text-center">
-                <h1 class="text-white">簡單易操作的逢甲選課系統<br>Keep it simple, but significant</h1>
+            <div class="text-center">
+                <h1 class="slogan text-white">簡單易操作的選課系統<br>Keep it simple, but significant</h1>
             </div>
         </div>
         <div class="row w-100 justify-content-center mt-3">
@@ -15,4 +15,19 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    function adjustHeading() {
+        if (window.innerWidth < 576) { // Bootstrap's xs breakpoint
+            document.querySelector('.slogan').outerHTML = '<h3 class="slogan text-white">簡單易操作的選課系統<br>Keep it simple, but significant</h3>';
+        } else {
+            document.querySelector('.slogan').outerHTML = '<h1 class="slogan text-white">簡單易操作的選課系統<br>Keep it simple, but significant</h1>';
+        }
+    }
+
+    window.addEventListener('resize', adjustHeading);
+    window.addEventListener('load', adjustHeading);
+</script>
 {% endblock %}

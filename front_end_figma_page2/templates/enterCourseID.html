@@ -3,5 +3,64 @@
 {% block title %}enterCourseID{% endblock %}
 
 {% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
 
+    <!-- <div class="row d-flex justify-content-center align-items-center"> -->
+        
+        <div class="col-lg-6">
+            <div class="card border-danger rounded-4 h-100">
+                <div class="card-header p-3 px-4"><h3 class="fw-bold mb-0">請輸入身分和學號</h2></div>
+                
+                <div class="card-body text-danger d-flex justify-content-center align-items-center p-4">
+                    <div class="col-lg-8 d-flex flex-column justify-content-center align-items-start my-3">
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="card-title fw-bold mb-0">課程代碼:&nbsp;&nbsp;</h5>
+                            <input type="text" class="form-control col" placeholder="請輸入課程代碼..." aria-label="SID">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer px-4">
+                    <div class="d-flex justify-content-end" style="gap: 2rem;">
+                        <a href="{{ url_for('chooseFunction') }}" class="btn btn-danger">返回</a>
+                        <a href="#" id="confirmButton" class="btn btn-danger" onclick="setHref()">確認</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+</div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    function setHref() {
+        const selectedFunction = localStorage.getItem('selectedFunction');
+        const studentRadio = document.getElementById('student');
+        const adminRadio = document.getElementById('admin');
+        const confirmButton = document.getElementById('confirmButton');
+
+        var addorDropCourse_url = "{{ url_for('enterCourseID') }}";
+        var searchCurriculum_std_url = "{{ url_for('studentCurriculum') }}";
+        var searchCurriculum_adm_url = "{{ url_for('adminCurriculum') }}";
+
+        if (selectedFunction === 'function_addCourse' || selectedFunction === 'function_dropCourse') {
+            confirmButton.href = addorDropCourse_url;
+        } else if (selectedFunction === 'function_searchCurriculum') {
+            if (studentRadio.checked) {
+                confirmButton.href = searchCurriculum_std_url;
+            } else if (adminRadio.checked) {
+                confirmButton.href = searchCurriculum_adm_url;
+            } else {
+                alert('請選擇身分');
+                return;
+            }
+        } else {
+            alert('未知的功能');
+            return;
+        }
+    }
+</script>
 {% endblock %}

@@ -8,6 +8,7 @@ def query_db(query, args=(), one=False):
     cur = conn.cursor()
     cur.execute(query, args)
     rv = cur.fetchall()
+    conn.commit()
     conn.close()
     return (rv[0] if rv else None) if one else rv
 

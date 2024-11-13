@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__, static_folder='.', template_folder='.')
 
 def query_db(query, args=(), one=False):
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('..\db\database.db')
     cur = conn.cursor()
     cur.execute(query, args)
     rv = cur.fetchall()

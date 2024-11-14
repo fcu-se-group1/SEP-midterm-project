@@ -3,5 +3,123 @@
 {% block title %}searchCourseInfo{% endblock %}
 
 {% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
 
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card border-warning rounded-4 h-100">
+            <div class="card-header p-3 px-4"><h3 class="fw-bold mb-0">查詢課程資訊</h3></div>
+            
+            <div class="col-12 card-body text-warning d-flex justify-content-center align-items-start p-4 overflow-auto" style="height: 50vh;">
+                <div class="col-lg-8 d-flex flex-column justify-content-center align-items-center" style="gap: 1rem;">
+                    <!-- Row 1: 課程代碼 -->
+                    <div class="col-12 d-flex align-items-center">
+                        <input type="checkbox" class="col-1 form-check-input me-2">
+                        <h5 class="card-title col-4 col-xl-4 fw-bold mb-0">課程代碼:</h5>
+                        <input type="text" class="form-control col" placeholder="請輸入課程代碼...">
+                    </div>
+                    <!-- Row 2: 課程名稱 -->
+                    <div class="col-12 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2">
+                        <h5 class="card-title col-4 col-xl-4 fw-bold mb-0">課程名稱:</h5>
+                        <input type="text" class="form-control col" placeholder="請輸入課程名稱...">
+                    </div>
+                    <!-- Row 3: 課程時間 -->
+                    <div class="col-12 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2">
+                        <h5 class="card-title col-4 col-xl-4 fw-bold mb-0">課程時間:</h5>
+                        <input type="text" class="form-control col" placeholder="請輸入課程時間...">
+                    </div>
+                    <!-- Row 4: 授課教師 -->
+                    <div class="col-12 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2">
+                        <h5 class="card-title col-4 col-xl-4 fw-bold mb-0">授課教師:</h5>
+                        <input type="text" class="form-control col" placeholder="請輸入授課教師...">
+                    </div>
+                    <!-- Row 5: 開課班級 -->
+                    <div class="col-12 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2">
+                        <h5 class="card-title col-4 col-xl-4 fw-bold mb-0">開課班級:</h5>
+                        <input type="text" class="form-control col" placeholder="請輸入開課班級...">
+                    </div>
+                    <!-- Row 6: 上課地點 -->
+                    <div class="col-12 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2">
+                        <h5 class="card-title col-4 col-xl-4 fw-bold mb-0">上課地點:</h5>
+                        <input type="text" class="form-control col" placeholder="請輸入上課地點...">
+                    </div>
+                    <!-- Row 7: 必修/選修 -->
+                    <div class="col-12 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2">
+                        <h5 class="card-title col-4 col-xl-4 fw-bold mb-0">必修/選修:</h5>
+                        <div class="form-check col-3 mb-0">
+                            <input class="form-check-input" type="radio" name="compulsory" id="compulsory" value="必修">
+                            <label class="form-check-label" for="compulsory">必修</label>
+                        </div>
+                        <div class="form-check col mb-0">
+                            <input class="form-check-input" type="radio" name="compulsory" id="elective" value="選修">
+                            <label class="form-check-label" for="elective">選修</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer px-5">
+                <div class="d-flex justify-content-between" style="gap: 2rem;">
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">重設</button>
+                    <div class="d-flex" style="gap: 2rem;">
+                        <a href="{{ url_for('chooseFunction') }}" class="btn btn-warning">返回</a>
+                        <a href="#" id="confirmButton" class="btn btn-warning" onclick="judge()">查詢</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block content1 %}
+
+<script>
+    function resetForm() {
+        const inputs = document.querySelectorAll('.card-body input[type="text"]');
+        const checkboxes = document.querySelectorAll('.card-body input[type="checkbox"]');
+        const radios = document.querySelectorAll('.card-body input[type="radio"]');
+
+        inputs.forEach(input => input.value = '');
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+        radios.forEach(radio => radio.checked = false);
+    }
+
+    //function chooseFunction(functionName){
+        //event.preventDefault();
+        //localStorage.setItem('selectedFunction', functionName);
+        //console.log('selectedFunction:', functionName);
+        //window.location.href = event.currentTarget.href;
+    //}
+
+    function adjustHeading() {
+        const titles = document.querySelectorAll('.card-title');
+
+        titles.forEach(title => {
+            if (!title.dataset.originalContent) {
+                title.dataset.originalContent = title.textContent;
+            }
+
+            if (window.innerWidth >= 1400) {
+                title.style.fontSize = '1.25rem';
+            } else if (window.innerWidth >= 1200) {
+                title.style.fontSize = '1.25rem';
+            } else {
+                title.style.fontSize = '1rem';
+            }
+        });
+    }
+
+    window.addEventListener('resize', adjustHeading);
+    window.addEventListener('load', adjustHeading);
+
+
+</script>
 {% endblock %}

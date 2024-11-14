@@ -1,7 +1,80 @@
 {% extends "base.html" %}
 
-{% block title %}courseInfoResult{% endblock %}
+{% block title %}CourseInfoResult{% endblock %}
 
 {% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+    <div class="col-12 col-md-10">
+        <div class="card border-primary rounded-4 h-100">
+            <div class="card-header p-3 px-4">
+                <h3 class="fw-bold mb-0">課程資訊結果頁</h3>
+            </div>
+            <div class="card-body text-primary p-4 overflow-auto" style="height: 55vh;">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-2 text-center">課程代碼</th>
+                            <th class="col-2 text-center">課程名稱</th>
+                            <th class="col-2 text-center">開課班級</th>
+                            <th class="col-3 text-center">課程時間+上課地點</th>
+                            <th class="col-2 text-center">授課老師</th>
+                            <th class="col-1 text-center">必選修</th>
+                        </tr>
+                    </thead>
+                    <tbody style="background-color: #aeaeae;" id="courseTableBody"><!--變不了背景色-->
+                        <!-- Rows will be dynamically inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer px-4">
+                <div class="d-flex justify-content-center" style="gap: 2rem;">
+                    <a href="{{ url_for('chooseFunction') }}" id="confirmButton" class="btn btn-secondary">返回</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
+{% block content1 %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const courses = [
+        {
+            code: 'CS101',
+            name: 'Introduction to Computer Science',
+            class: 'Freshman',
+            time_location: 'Mon 10:00-12:00, Room 101',
+            teacher: 'Dr. Smith',
+            required: '必修',
+            syllabus_url: 'syllabusResult.html'
+        },
+        {
+            code: 'CS102',
+            name: 'Data Structures',
+            class: 'Sophomore',
+            time_location: 'Tue 14:00-16:00, Room 202',
+            teacher: 'Prof. Johnson',
+            required: '選修',
+            syllabus_url: 'syllabusResult.html'
+        }
+    ];
+    const tableBody = document.getElementById('courseTableBody');
+
+    courses.forEach(course => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <td class="text-center">${course.code}</td>
+            <td class="text-center"><a href="${course.syllabus_url || '#'}">${course.name}</a></td>
+            <td class="text-center">${course.class}</td>
+            <td class="text-center">${course.time_location}</td>
+            <td class="text-center">${course.teacher}</td>
+            <td class="text-center">${course.required}</td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+});
+</script>
 {% endblock %}

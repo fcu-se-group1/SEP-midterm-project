@@ -3,5 +3,179 @@
 {% block title %}syllabusResult{% endblock %}
 
 {% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+    <div class="col-lg-9">
+        <div class="card border-dark rounded-4 h-100">
+            <div class="card-header p-3 px-4">
+                <h3 class="fw-bold mb-0">填寫教學大綱</h3>
+            </div>
+            <div class="col-12 card-body text-dark p-4 px-5 d-flex flex-column justify-content-start align-items-center overflow-auto" style="gap: 1rem; height: 60vh;">
+                <div class="col-12 d-flex justify-content-between align-items-center" style="gap: 1rem;">
+                    <div class="col-12 col-md-6 p-0">
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程描述:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="courseDescription" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師姓名:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="teacherName" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">請益時間:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="consultationTime" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">辦公室地點:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="officeLocation" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師電子郵件:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="teacherEmail" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師分機:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="teacherExtension" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 p-0">
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教學助理姓名:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="taName" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">助理電子郵件:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="taEmail" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程教材:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="courseMaterial" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">評分規則:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="gradingPolicy" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課堂規則:&nbsp;</h5>
+                            <div class="col-sm-8">
+                                <p id="classRules" class="mb-0 text-center"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                    <h5 class="col-3 card-title fw-bold mb-0 d-flex justify-content-center align-items-center">授課進度與內容:</h5>
+                    <div class="col-12 " style="max-height: 400px;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="col-2 text-center">周次/單元</th>
+                                    <th class="col-5 text-center">主題和閱讀教材</th>
+                                    <th class="col-5 text-center">教學與學習活動</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scheduleTable">
+                                <!-- Rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer px-4">
+                <div class="d-flex justify-content-end" style="gap: 2rem;">
+                    <a href="{{ url_for('chooseFunction') }}" class="btn btn-danger">返回</a>
+                    <a href="#" id="confirmButton" class="btn btn-danger" onclick="judge()">確認</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
+{% block content1 %}
+<script>
+    const mockData = {
+        courseDescription: "這是一門關於現代網頁開發的課程。",
+        teacherName: "王小明",
+        consultationTime: "週一 10:00-12:00",
+        officeLocation: "教學樓 101 室",
+        teacherEmail: "teacher@example.com",
+        teacherExtension: "1234",
+        taName: "李小華",
+        taEmail: "ta@example.com",
+        courseMaterial: "《現代網頁開發指南》",
+        gradingPolicy: "期中考 30%，期末考 40%，平時作業 30%",
+        classRules: "請勿遲到，保持課堂安靜",
+        schedule: [
+            { week: "第1週", topic: "HTML 基礎", activity: "閱讀教材，實作練習" },
+            { week: "第2週", topic: "CSS 基礎", activity: "閱讀教材，實作練習" },
+            { week: "第3週", topic: "JavaScript 基礎", activity: "閱讀教材，實作練習" },
+            // Add more weeks as needed
+        ]
+    };
+
+    document.getElementById('courseDescription').textContent = mockData.courseDescription;
+    document.getElementById('teacherName').textContent = mockData.teacherName;
+    document.getElementById('consultationTime').textContent = mockData.consultationTime;
+    document.getElementById('officeLocation').textContent = mockData.officeLocation;
+    document.getElementById('teacherEmail').textContent = mockData.teacherEmail;
+    document.getElementById('teacherExtension').textContent = mockData.teacherExtension;
+    document.getElementById('taName').textContent = mockData.taName;
+    document.getElementById('taEmail').textContent = mockData.taEmail;
+    document.getElementById('courseMaterial').textContent = mockData.courseMaterial;
+    document.getElementById('gradingPolicy').textContent = mockData.gradingPolicy;
+    document.getElementById('classRules').textContent = mockData.classRules;
+
+    const scheduleTable = document.getElementById('scheduleTable');
+    mockData.schedule.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="text-center">${item.week}</td>
+            <td><p class="form-control mb-0 text-center">${item.topic}</p></td>
+            <td><p class="form-control mb-0 text-center">${item.activity}</p></td>
+        `;
+        scheduleTable.appendChild(row);
+    });
+
+    function adjustHeading() {
+        const titles = document.querySelectorAll('.card-title');
+        titles.forEach(title => {
+            if (!title.dataset.originalContent) {
+                title.dataset.originalContent = title.textContent;
+            }
+            if (window.innerWidth >= 1400) {
+                title.innerHTML = `<h5 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h5>`;
+                title.style.display = '';
+            } else if (window.innerWidth >= 1200) {
+                title.innerHTML = `<h6 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
+                title.style.display = '';
+            } else {
+                title.innerHTML = `<h6 class="col-4 card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
+                title.style.display = '';
+            }
+        });
+    }
+
+    window.addEventListener('resize', adjustHeading);
+    window.addEventListener('load', adjustHeading);
+</script>
 {% endblock %}

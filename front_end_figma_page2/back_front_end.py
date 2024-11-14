@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__)
 
 def query_db(query, args=(), one=False):
-    conn = sqlite3.connect('../db/database.db')
+    conn = sqlite3.connect('../course/database.db')
     cur = conn.cursor()
     cur.execute(query, args)
     rv = cur.fetchall()
@@ -123,7 +123,7 @@ def check_course_code():
     user_id = data['user_id']
     course = query_db('SELECT * FROM Enrollment WHERE course_code = ? AND user_id =? AND status =?', [course_code,user_id,"已選"], one=True)
     if course:
-        return jsonify({'status': 'exists'})
+        return jsonify({'status': 'exists', 'course': course})
     else:
         return jsonify({'status': 'not_exists'})
 

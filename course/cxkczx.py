@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__, static_folder='.', template_folder='.')
 
 def query_db(query, args=(), one=False):
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('..\db\database.db')
     cur = conn.cursor()
     cur.execute(query, args)
     rv = cur.fetchall()
@@ -16,8 +16,8 @@ def query_db(query, args=(), one=False):
 def index():
     return render_template('course_query.html')
 
-@app.route('/course_query', methods=['GET', 'POST'])
-def course_query():
+@app.route('/course_query/check_course_query_input', methods=['GET', 'POST'])
+def course_query_check_course_query_input():
     if request.method == 'POST':
         course_code = request.form.get('course_code')
         course_name = request.form.get('course_name')
@@ -78,12 +78,11 @@ def course_query():
         return render_template('course_results.html', courses=courses)
     return render_template('course_query.html')
 
-@app.route('/course_syllabus/<course_code>')
-def course_syllabus(course_code):
+@app.route('/course_query/course_syllabus/<course_code>')
+def course_query_course_syllabus(course_code):
     course_info = query_db('SELECT * FROM CourseInfo WHERE course_id = ?', [course_code], one=True)
     if not course_info:
         return "尚無教學大綱"
-    
     return render_template('showcourse_info.html', course_info=course_info)
 
 if __name__ == '__main__':

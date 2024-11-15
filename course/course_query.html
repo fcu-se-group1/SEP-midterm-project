@@ -9,7 +9,7 @@
     {% if warning %}
         <p style="color: red;">{{ warning }}</p>
     {% endif %}
-    <form method="POST" action="{{ url_for('course_query') }}">
+    <form method="POST" action="{{ url_for('course_query_check_course_query_input') }}">
         <label for="course_code">課程代碼:</label>
         <input type="text" id="course_code" name="course_code"><br><br>
 
@@ -28,8 +28,8 @@
         <label for="compulsory">必修/選修:</label>
         <select id="compulsory" name="compulsory">
             <option value="">--請選擇--</option>
-            <option value="是">必修</option>
-            <option value="否">選修</option>
+            <option value=TRUE>必修</option>
+            <option value=FALSE>選修</option>
         </select><br><br>
 
         <label for="weekday">星期:</label>

@@ -21,7 +21,7 @@
             {% for course in courses %}
                 <tr>
                     <td>{{ course[0] }}</td>
-                    <td><a href="{{ url_for('course_syllabus', course_code=course[0]) }}">{{ course[1] }}</a></td>
+                    <td><a href="{{ url_for('course_query_course_syllabus', course_code=course[0]) }}">{{ course[1] }}</a></td>
                     <td>{{ course[2] }}</td>
                     <td>{{ course[4] }}</td>
                     <td>{{ course[8] }}</td>

@@ -56,7 +56,7 @@
         const adminRadio = document.getElementById('admin');
         const confirmButton = document.getElementById('confirmButton');
         const SID = document.getElementById('SID').value;
-
+        
         if (SID === '') {
             alert('請輸入學號');
             return;
@@ -73,7 +73,11 @@
         if (data.status === 'not_exists') {
             alert('請確認學號是否輸入正確');
             return;
+        }else{
+            localStorage.setItem('SID', SID);
         }
+
+
 
         if(studentRadio.checked){
             localStorage.setItem('identity', 'student');

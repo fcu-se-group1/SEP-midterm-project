@@ -65,72 +65,6 @@ def courseInfoResult():
 def syllabusResult():
     return render_template('syllabusResult.html')
 
-# @app.route('/check_user_id', methods=['POST'])
-# def check_user_id():
-#     data = request.json
-#     user_id = data['user_id']
-#     user = query_db('SELECT * FROM User WHERE user_id = ?', [user_id], one=True)
-#     if user:
-#         return jsonify({'status': 'exists', 'user': user})
-#     else:
-#         return jsonify({'status': 'not_exists'})
-
-
-
-# @app.route('/set_enrollment_period', methods=['POST'])
-# def set_enrollment_period():
-#     data = request.json
-#     add_start_date = data['add_start_date']
-#     add_end_date = data['add_end_date']
-#     drop_start_date = data['drop_start_date']
-#     drop_end_date = data['drop_end_date']
-
-#     try:
-#         # 刪除已有的加選和退選時間設置
-#         execute_db('DELETE FROM EnrollmentPeriod WHERE period_type = ?', ('add',))
-#         execute_db('DELETE FROM EnrollmentPeriod WHERE period_type = ?', ('drop',))
-
-#         # 插入新的加選和退選時間設置
-#         execute_db('INSERT INTO EnrollmentPeriod (period_type, start_time, end_time) VALUES (?, ?, ?)',
-#                    ('add', add_start_date, add_end_date))
-#         execute_db('INSERT INTO EnrollmentPeriod (period_type, start_time, end_time) VALUES (?, ?, ?)',
-#                    ('drop', drop_start_date, drop_end_date))
-#         return jsonify({'status': 'success'})
-#     except Exception as e:
-#         return jsonify({'status': 'error', 'message': str(e)})
-
-# @app.route('/get_enrollment_period', methods=['GET'])
-# def get_enrollment_period():
-#     add_period = query_db('SELECT start_time, end_time FROM EnrollmentPeriod WHERE period_type = ?', ('add',), one=True)
-#     drop_period = query_db('SELECT start_time, end_time FROM EnrollmentPeriod WHERE period_type = ?', ('drop',), one=True)
-    
-#     if add_period and drop_period:
-#         return jsonify({
-#             'status': 'success',
-#             'add_start_date': add_period[0],
-#             'add_end_date': add_period[1],
-#             'drop_start_date': drop_period[0],
-#             'drop_end_date': drop_period[1]
-#         })
-#     else:
-#         return jsonify({'status': 'error', 'message': 'No enrollment periods found'})
-
-# @app.route('/check_course_code', methods=['POST'])
-# def check_course_code():
-#     data = request.json
-#     course_code = data['course_code']
-#     user_id = data['user_id']
-#     course = query_db('SELECT * FROM Enrollment WHERE course_code = ? AND user_id =? AND status =?', [course_code,user_id,"已選"], one=True)
-#     if course:
-#         return jsonify({'status': 'exists', 'course': course})
-#     else:
-#         return jsonify({'status': 'not_exists'})
-
-@app.route('/get_course_ids', methods=['GET'])
-def get_course_ids():
-    course_ids = query_db('SELECT course_code FROM Course')
-    return jsonify(course_ids)
-
 @app.route('/check_user_id', methods=['POST'])
 def check_user_id():
     data = request.json
@@ -145,9 +79,6 @@ def check_user_id():
 def get_user_ids():
     user_ids = query_db('SELECT user_id FROM User')
     return jsonify(user_ids)
-    
-user_ids = query_db('SELECT user_id FROM User')
-print(user_ids)
 
 @app.route('/schedule/view_schedule', methods=['POST'])
 def view_schedule():
@@ -225,6 +156,42 @@ def withdraw_check_enrollment_period():
     else:
         return jsonify({'status': 'closed'})
 
+@app.route('/enterCourseID/check_addcourse_code', methods=['POST']) #檢查資料庫是否有該課程代碼可以加選
+def check_addcourse_code():
+    data = request.json
+    course_code = data['course_code']
+    course = query_db('SELECT * FROM Enrollment WHERE course_code = ?', [course_code], one=True)
+    if course:
+        return jsonify({'status': 'exists', 'course': course})
+    else:
+        return jsonify({'status': 'not_exists'})
+
+@app.route('/enterCourseID/check_dropcourse_code', methods=['POST']) #檢查該生課表是否有該課程可以退選
+def check_dropcourse_code():
+    data = request.json
+    user_id = data['user_id']
+    course_code = data['course_code']
+    course = query_db('SELECT * FROM Enrollment WHERE course_code = ? AND user_id = ? AND status = ?', [course_code, user_id, '已選'], one=True)
+    if course:
+        return jsonify({'status': 'exists', 'message': '該課程已選'})
+    else:
+        return jsonify({'status': 'not_exists', 'message': '該課程未選'})
+
+@app.route('/enterCourseID/get_user_courses', methods=['POST'])#抓該生選的課程
+def get_user_courses():
+    data = request.json
+    user_id = data['user_id']
+    courses = query_db('SELECT course_code FROM Enrollment WHERE user_id = ?', [user_id])
+    if courses:
+        return jsonify({'status': 'success', 'courses': [course[0] for course in courses]})
+    else:
+        return jsonify({'status': 'not_exists', 'message': '該用戶沒有選擇任何課程'})
+
+@app.route('/enterCourseID/get_course_code', methods=['GET']) #抓課程代碼到console
+def get_course_code():
+    course_ids = query_db('SELECT course_code FROM Enrollment')
+    return jsonify(course_ids)
+
 @app.route('/withdraw/check_course_code', methods=['POST'])
 def withdraw_check_course_code():
     data = request.json
@@ -235,7 +202,7 @@ def withdraw_check_course_code():
         return jsonify({'status': 'exists', 'course': course})
     else:
         return jsonify({'status': 'not_exists'})
-    
+
 @app.route('/registration/check_course_code', methods=['POST'])
 def registration_check_course_code():
     data = request.json

@@ -14,7 +14,7 @@
                 <div class="card-body text-secondary d-flex justify-content-center align-items-center p-2">
                     <div class="d-flex flex-column justify-content-center align-items-start my-3">
                         <div class="col-12 d-flex justify-content-center align-items-center">
-                            <p class="fw-bold">課程代碼${}${}成功，是否繼續${}課程？</p>
+                            <p id="courseResult" class="fw-bold"></p>
                         </div>
                         <div class="col-12 d-flex justify-content-center align-items-center">
                             <span class="fw-bold">目前學分:${} 最低學分:${} 最高學分:${}</span>
@@ -24,7 +24,7 @@
 
                 <div class="card-footer px-4">
                     <div class="d-flex justify-content-end" style="gap: 2rem;">
-                        <a href="{{ url_for('homepage') }}" class="btn btn-secondary">否</a>
+                        <a href="{{ url_for('homepage') }}" class="btn btn-secondary" id="noButton">否</a>
                         <a href="{{ url_for('enterCourseID') }}" id="confirmButton" class="btn btn-secondary">是</a>
                     </div>
                 </div>
@@ -32,6 +32,32 @@
             </div>
         </div>
 
-
 </div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectedCourseCode = localStorage.getItem('selectedCourseCode');
+        const selectedFunction = localStorage.getItem('selectedFunction');
+        let action = '';
+
+        if (selectedFunction === 'function_addCourse') {
+            action = '加選';
+        } else if (selectedFunction === 'function_dropCourse') {
+            action = '退選';
+        }
+
+        const courseResult = `課程代碼${selectedCourseCode}${action}成功，是否繼續${action}課程？`;
+        document.getElementById('courseResult').textContent = courseResult;
+    });
+
+    document.getElementById('noButton').addEventListener('click', function() {
+        localStorage.clear();
+    });
+
+    document.getElementById('confirmButton').addEventListener('click', function() {
+        localStorage.removeItem('selectedCourseCode');
+    });
+</script>
 {% endblock %}

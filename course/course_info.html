@@ -78,10 +78,10 @@
     {% endif %}
     {% if success %}
         <script>
-            showAlertAndRedirect("{{ success }}", "{{ url_for('course_code') }}");
+            showAlertAndRedirect("{{ success }}", "{{ url_for('write_course_check_course_code') }}");
         </script>
     {% endif %}
-    <form method="POST" action="{{ url_for('course_info', course_code=course_code) }}">
+    <form method="POST" action="{{ url_for('write_course_course_info', course_code=course_code) }}">
         <label for="course_name">課程名稱:</label>
         <input type="text" id="course_name" name="course_name" required><br><br>
 

@@ -111,7 +111,7 @@ def withdraw_check_course_code():
         return jsonify({'status': 'not_exists'})
     
 @app.route('/registration/check_course_code', methods=['POST'])
-def registratio_check_course_code():
+def registration_check_course_code():
     data = request.json
     course_code = data['course_code']
     course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)
@@ -218,7 +218,6 @@ def registration_enroll_course():
     course_code = data['course_code']
     query_db('INSERT INTO Enrollment (course_code, user_id, status) VALUES (?, ?, ?)', [course_code, user_id, '已選'])
     return jsonify({'status': 'success'})
-
 
 @app.route('/withdraw/drop_course', methods=['POST'])
 def withdraw_drop_course():

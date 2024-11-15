@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__, static_folder='.', template_folder='.')
 
 def query_db(query, args=(), one=False):
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('..\db\database.db')
     cur = conn.cursor()
     cur.execute(query, args)
     rv = cur.fetchall()
@@ -16,8 +16,8 @@ def query_db(query, args=(), one=False):
 def index():
     return render_template('course_code.html')
 
-@app.route('/course_code', methods=['GET', 'POST'])
-def course_code():
+@app.route('/write_course/check_course_code', methods=['GET', 'POST'])
+def write_course_check_course_code():
     if request.method == 'POST':
         course_code = request.form['course_code']
         existing_course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)
@@ -27,8 +27,8 @@ def course_code():
             return redirect(url_for('course_info', course_code=course_code))
     return render_template('course_code.html')
 
-@app.route('/course_info/<course_code>', methods=['GET', 'POST'])
-def course_info(course_code):
+@app.route('/write_course/course_info/<course_code>', methods=['GET', 'POST'])
+def write_course_course_info(course_code):
     if request.method == 'POST':
         course_name = request.form['course_name']
         credits = request.form['credits']

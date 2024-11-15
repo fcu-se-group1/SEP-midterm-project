@@ -6,7 +6,7 @@
     <script>
         async function checkCourseCode() {
             let courseCode = document.getElementById('course_code').value;
-            let response = await fetch('/check_course_code', {
+            let response = await fetch('/course_syllabus/check_course_code', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({course_code: courseCode})
@@ -38,7 +38,7 @@
                 class_rules: document.getElementById('class_rules').value
             };
 
-            let response = await fetch('/submit_course_info', {
+            let response = await fetch('/course_syllabus/submit_course_info', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(courseInfo)

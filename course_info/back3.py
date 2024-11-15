@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__, static_folder='.', template_folder='.')
 
 def query_db(query, args=(), one=False):
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('..\db\database.db')
     cur = conn.cursor()
     cur.execute(query, args)
     rv = cur.fetchall()
@@ -16,8 +16,8 @@ def query_db(query, args=(), one=False):
 def index():
     return render_template('course_info.html')
 
-@app.route('/check_course_code', methods=['POST'])
-def check_course_code():
+@app.route('/course_syllabus/check_course_code', methods=['POST'])
+def course_syllabus_check_course_code():
     data = request.json
     course_code = data['course_code']
     course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)
@@ -26,8 +26,8 @@ def check_course_code():
     else:
         return jsonify({'status': 'error', 'message': '課程代碼錯誤'})
 
-@app.route('/submit_course_info', methods=['POST'])
-def submit_course_info():
+@app.route('/course_syllabus/submit_course_info', methods=['POST'])
+def course_syllabus_submit_course_info():
     data = request.json
     course_code = data['course_code']
     instructor_name = data['instructor_name']

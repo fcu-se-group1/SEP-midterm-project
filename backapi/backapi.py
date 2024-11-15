@@ -232,7 +232,7 @@ def withdraw_drop_course():
     return jsonify({'status': 'success', 'message': '退選成功'})
 
 @app.route('/write_course/check_course_code', methods=['GET', 'POST'])
-def write_course_course_code():
+def write_course_check_course_code():
     if request.method == 'POST':
         course_code = request.form['course_code']
         existing_course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)

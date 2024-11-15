@@ -239,7 +239,7 @@ def write_course_check_course_code():
         if existing_course:
             return render_template('course_code.html', warning='課程代碼已存在', course_code=course_code)
         else:
-            return redirect(url_for('course_info', course_code=course_code))
+            return redirect(url_for('write_course_course_info', course_code=course_code))
     return render_template('course_code.html')
 
 @app.route('/write_course/course_info/<course_code>', methods=['GET', 'POST'])

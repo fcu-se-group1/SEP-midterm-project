@@ -26,7 +26,7 @@ def check_user_id():
         return jsonify({'status': 'exists', 'user': user})
     else:
         return jsonify({'status': 'not_exists'})
-    
+
 @app.route('/schedule/view_schedule', methods=['POST'])
 def view_schedule():
     data = request.json

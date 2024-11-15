@@ -2,10 +2,10 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for
 import datetime
 import sqlite3
 
-app = Flask(__name__, static_folder='.', template_folder='.')
+app = Flask(__name__)
 
 def query_db(query, args=(), one=False):
-    conn = sqlite3.connect('..\db\database.db')
+    conn = sqlite3.connect('../db/database.db')
     cur = conn.cursor()
     cur.execute(query, args)
     rv = cur.fetchall()
@@ -75,10 +75,7 @@ def syllabusResult():
 #     else:
 #         return jsonify({'status': 'not_exists'})
 
-@app.route('/get_user_ids', methods=['GET'])
-def get_user_ids():
-    user_ids = query_db('SELECT user_id FROM User')
-    return jsonify(user_ids)
+
 
 # @app.route('/set_enrollment_period', methods=['POST'])
 # def set_enrollment_period():
@@ -144,6 +141,14 @@ def check_user_id():
     else:
         return jsonify({'status': 'not_exists'})
     
+@app.route('/get_user_ids', methods=['GET'])
+def get_user_ids():
+    user_ids = query_db('SELECT user_id FROM User')
+    return jsonify(user_ids)
+    
+user_ids = query_db('SELECT user_id FROM User')
+print(user_ids)
+
 @app.route('/schedule/view_schedule', methods=['POST'])
 def view_schedule():
     data = request.json

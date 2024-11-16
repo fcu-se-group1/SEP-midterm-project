@@ -23,6 +23,14 @@ def homepage():
 def course_info():
     return render_template('course_info.html')
 
+@app.route('/course_code')
+def course_code():
+    return render_template('course_code.html')
+
+@app.route('/write_course_info')
+def write_course_info():
+    return render_template('write_course_info.html')
+
 @app.route('/chooseFunction')
 def chooseFunction():
     return render_template('chooseFunction.html')
@@ -166,7 +174,7 @@ def withdraw_check_enrollment_period():
 def check_addcourse_code():
     data = request.json
     course_code = data['course_code']
-    course = query_db('SELECT * FROM Enrollment WHERE course_code = ?', [course_code], one=True)
+    course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)
     if course:
         return jsonify({'status': 'exists', 'course': course})
     else:

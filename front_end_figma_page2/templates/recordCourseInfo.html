@@ -9,24 +9,50 @@
             <div class="card-header p-3 px-4">
                 <h3 class="fw-bold mb-0">紀錄課程資訊</h3>
             </div>
-            <div class="card-body text-info p-4 px-5 d-flex justify-content-center align-items-center">
+            <div class="card-body text-info p-4 d-flex justify-content-center align-items-center">
                 <!-- <div class="row"> -->
-                    <div class="col-12 col-md-6 p-0">
+                    <div class="col-12 col-md-6 p-0 d-flex flex-column justify-content-center align-item-center">
                         <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程名稱:&nbsp;</h5>
-                            <div class="col-sm-8">
+                            <h5 class="col-5 card-title fw-bold mb-0 d-flex justify-content-end">課程名稱:&nbsp;</h5>
+                            <div class="col-sm-7">
                                 <input type="text" class="form-control" id="courseName" placeholder="請輸入課程名稱...">
                             </div>
                         </div>
                         <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程學分:&nbsp;</h5>
-                            <div class="col-sm-8">
+                            <h5 class="col-5 card-title fw-bold mb-0 d-flex justify-content-end">課程學分:&nbsp;</h5>
+                            <div class="col-sm-7">
                                 <input type="number" class="form-control" id="courseCredits" placeholder="請輸入課程學分...">
                             </div>
                         </div>
                         <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-5 card-title fw-bold mb-0 d-flex justify-content-end">教師姓名:&nbsp;</h5>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="teacherName" placeholder="請輸入教師姓名...">
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-5 card-title fw-bold mb-0 d-flex justify-content-end">必修/選修:&nbsp;</h5>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="courseType" placeholder="請輸入課程類型...">
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-5 card-title fw-bold mb-0 d-flex justify-content-end">最大修課人數:&nbsp;</h5>
+                            <div class="col-sm-7">
+                                <input type="number" class="form-control" id="maxStudents" placeholder="請輸入最大修課人數...">
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="col-5 card-title fw-bold mb-0 d-flex justify-content-end">上課地點:&nbsp;</h5>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="classLocation" placeholder="請輸入上課地點...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 p-0 d-flex flex-column justify-content-center align-item-center">
+                        <div class="col-12 d-flex align-items-center">
                             <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">上課時段:&nbsp;</h5>
-                            <div class="col-sm-8">
+                            <div class="col-sm-7">
                                 <div class="d-flex align-items-center">
                                     <select class="form-control px-2 text-center" id="classDay">
                                         <option value="1">星期一</option>
@@ -57,43 +83,20 @@
                             </div>
                         </div>
                         <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師姓名:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="teacherName" placeholder="請輸入教師姓名...">
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
                             <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">開課班級:&nbsp;</h5>
-                            <div class="col-sm-8">
+                            <div class="col-sm-7">
                                 <input type="text" class="form-control" id="className" placeholder="請輸入開課班級...">
                             </div>
                         </div>
                         <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">上課地點:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="classLocation" placeholder="請輸入上課地點...">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 p-0">
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">必修/選修:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="courseType" placeholder="請輸入課程類型...">
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
                             <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">班級限制:&nbsp;</h5>
-                            <div class="col-sm-8">
+                            <div class="col-sm-7">
                                 <input type="text" class="form-control" id="classRestriction" placeholder="請輸入班級限制...">
                             </div>
                         </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">最大修課人數:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" id="maxStudents" placeholder="請輸入最大修課人數...">
-                            </div>
-                        </div>
+                        
+                        
+                        
                         
                     </div>
                 <!-- </div> -->
@@ -127,7 +130,7 @@
                 title.innerHTML = `<h6 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
                 title.style.display = '';
             } else {
-                title.innerHTML = `<h6 class="col-4 card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
+                title.innerHTML = `<h6 class="col-5 card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
                 title.style.display = '';
             }
         });

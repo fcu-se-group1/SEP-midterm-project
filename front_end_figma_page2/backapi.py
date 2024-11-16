@@ -334,16 +334,15 @@ def withdraw_drop_course():
     query_db('DELETE FROM Enrollment WHERE course_code = ? AND user_id = ?', [course_code, user_id])
     return jsonify({'status': 'success', 'message': '退選成功'})
 
-@app.route('/write_course/check_course_code', methods=['GET', 'POST'])
+@app.route('/write_course/check_course_code', methods=['POST'])
 def write_course_check_course_code():
-    if request.method == 'POST':
-        course_code = request.form['course_code']
-        existing_course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)
-        if existing_course:
-            return render_template('course_code.html', warning='課程代碼已存在', course_code=course_code)
-        else:
-            return redirect(url_for('write_course_course_info', course_code=course_code))
-    return render_template('course_code.html')
+    data = request.json
+    course_code = data['course_code']
+    existing_course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)
+    if existing_course:
+        return jsonify({'status': 'exists'})
+    else:
+        return jsonify({'status': 'not_exists'})
 
 @app.route('/write_course/course_info/<course_code>', methods=['GET', 'POST'])
 def write_course_course_info(course_code):

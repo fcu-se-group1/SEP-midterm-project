@@ -17,7 +17,7 @@
                             <p id="courseResult" class="fw-bold"></p>
                         </div>
                         <div class="col-12 d-flex justify-content-center align-items-center">
-                            <span id="credits" class="fw-bold">目前學分:${} 最低學分:${} 最高學分:${}</span>
+                            <p id="credits" class="fw-bold"></p>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
 
 {% block content1 %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
         const selectedCourseCode = localStorage.getItem('selectedCourseCode');
         const selectedFunction = localStorage.getItem('selectedFunction');
         let action = '';
@@ -51,8 +51,7 @@
         const courseResult = `課程代碼${selectedCourseCode}${action}成功，是否繼續${action}課程？`;
         document.getElementById('courseResult').textContent = courseResult;
 
-        const credits = `課程代碼${selectedCourseCode}${action}成功，是否繼續${action}課程？`;
-        document.getElementById('credits').textContent = credits;
+        await fetchCredits();
     });
 
     document.getElementById('noButton').addEventListener('click', function() {
@@ -62,5 +61,33 @@
     document.getElementById('confirmButton').addEventListener('click', function() {
         localStorage.removeItem('selectedCourseCode');
     });
+
+    async function fetchCredits() {
+        const identity = localStorage.getItem('identity');
+        const SID = localStorage.getItem('SID');
+        if (!SID) {
+            alert('無法取得學號資訊');
+            return;
+        }else if(!identity){
+            alert('無法取得身分資訊');
+            return;
+        }
+        console.log(identity);
+        const response = await fetch('/schedule/view_schedule', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                actor: identity,
+                user_id: SID
+            })
+        });
+        const data = await response.json();
+        if (data.status === 'success') {
+            const creditsText = `目前學分:${data.current_credits} 最低學分:${data.min_credits} 最高學分:${data.max_credits}`;
+            document.getElementById('credits').textContent = creditsText;
+        } else {
+            alert('無法取得學分資訊');
+        }
+    }
 </script>
 {% endblock %}

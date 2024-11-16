@@ -56,6 +56,7 @@
         const adminRadio = document.getElementById('admin');
         const confirmButton = document.getElementById('confirmButton');
         const SID = document.getElementById('SID').value;
+        const identity = document.querySelector('input[name="flexRadioDefault"]:checked').id;
         
         if (SID === '') {
             alert('請輸入學號');
@@ -81,18 +82,17 @@
         var searchCurriculum_std_url = "{{ url_for('studentCurriculum') }}";
         var searchCurriculum_adm_url = "{{ url_for('adminCurriculum') }}";
 
+        localStorage.setItem('identity', identity);
         if (selectedFunction === 'function_addCourse' || selectedFunction === 'function_dropCourse') {
             confirmButton.href = addorDropCourse_url;
         } else if (selectedFunction === 'function_searchCurriculum') {
             if (studentRadio.checked) {
-                localStorage.setItem('identity', "student");
                 if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
                     confirmButton.href = searchCurriculum_std_url;
                 } else {
                     return;
                 }
             } else if (adminRadio.checked) {
-                localStorage.setItem('identity', "admin");
                 if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
                     confirmButton.href = searchCurriculum_adm_url;
                 } else {

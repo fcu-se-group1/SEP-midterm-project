@@ -85,14 +85,14 @@
             confirmButton.href = addorDropCourse_url;
         } else if (selectedFunction === 'function_searchCurriculum') {
             if (studentRadio.checked) {
-                localStorage.setItem('identity', 'student');
+                localStorage.setItem('identity', "student");
                 if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
                     confirmButton.href = searchCurriculum_std_url;
                 } else {
                     return;
                 }
             } else if (adminRadio.checked) {
-                localStorage.setItem('identity', 'admin');
+                localStorage.setItem('identity', "admin");
                 if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
                     confirmButton.href = searchCurriculum_adm_url;
                 } else {
@@ -102,12 +102,13 @@
         }
         confirmButton.click();
     }
-    async function fetchUserIds() {
-        let response = await fetch('/get_user_ids');
+
+    async function getUserCredits() {
+        let response = await fetch('/get_user_credits');
         let userIds = await response.json();
         console.log(userIds);
     }
+    getUserCredits();
 
-    fetchUserIds();
 </script>
 {% endblock %}

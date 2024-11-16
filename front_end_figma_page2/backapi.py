@@ -88,11 +88,20 @@ def check_user_id():
         return jsonify({'status': 'exists', 'user': user})
     else:
         return jsonify({'status': 'not_exists'})
-    
-@app.route('/get_user_ids', methods=['GET'])
-def get_user_ids():
-    user_ids = query_db('SELECT user_id FROM User')
-    return jsonify(user_ids)
+
+@app.route('/get_user_credits', methods=['GET'])
+def get_user_credits():
+    users = query_db('SELECT user_id FROM User')
+    user_credits = []
+
+    for user in users:
+        user_id = user[0]
+        current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?', [user_id], one=True)[0]
+        if current_credits is None:
+            current_credits = 0
+        user_credits.append({'user_id': user_id, 'current_credits': current_credits})
+
+    return jsonify(user_credits)
 
 @app.route('/schedule/view_schedule', methods=['POST'])
 def view_schedule():
@@ -250,9 +259,9 @@ def registration_check_user_credits():
     current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?', [user_id], one=True)[0]
     if current_credits is None:
         current_credits = 0
-    if current_credits + course <= 25 and actor=="student":  # Assuming 25 is the credit limit
+    if current_credits + course <= 25 and actor == "student":  # Assuming 25 is the credit limit
         return jsonify({'status': 'within_limit'})
-    elif current_credits + course <= 30 and actor=="admin":
+    elif current_credits + course <= 30 and actor == "admin":
         return jsonify({'status': 'within_limit'})
     else:
         return jsonify({'status': 'exceeds_limit'})

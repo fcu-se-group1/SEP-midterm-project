@@ -21,7 +21,7 @@ def homepage():
 
 @app.route('/course_info')
 def course_info():
-    return render_template('course_info.html')
+    return render_template('write_course_info')
 
 @app.route('/chooseFunction')
 def chooseFunction():
@@ -367,13 +367,13 @@ def write_course_course_info(course_code):
                 WHERE Course.instructor_name = ? AND Course_Schedule.weekday = ? AND Course_Schedule.time_slot = ?
             ''', [instructor, w, t])
             if instructor_course_time:
-                return render_template('course_info.html', warning='該授課教師此時段已有課程，請重新輸入', course_code=course_code)
+                return render_template('write_course_info', warning='該授課教師此時段已有課程，請重新輸入', course_code=course_code)
 
         # 檢查開課班級是否存在
         for class_name in class_names:
             is_class_exist = query_db('''SELECT * FROM Class WHERE class_name=?''', [class_name])
             if not is_class_exist:
-                return render_template('course_info.html', warning='該開課班級不存在，請重新輸入', course_code=course_code)
+                return render_template('write_course_info', warning='該開課班級不存在，請重新輸入', course_code=course_code)
             
         # 檢查上課地點
         same_location = query_db('''SELECT course_code FROM Course WHERE location=?''', [location])
@@ -382,18 +382,18 @@ def write_course_course_info(course_code):
             for sl in same_location:
                 for st in same_time:
                     if sl == st:
-                        return render_template('course_info.html', warning='該上課地點此時段已有課程，請重新輸入', course_code=course_code)
+                        return render_template('write_course_info', warning='該上課地點此時段已有課程，請重新輸入', course_code=course_code)
                 
         # 檢查班級限制的班級是否存在
         for class_limit in class_limits:
             is_class_exist = query_db('''SELECT * FROM Class WHERE class_name=?''', [class_limit])
             if not is_class_exist:
-                return render_template('course_info.html', warning='班級限制的班級不存在，請重新輸入', course_code=course_code)
+                return render_template('write_course_info', warning='班級限制的班級不存在，請重新輸入', course_code=course_code)
 
         # 檢查最大修課人數
         location_max_students = query_db('''SELECT capacity FROM Location WHERE location_name=?''', [location])
         if int(max_students) > location_max_students[0][0]:
-            return render_template('course_info.html', warning='該上課地點無法容納此課程的最大修課人數，請重新輸入', course_code=course_code)
+            return render_template('write_course_info', warning='該上課地點無法容納此課程的最大修課人數，請重新輸入', course_code=course_code)
 
         query_db('''
             INSERT INTO Course (course_code, course_name, credits, max_students, instructor_name, location, is_mandatory)
@@ -418,9 +418,9 @@ def write_course_course_info(course_code):
                 VALUES (?, ?)
             ''', [course_code, class_limit])
 
-        return render_template('course_info.html', success='已成功紀錄課程資訊', course_code=course_code)
+        return render_template('write_course_info', success='已成功紀錄課程資訊', course_code=course_code)
 
-    return render_template('course_info.html', course_code=course_code)
+    return render_template('write_course_info', course_code=course_code)
 
 @app.route('/course_query/check_course_query_input', methods=['GET', 'POST'])
 def course_query_check_course_query_input():
@@ -489,7 +489,7 @@ def course_query_course_syllabus(course_code):
     course_info = query_db('SELECT * FROM CourseInfo WHERE course_id = ?', [course_code], one=True)
     if not course_info:
         return "尚無教學大綱"
-    return render_template('showcourse_info.html', course_info=course_info)
+    return render_template('showwrite_course_info', course_info=course_info)
 
 @app.route('/course_syllabus/check_course_code', methods=['POST'])
 def course_syllabus_check_course_code():

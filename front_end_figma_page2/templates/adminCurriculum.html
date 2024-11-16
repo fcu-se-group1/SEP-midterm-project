@@ -6,8 +6,9 @@
 <div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
     <div class="col-10">
         <div class="card border-primary rounded-4 h-100">
-            <div class="card-header p-3 px-4">
+            <div class="card-header d-flex justify-content-between p-3 px-4">
                 <h3 class="fw-bold mb-0">系所行政人員身分之課表</h3>
+                <p id="credits" class="fw-bold mb-0 d-flex justify-content-center align-items-center text-secondary"></p>
             </div>
             <div class="card-body text-primary p-4 overflow-auto" style="height: 55vh;">
                 <table class="table table-bordered">
@@ -75,6 +76,7 @@
         } else {
             alert('無法取得課表資訊');
         }
+        await fetchCredits();
     });
     function displaySchedule(schedule) {
         const tableBody = document.querySelector('tbody');
@@ -104,6 +106,33 @@
             }
 
             tableBody.appendChild(row);
+        }
+    }
+    async function fetchCredits() {
+        const identity = localStorage.getItem('identity');
+        const SID = localStorage.getItem('SID');
+        if (!SID) {
+            alert('無法取得學號資訊');
+            return;
+        }else if(!identity){
+            alert('無法取得身分資訊');
+            return;
+        }
+        console.log(identity);
+        const response = await fetch('/schedule/view_schedule', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                actor: identity,
+                user_id: SID
+            })
+        });
+        const data = await response.json();
+        if (data.status === 'success') {
+            const creditsText = `目前學分:${data.current_credits} 最低學分:${data.min_credits} 最高學分:${data.max_credits}`;
+            document.getElementById('credits').textContent = creditsText;
+        } else {
+            alert('無法取得學分資訊');
         }
     }
 </script>

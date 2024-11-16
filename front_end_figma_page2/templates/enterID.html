@@ -50,7 +50,9 @@
 
 {% block content1 %}
 <script>
-    async function judge() {
+    async function judge(event) {
+        event.preventDefault(); // 阻止默认行为
+
         const selectedFunction = localStorage.getItem('selectedFunction');
         const studentRadio = document.getElementById('student');
         const adminRadio = document.getElementById('admin');
@@ -74,7 +76,7 @@
         if (data.status === 'not_exists') {
             alert('請確認學號是否輸入正確');
             return;
-        }else{
+        } else {
             localStorage.setItem('SID', SID);
         }
 
@@ -84,23 +86,22 @@
 
         localStorage.setItem('identity', identity);
         if (selectedFunction === 'function_addCourse' || selectedFunction === 'function_dropCourse') {
-            confirmButton.href = addorDropCourse_url;
+            window.location.href = addorDropCourse_url;
         } else if (selectedFunction === 'function_searchCurriculum') {
             if (studentRadio.checked) {
                 if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
-                    confirmButton.href = searchCurriculum_std_url;
+                    window.location.href = searchCurriculum_std_url;
                 } else {
                     return;
                 }
             } else if (adminRadio.checked) {
                 if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
-                    confirmButton.href = searchCurriculum_adm_url;
+                    window.location.href = searchCurriculum_adm_url;
                 } else {
                     return;
                 }
             }
         }
-        confirmButton.click();
     }
 
     async function getUserCredits() {
@@ -110,5 +111,6 @@
     }
     getUserCredits();
 
+    document.getElementById('confirmButton').addEventListener('click', judge);
 </script>
 {% endblock %}

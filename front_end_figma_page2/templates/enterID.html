@@ -77,14 +77,6 @@
             localStorage.setItem('SID', SID);
         }
 
-
-
-        if(studentRadio.checked){
-            localStorage.setItem('identity', 'student');
-        }else if(adminRadio.checked){
-            localStorage.setItem('identity', 'admin');
-        }
-
         var addorDropCourse_url = "{{ url_for('enterCourseID') }}";
         var searchCurriculum_std_url = "{{ url_for('studentCurriculum') }}";
         var searchCurriculum_adm_url = "{{ url_for('adminCurriculum') }}";
@@ -93,12 +85,14 @@
             confirmButton.href = addorDropCourse_url;
         } else if (selectedFunction === 'function_searchCurriculum') {
             if (studentRadio.checked) {
+                localStorage.setItem('identity', 'student');
                 if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
                     confirmButton.href = searchCurriculum_std_url;
                 } else {
                     return;
                 }
             } else if (adminRadio.checked) {
+                localStorage.setItem('identity', 'admin');
                 if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
                     confirmButton.href = searchCurriculum_adm_url;
                 } else {

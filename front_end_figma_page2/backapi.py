@@ -195,7 +195,7 @@ def get_user_courses():
 
 @app.route('/enterCourseID/get_course_code', methods=['GET']) #抓課程代碼到console
 def get_course_code():
-    course_ids = query_db('SELECT course_code FROM Enrollment')
+    course_ids = query_db('SELECT course_code FROM Course')
     return jsonify(course_ids)
 
 @app.route('/withdraw/check_course_code', methods=['POST']) #退選

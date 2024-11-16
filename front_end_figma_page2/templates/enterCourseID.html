@@ -188,9 +188,22 @@
         }
     }
     //填寫教學大綱
-    function FillOutSyllabusCode(){
+    async function FillOutSyllabusCode() {
         console.log('FillOutSyllabusCode');
+        const studentRadio = localStorage.getItem('identity');
+        const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
+        const userId = localStorage.getItem('SID');
+
+        let result = await checkSyllabusCourseCode(userId, courseCode, studentRadio);
+        if (result.status !== 'exists') {
+            alert('課程代碼錯誤');
+            return;
+        }
+
+        alert('教學大綱填寫成功');
     }
+
+    
     async function fetchCourseCode() {                  //抓db有的課程代碼
         let response = await fetch('/enterCourseID/get_course_code');
         let data = await response.json();
@@ -203,8 +216,8 @@
     fetchCourseCode();
     
     fetchUserCourses();
-    async function fetchUserCourses(userId) {           //抓學生所選課程ID
-        const user_id = localStorage.getItem('SID');
+    async function fetchUserCourses() {           //抓學生所選課程ID
+        const userId = localStorage.getItem('SID');
         let response = await fetch('/enterCourseID/get_user_courses', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -323,11 +336,11 @@
         return response.json();
     }
 
-    async function checkSyllabusCourseCode(user_id,courseCode,studentRadio) {
-        const response = await fetch('/withdraw/drop_course', {
+    async function checkSyllabusCourseCode(user_id, courseCode, studentRadio) {
+        const response = await fetch('/course_syllabus/check_course_code', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ user_id: userId, course_code: courseCode, actor: studentRadio })
+            body: JSON.stringify({ user_id: user_id, course_code: courseCode, actor: studentRadio })
         });
         return response.json();
     }

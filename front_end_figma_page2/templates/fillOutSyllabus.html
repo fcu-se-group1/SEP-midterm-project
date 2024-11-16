@@ -4,96 +4,91 @@
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
-    <div class="col-lg-9">
+    <div class="col-12 col-md-8 col-lg-6">
         <div class="card border-dark rounded-4 h-100">
             <div class="card-header p-3 px-4">
                 <h3 class="fw-bold mb-0">填寫教學大綱</h3>
             </div>
-            <div class="col-12 card-body text-dark p-4 px-5 d-flex justify-content-start align-items-center overflow-auto" style="gap: 1rem;">
-                <div class="col-12 d-flex justify-content-center align-items-center" style="gap: 1rem;">
-                    <div class="col-12 col-md-6 p-0">
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程描述:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <textarea type="text" class="form-control" id="courseDescription" placeholder="請輸入課程描述..." style="resize: none;height: 0px;"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師姓名:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="teacherName" placeholder="請輸入教師姓名...">
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">請益時間:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="consultationTime" placeholder="請輸入請益時間...">
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">辦公室地點:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="officeLocation" placeholder="請輸入辦公室地點...">
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師電子郵件:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="teacherEmail" placeholder="請輸入教師電子郵件...">
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師分機:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="teacherExtension" placeholder="請輸入教師分機...">
-                            </div>
+            <div class="card-body col-12 text-dark p-4 d-flex justify-content-center align-items-center">
+                <div class="col-12 p-0 d-flex flex-column justify-content-start align-items-start overflow-auto" style="height: 41vh; gap: 0.5rem;">
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程描述:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="courseDescription" placeholder="請輸入課程描述..." rows="1" oninput="autoResize(this)"></textarea>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 p-0">
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教學助理姓名:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="taName" placeholder="請輸入教學助理姓名...">
-                            </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師姓名:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="teacherName" placeholder="請輸入教師姓名...">
                         </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">助理電子郵件:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="taEmail" placeholder="請輸入助理電子郵件...">
-                            </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">請益時間:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="consultationTime" placeholder="請輸入請益時間...">
                         </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">授課進度與內容:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <textarea type="text" class="form-control" id="courseMaterial" placeholder="請輸入授課進度與內容..." style="resize: none; height: 0px;"></textarea>
-                            </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">辦公室地點:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="officeLocation" placeholder="請輸入辦公室地點...">
                         </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程教材:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <textarea type="text" class="form-control" id="courseMaterial" placeholder="請輸入課程教材..." style="resize: none; height: 0px;"></textarea>
-                            </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師電子郵件:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control" id="teacherEmail" placeholder="請輸入教師電子郵件...">
                         </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">評分規則:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <textarea type="text" class="form-control" id="gradingPolicy" placeholder="請輸入評分規則..."
-                                style="resize: none; height: 0px;"></textarea>
-                            </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師分機:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="teacherExtension" placeholder="請輸入教師分機...">
                         </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課堂規則:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <textarea type="text" class="form-control" id="classRules" placeholder="請輸入課堂規則..." style="resize: none; height: 0px;"></textarea>
-                            </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教學助理姓名:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="taName" placeholder="請輸入教學助理姓名...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">助理電子郵件:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control" id="taEmail" placeholder="請輸入助理電子郵件...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">授課進度與內容:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="courseSchedule" placeholder="請輸入授課進度與內容..." rows="1" oninput="autoResize(this)"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程教材:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="courseMaterials" placeholder="請輸入課程教材..." rows="1" oninput="autoResize(this)"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">評分規則:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="gradingPolicy" placeholder="請輸入評分規則..." rows="1" oninput="autoResize(this)"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課堂規則:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="classRules" placeholder="請輸入課堂規則..." rows="1" oninput="autoResize(this)"></textarea>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-footer px-4">
                 <div class="d-flex justify-content-end" style="gap: 2rem;">
-                    <a href="{{ url_for('chooseFunction') }}" class="btn btn-danger">返回</a>
-                    <a href="#" id="confirmButton" class="btn btn-danger" onclick="judge()">確認</a>
+                    <a href="{{ url_for('enterCourseID') }}" class="btn btn-secondary">返回</a>
+                    <a href="#" id="confirmButton" class="btn btn-secondary" onclick="judge()">確認</a>
                 </div>
             </div>
         </div>
@@ -103,11 +98,8 @@
 
 {% block content1 %}
 <script>
-
     function adjustHeading() {
-
         const titles = document.querySelectorAll('.card-title');
-
         titles.forEach(title => {
             if (!title.dataset.originalContent) {
                 title.dataset.originalContent = title.textContent;
@@ -125,8 +117,12 @@
         });
     }
 
+    function autoResize(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
     window.addEventListener('resize', adjustHeading);
     window.addEventListener('load', adjustHeading);
-
 </script>
 {% endblock %}

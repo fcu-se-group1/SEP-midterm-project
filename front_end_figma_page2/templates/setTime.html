@@ -12,28 +12,32 @@
                 <div class="card-header p-3 px-4"><h3 class="fw-bold mb-0">設定加退選時間</h2></div>
 
                 <div class="card-body text-primary d-flex flex-column justify-content-center mb-3 px-4" style="gap: 0.75rem;">
-                    <h5 class="card-title fw-bold">加選時間</h5>
-                    <div class="d-flex justify-content-between align-items-center" style="gap: 0.75rem;">
-                        <div class="col d-flex justify-content-center align-items-center">    
-                            <label class="col-3 col-xl-2" for="add_startDate">開始:</label>
-                            <input class="col" id="add_startDate" class="form-control" type="date" />
+                    <div class="d-flex justify-content-center align-item-center">
+                        <h5 class="card-title col-4 fw-bold mb-0">加退選類型: </h5>
+                        <div class="form-check col-3 mb-0">
+                            <input class="form-check-input" type="radio" name="enrollmentType" id="addCourse" value="addCourse" checked>
+                            <label class="form-check-label" for="addCourse">加選</label>
                         </div>
-                        <div class="col d-flex justify-content-center align-items-center">
-                            <label class="col-3 col-xl-2" for="add_endDate">結束:</label>
-                            <input class="col" id="add_endDate" class="form-control" type="date" />
+                        <div class="form-check col-3 mb-0">
+                            <input class="form-check-input" type="radio" name="enrollmentType" id="dropCourse" value="dropCourse">
+                            <label class="form-check-label" for="dropCourse">退選</label>
                         </div>
                     </div>
-                    <h5 class="card-title fw-bold">退選時間</h5>
-                    <div class="d-flex justify-content-between align-items-center" style="gap: 0.75rem;">
-                        <div class="col d-flex justify-content-center align-items-center">    
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="col-10 d-flex justify-content-center align-items-center">    
                             <label class="col-3 col-xl-2" for="drop_startDate">開始:</label>
                             <input class="col" id="drop_startDate" class="form-control" type="date" />
                         </div>
-                        <div class="col d-flex justify-content-center align-items-center">
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="col-10 d-flex justify-content-center align-items-center">
                             <label class="col-3 col-xl-2" for="drop_endDate">結束:</label>
                             <input class="col" id="drop_endDate" class="form-control" type="date" />
                         </div>
                     </div>
+
                 </div>
 
                 <div class="card-footer px-4">

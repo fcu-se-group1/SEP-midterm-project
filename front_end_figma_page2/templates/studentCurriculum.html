@@ -42,11 +42,87 @@
                         備註: 
                         <span style="background-color: #d4edda;">綠色</span> 是已選課程, 
                         <span style="background-color: #fff3cd;">黃色</span> 是已關注課程, 
-                        <span style="background-color: #ffeeba;">橘色</span> 是已登記尚未選到
+                        <span style="background-color: #ff7f27;">橘色</span> 是已登記尚未選到
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+
+{% block content1 %}
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        const identity = localStorage.getItem('identity');
+        const SID = localStorage.getItem('SID');
+
+        if (!identity || !SID) {
+            alert('無法取得身份或學號資訊');
+            return;
+        }
+
+        const response = await fetch('/schedule/view_schedule', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                actor: identity,
+                user_id: SID
+            })
+        });
+
+        const data = await response.json();
+        if (data.status === 'success') {
+            displaySchedule(data.schedule);
+        } else {
+            alert('無法取得課表資訊');
+        }
+    });
+    function displaySchedule(schedule) {
+        const tableBody = document.querySelector('tbody');
+        tableBody.innerHTML = ''; // 清空表格內容
+        for (let i = 1; i <= 14; i++) {
+            const row = document.createElement('tr');
+            const periodCell = document.createElement('td');
+            periodCell.className = 'text-center';
+            periodCell.textContent = i;
+            row.appendChild(periodCell);
+
+            for (let day = 1; day <= 5; day++) {
+                const cell = document.createElement('td');
+                cell.className = 'text-center';
+                cell.style.backgroundColor = 'white';
+
+                schedule.selected.forEach(course => {
+                    course.schedule.forEach(time => {
+                        if (time.day === String(day) && time.period === String(i)) {
+                            cell.textContent = course.code;
+                            cell.style.backgroundColor = '#d4edda'; // 綠色背景表示已選課程
+                        }
+                    });
+                });
+                schedule.interested.forEach(course => {
+                    course.schedule.forEach(time => {
+                        if (time.day === String(day) && time.period === String(i)) {
+                            cell.textContent = course.code;
+                            cell.style.backgroundColor = '#fff3cd';
+                        }
+                    });
+                });
+                schedule.registered.forEach(course => {
+                    course.schedule.forEach(time => {
+                        if (time.day === String(day) && time.period === String(i)) {
+                            cell.textContent = course.code;
+                            cell.style.backgroundColor = '#ff7f27'; 
+                        }
+                    });
+                });
+                row.appendChild(cell);
+            }
+
+            tableBody.appendChild(row);
+        }
+    }
+</script>
 {% endblock %}

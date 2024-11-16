@@ -40,42 +40,6 @@
         localStorage.setItem('selectedCourseCode', functionName);
     }
 
-    async function checkAddCourseCode(courseCode, userId) {
-        let response = await fetch('/enterCourseID/check_addcourse_code', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({course_code: courseCode, user_id: userId})
-        });
-        return await response.json();
-    }
-
-    async function checkDropCourseCode(courseCode, userId) {
-        let response = await fetch('/enterCourseID/check_dropcourse_code', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({course_code: courseCode, user_id: userId})
-        });
-        return await response.json();
-    }
-
-    async function checkRecordCourseCode(courseCode) {
-        let response = await fetch('/enterCourseID/check_recordcourse_code', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({course_code: courseCode})
-        });
-        return await response.json();
-    }
-
-    async function checkFillOutSyllabusCode(courseCode) {
-        let response = await fetch('/enterCourseID/check_filloutsyllabus_code', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({course_code: courseCode})
-        });
-        return await response.json();
-    }
-
     async function judge() {
         const selectedFunction = localStorage.getItem('selectedFunction');
         const studentRadio = localStorage.getItem('identity');
@@ -95,9 +59,9 @@
         } else if (selectedFunction === 'function_dropCourse') {
             withdraw();//退選
         } else if (selectedFunction === 'function_recordCourseInfo'){
-            //data = await checkRecordCourseCode(courseCode);
+            //RecordCourseCode(courseCode);
         }else if(selectedFunction === 'function_fillOutSyllabus'){
-            //data = await checkFillOutSyllabusCode(courseCode);
+            FillOutSyllabusCode();
         }
 
         // 檢查資料庫是否有該課程代碼可以加選，以及該生課表是否有該課程代碼可以退選
@@ -223,7 +187,10 @@
             alert('退選失敗');
         }
     }
-
+    //填寫教學大綱
+    function FillOutSyllabusCode(){
+        console.log('FillOutSyllabusCode');
+    }
     async function fetchCourseCode() {                  //抓db有的課程代碼
         let response = await fetch('/enterCourseID/get_course_code');
         let data = await response.json();
@@ -234,8 +201,10 @@
         }
     }
     fetchCourseCode();
-
+    
+    fetchUserCourses();
     async function fetchUserCourses(userId) {           //抓學生所選課程ID
+        const user_id = localStorage.getItem('SID');
         let response = await fetch('/enterCourseID/get_user_courses', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -247,10 +216,6 @@
         } else {
             console.log('沒有找到任何課程ID');
         }
-    }
-    const userId = localStorage.getItem('SID'); // 假設 userId 已經存儲在 localStorage 中
-    if (userId) {
-        fetchUserCourses(userId);
     }
 
     function back(){//返回按鈕返回上一頁的對應功能之頁面及清除localStorage
@@ -350,6 +315,15 @@
     }
 
     async function dropCourse(user_id,courseCode,studentRadio) {
+        const response = await fetch('/withdraw/drop_course', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: userId, course_code: courseCode, actor: studentRadio })
+        });
+        return response.json();
+    }
+
+    async function checkSyllabusCourseCode(user_id,courseCode,studentRadio) {
         const response = await fetch('/withdraw/drop_course', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

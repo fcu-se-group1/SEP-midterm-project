@@ -17,7 +17,7 @@
                             <p id="courseResult" class="fw-bold"></p>
                         </div>
                         <div class="col-12 d-flex justify-content-center align-items-center">
-                            <span class="fw-bold">目前學分:${} 最低學分:${} 最高學分:${}</span>
+                            <span id="credits" class="fw-bold">目前學分:${} 最低學分:${} 最高學分:${}</span>
                         </div>
                     </div>
                 </div>
@@ -50,6 +50,9 @@
 
         const courseResult = `課程代碼${selectedCourseCode}${action}成功，是否繼續${action}課程？`;
         document.getElementById('courseResult').textContent = courseResult;
+
+        const credits = `課程代碼${selectedCourseCode}${action}成功，是否繼續${action}課程？`;
+        document.getElementById('credits').textContent = credits;
     });
 
     document.getElementById('noButton').addEventListener('click', function() {

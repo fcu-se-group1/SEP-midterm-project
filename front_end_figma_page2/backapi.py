@@ -19,6 +19,10 @@ def query_db(query, args=(), one=False):
 def homepage():
     return render_template('homepage.html')
 
+@app.route('/course_info')
+def course_info():
+    return render_template('course_info.html')
+
 @app.route('/chooseFunction')
 def chooseFunction():
     return render_template('chooseFunction.html')

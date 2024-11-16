@@ -56,54 +56,42 @@
 
 {% block content1 %}
 <script>
-    async function validateAndConfirm() {
-        const addStartDate = document.getElementById('add_startDate').value;
-        const addEndDate = document.getElementById('add_endDate').value;
-        const dropStartDate = document.getElementById('drop_startDate').value;
-        const dropEndDate = document.getElementById('drop_endDate').value;
-        
-        const confirmButton = document.getElementById('confirmButton');
-        var chooseFunction_url = "{{ url_for('chooseFunction') }}";
+    function validateAndConfirm() {
+        const periodType = document.getElementById('addCourse').checked ? 'add' : 'drop';
+        const startTime = document.getElementById('drop_startDate').value;
+        const endTime = document.getElementById('drop_endDate').value;
 
-        if (new Date(addStartDate) > new Date(addEndDate) || new Date(dropStartDate) > new Date(dropEndDate)) {
-            alert('加退選開始時間不能晚於結束時間');
+        if (startTime === '' || endTime === '') {
+            alert('請輸入完整時間');
             return;
         }
 
-        if (confirm(`您確定要設定以下時間嗎？\n\n加選時間: ${addStartDate} 至 ${addEndDate}\n退選時間: ${dropStartDate} 至 ${dropEndDate}`)) {
-            // 發送 POST 請求到伺服器
-            let response = await fetch('/set_enrollment_period', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    add_start_date: addStartDate,
-                    add_end_date: addEndDate,
-                    drop_start_date: dropStartDate,
-                    drop_end_date: dropEndDate
-                })
-            });
-
-            let data = await response.json();
-            if (data.status === 'success') {
-                alert('時間已成功設定');
-                confirmButton.href = chooseFunction_url;
-                return;
-            } else {
-                alert('設定時間時發生錯誤');
-                return;
-            }
-        }else{
+        if (startTime >= endTime) {
+            alert('開始時間需早於結束時間');
             return;
         }
+
+        setEnrollmentPeriod();
     }
+    async function setEnrollmentPeriod() {
+        const periodType = document.getElementById('addCourse').checked ? '加選' : '退選';
+        const startTime = document.getElementById('drop_startDate').value;
+        const endTime = document.getElementById('drop_endDate').value;
 
-    async function queryEnrollmentPeriod() {
-        let response = await fetch('/get_enrollment_period');
-        let data = await response.json();
+        const response = await fetch('/set_enrollment_period', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                period_type: periodType,
+                start_time: startTime,
+                end_time: endTime
+            })
+        });
+        const data = await response.json();
         if (data.status === 'success') {
-            alert(`加選時間: ${data.add_start_date} 至 ${data.add_end_date}\n退選時間: ${data.drop_start_date} 至 ${data.drop_end_date}`);
+            alert('加退選時間設定成功');
         } else {
-            alert('查詢設定日期時發生錯誤');
+            alert('加退選時間設定失敗');
         }
     }
     queryEnrollmentPeriod();

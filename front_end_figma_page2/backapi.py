@@ -1,12 +1,14 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 import datetime
 import sqlite3
+import os
 
 app = Flask(__name__)
 
 def query_db(query, args=(), one=False):
-    conn = sqlite3.connect('../db/database.db')
-    cur = conn.cursor()
+    db_path = os.path.join(os.path.dirname(__file__), '../db/database.db')
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()  # Create the cursor object
     cur.execute(query, args)
     rv = cur.fetchall()
     conn.commit()

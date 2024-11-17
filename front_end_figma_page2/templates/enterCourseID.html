@@ -102,11 +102,11 @@
             alert('加選成功');
             const confirmButton = document.getElementById('confirmButton');
             var addorDropCourse_url = "{{ url_for('courseSelectionResult') }}";
-            confirmButton.href = addorDropCourse_url;
+            window.location.href = addorDropCourse_url;
         } else {
             alert('加選失敗');
+            return;
         }
-        confirmButton.click();
     }
     //退選
     async function withdraw() {
@@ -138,11 +138,11 @@
             alert('退選成功');
             const confirmButton = document.getElementById('confirmButton');
             var addorDropCourse_url = "{{ url_for('courseSelectionResult') }}";
-            confirmButton.href = addorDropCourse_url;
+            window.location.href = addorDropCourse_url;
         } else {
             alert('退選失敗');
+            return;
         }
-        confirmButton.click();
     }
     //填寫教學大綱
     async function FillOutSyllabusCheck() {
@@ -158,9 +158,8 @@
         }else{
             const confirmButton = document.getElementById('confirmButton');
             var fillOutSyllabus_url = "{{ url_for('fillOutSyllabus') }}";
-            confirmButton.href = fillOutSyllabus_url;
+            window.location.href = fillOutSyllabus_url;
         }
-        confirmButton.click();
     }
     //紀錄課程資訊
     async function recordCourseInfoCheck() {
@@ -175,12 +174,11 @@
         let result = await checkRecordCourseInfoCourseCode(userId, courseCode, studentRadio);
         if (result.status === 'exists') {
             if(confirm('課程代碼已存在，將覆蓋過往資料')){
-                confirmButton.href = recordCourseInfo_url;
+                window.location.href = recordCourseInfo_url;
             }else return;
         }else{
-            confirmButton.href = recordCourseInfo_url;
+            window.location.href = recordCourseInfo_url;
         }
-        confirmButton.click();
     }
 
     

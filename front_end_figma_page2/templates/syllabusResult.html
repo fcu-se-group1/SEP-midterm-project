@@ -113,48 +113,32 @@
 
 {% block content1 %}
 <script>
-    const mockData = {
-        courseDescription: "這是一門關於現代網頁開發的課程。",
-        teacherName: "王小明",
-        consultationTime: "週一 10:00-12:00",
-        officeLocation: "教學樓 101 室",
-        teacherEmail: "teacher@example.com",
-        teacherExtension: "1234",
-        taName: "李小華",
-        taEmail: "ta@example.com",
-        courseMaterial: "《現代網頁開發指南》",
-        gradingPolicy: "期中考 30%，期末考 40%，平時作業 30%",
-        classRules: "請勿遲到，保持課堂安靜",
-        schedule: [
-            { week: "第1週", topic: "HTML 基礎", activity: "閱讀教材，實作練習" },
-            { week: "第2週", topic: "CSS 基礎", activity: "閱讀教材，實作練習" },
-            { week: "第3週", topic: "JavaScript 基礎", activity: "閱讀教材，實作練習" },
-            // Add more weeks as needed
-        ]
-    };
+    {% comment %} document.addEventListener('DOMContentLoaded', function() {
+        const courseInfo = {{ course_info | tojson }};
+        
+        document.getElementById('courseDescription').textContent = courseInfo.course_description;
+        document.getElementById('teacherName').textContent = courseInfo.instructor_name;
+        document.getElementById('consultationTime').textContent = courseInfo.instructor_office_hours;
+        document.getElementById('officeLocation').textContent = courseInfo.instructor_office_location;
+        document.getElementById('teacherEmail').textContent = courseInfo.instructor_email;
+        document.getElementById('teacherExtension').textContent = courseInfo.instructor_extension;
+        document.getElementById('taName').textContent = courseInfo.ta_name;
+        document.getElementById('taEmail').textContent = courseInfo.ta_email;
+        document.getElementById('courseMaterial').textContent = courseInfo.course_materials;
+        document.getElementById('gradingPolicy').textContent = courseInfo.grading_rules;
+        document.getElementById('classRules').textContent = courseInfo.class_rules;
 
-    document.getElementById('courseDescription').textContent = mockData.courseDescription;
-    document.getElementById('teacherName').textContent = mockData.teacherName;
-    document.getElementById('consultationTime').textContent = mockData.consultationTime;
-    document.getElementById('officeLocation').textContent = mockData.officeLocation;
-    document.getElementById('teacherEmail').textContent = mockData.teacherEmail;
-    document.getElementById('teacherExtension').textContent = mockData.teacherExtension;
-    document.getElementById('taName').textContent = mockData.taName;
-    document.getElementById('taEmail').textContent = mockData.taEmail;
-    document.getElementById('courseMaterial').textContent = mockData.courseMaterial;
-    document.getElementById('gradingPolicy').textContent = mockData.gradingPolicy;
-    document.getElementById('classRules').textContent = mockData.classRules;
-
-    const scheduleTable = document.getElementById('scheduleTable');
-    mockData.schedule.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td class="text-center">${item.week}</td>
-            <td><p class="form-control mb-0 text-center">${item.topic}</p></td>
-            <td><p class="form-control mb-0 text-center">${item.activity}</p></td>
-        `;
-        scheduleTable.appendChild(row);
-    });
+        const scheduleTable = document.getElementById('scheduleTable').querySelector('tbody');
+        const schedule = JSON.parse(courseInfo.schedule);
+        schedule.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="text-center">${item.week}</td>
+                <td><p class="form-control mb-0 text-center">${item.topic}</p></td>
+            `;
+            scheduleTable.appendChild(row);
+        });
+    }); {% endcomment %}
 
     function adjustHeading() {
         const titles = document.querySelectorAll('.card-title');

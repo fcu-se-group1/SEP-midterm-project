@@ -449,7 +449,6 @@ def course_query_check_course_query_input():
     compulsory = data['compulsory']
     weekday = data['weekday']
     time_slot = data['time_slot']
-    print(course_code, course_name, instructor, class_name, location, compulsory, weekday, time_slot)
     query_conditions = []
     query_params = []
 
@@ -493,7 +492,7 @@ def course_query_check_course_query_input():
         GROUP BY Course.course_code
     """
     courses = query_db(query_string, query_params)
-
+    
     if not courses:
         return jsonify({'status': 'not_found'})
 
@@ -501,10 +500,11 @@ def course_query_check_course_query_input():
 
 @app.route('/course_query/course_syllabus/<course_code>')
 def course_query_course_syllabus(course_code):
+
     course_info = query_db('SELECT * FROM CourseInfo WHERE course_id = ?', [course_code], one=True)
     if not course_info:
         return "尚無教學大綱"
-    return render_template('showcourse_info.html', course_info=course_info)
+    return render_template('syllabusResult.html', course_info=course_info)
 
 @app.route('/course_syllabus/check_course_code', methods=['POST'])
 def course_syllabus_check_course_code():

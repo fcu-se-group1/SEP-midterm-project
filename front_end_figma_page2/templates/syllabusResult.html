@@ -4,99 +4,84 @@
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
-    <div class="col-lg-9">
+    <div class="col-12 col-md-8 col-lg-6">
         <div class="card border-dark rounded-4 h-100">
             <div class="card-header p-3 px-4">
                 <h3 class="fw-bold mb-0">填寫教學大綱</h3>
             </div>
-            <div class="col-12 card-body text-dark p-4 px-5 d-flex flex-column justify-content-start align-items-center overflow-auto" style="gap: 1rem; height: 60vh;">
-                <div class="col-12 d-flex justify-content-between align-items-center" style="gap: 1rem;">
-                    <div class="col-12 col-md-6 p-0">
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程描述:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="courseDescription" class="mb-0 text-center"></p>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師姓名:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="teacherName" class="mb-0 text-center"></p>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">請益時間:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="consultationTime" class="mb-0 text-center"></p>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">辦公室地點:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="officeLocation" class="mb-0 text-center"></p>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師電子郵件:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="teacherEmail" class="mb-0 text-center"></p>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師分機:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="teacherExtension" class="mb-0 text-center"></p>
-                            </div>
+            <div class="card-body col-12 text-dark p-4 d-flex justify-content-center align-items-center">
+                <div class="col-12 p-0 d-flex flex-column justify-content-start align-items-start overflow-auto" style="height: 41vh; gap: 0.5rem;">
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程描述:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="courseDescription" rows="1" oninput="autoResize(this)" readonly></textarea>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 p-0">
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教學助理姓名:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="taName" class="mb-0 text-center"></p>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">助理電子郵件:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="taEmail" class="mb-0 text-center"></p>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程教材:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="courseMaterial" class="mb-0 text-center"></p>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">評分規則:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="gradingPolicy" class="mb-0 text-center"></p>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex align-items-center">
-                            <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課堂規則:&nbsp;</h5>
-                            <div class="col-sm-8">
-                                <p id="classRules" class="mb-0 text-center"></p>
-                            </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師姓名:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="teacherName" readonly>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-                    <h5 class="col-3 card-title fw-bold mb-0 d-flex justify-content-center align-items-center">授課進度與內容:</h5>
-                    <div class="col-12 " style="max-height: 400px;">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="col-2 text-center">周次/單元</th>
-                                    <th class="col-5 text-center">主題和閱讀教材</th>
-                                    <th class="col-5 text-center">教學與學習活動</th>
-                                </tr>
-                            </thead>
-                            <tbody id="scheduleTable">
-                                <!-- Rows will be populated by JavaScript -->
-                            </tbody>
-                        </table>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">請益時間:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="consultationTime" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">辦公室地點:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="officeLocation" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師電子郵件:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control" id="teacherEmail" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師分機:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="teacherExtension" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教學助理姓名:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="taName" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">助理電子郵件:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control" id="taEmail" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">授課進度與內容:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="courseSchedule" rows="1" oninput="autoResize(this)" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程教材:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="courseMaterials" rows="1" oninput="autoResize(this)" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">評分規則:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="gradingPolicy" rows="1" oninput="autoResize(this)" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課堂規則:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="classRules" rows="1" oninput="autoResize(this)" readonly></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,32 +98,28 @@
 
 {% block content1 %}
 <script>
-    {% comment %} document.addEventListener('DOMContentLoaded', function() {
-        const courseInfo = {{ course_info | tojson }};
-        
-        document.getElementById('courseDescription').textContent = courseInfo.course_description;
-        document.getElementById('teacherName').textContent = courseInfo.instructor_name;
-        document.getElementById('consultationTime').textContent = courseInfo.instructor_office_hours;
-        document.getElementById('officeLocation').textContent = courseInfo.instructor_office_location;
-        document.getElementById('teacherEmail').textContent = courseInfo.instructor_email;
-        document.getElementById('teacherExtension').textContent = courseInfo.instructor_extension;
-        document.getElementById('taName').textContent = courseInfo.ta_name;
-        document.getElementById('taEmail').textContent = courseInfo.ta_email;
-        document.getElementById('courseMaterial').textContent = courseInfo.course_materials;
-        document.getElementById('gradingPolicy').textContent = courseInfo.grading_rules;
-        document.getElementById('classRules').textContent = courseInfo.class_rules;
+    async function fetchSyllabusData() {
+        const response = await fetch('/api/get_syllabus_data'); // 假設有一個API端點可以獲取資料
+        const data = await response.json();
+        if (data.status === 'success') {
+            document.getElementById('courseDescription').value = data.courseDescription;
+            document.getElementById('teacherName').value = data.teacherName;
+            document.getElementById('consultationTime').value = data.consultationTime;
+            document.getElementById('officeLocation').value = data.officeLocation;
+            document.getElementById('teacherEmail').value = data.teacherEmail;
+            document.getElementById('teacherExtension').value = data.teacherExtension;
+            document.getElementById('taName').value = data.taName;
+            document.getElementById('taEmail').value = data.taEmail;
+            document.getElementById('courseSchedule').value = data.courseSchedule;
+            document.getElementById('courseMaterials').value = data.courseMaterials;
+            document.getElementById('gradingPolicy').value = data.gradingPolicy;
+            document.getElementById('classRules').value = data.classRules;
+        } else {
+            alert('無法獲取教學大綱資料');
+        }
+    }
 
-        const scheduleTable = document.getElementById('scheduleTable').querySelector('tbody');
-        const schedule = JSON.parse(courseInfo.schedule);
-        schedule.forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="text-center">${item.week}</td>
-                <td><p class="form-control mb-0 text-center">${item.topic}</p></td>
-            `;
-            scheduleTable.appendChild(row);
-        });
-    }); {% endcomment %}
+    window.addEventListener('load', fetchSyllabusData);
 
     function adjustHeading() {
         const titles = document.querySelectorAll('.card-title');

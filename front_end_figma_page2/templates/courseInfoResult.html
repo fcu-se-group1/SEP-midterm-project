@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
-    <div class="col-12 col-md-10">
+    <div class="col-12 col-md-11">
         <div class="card border-primary rounded-4 h-100">
             <div class="card-header p-3 px-4">
                 <h3 class="fw-bold mb-0">課程資訊結果頁</h3>
@@ -13,15 +13,15 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th class="col-2 text-center">課程代碼</th>
-                            <th class="col-2 text-center">課程名稱</th>
-                            <th class="col-2 text-center">學分數</th>
-                            <th class="col-2 text-center">最大學生數</th>
-                            <th class="col-3 text-center">授課教師</th>
-                            <th class="col-2 text-center">上課地點</th>
-                            <th class="col-1 text-center">必選修</th>
-                            <th class="col-1 text-center">上課時間</th>
-                            <th class="col-1 text-center">開課班級</th>
+                            <th class="col-1">課程代碼</th>
+                            <th class="col-2">課程名稱</th>
+                            <th class="col-1">學分數</th>
+                            <th class="col-2">最大學生數</th>
+                            <th class="col-1">授課教師</th>
+                            <th class="col-1">上課地點</th>
+                            <th class="col-1">必選修</th>
+                            <th class="col-2">上課時間</th>
+                            <th class="col-2">開課班級</th>
                         </tr>
                     </thead>
                     <tbody style="background-color: #aeaeae;" id="courseTableBody"><!--變不了背景色-->
@@ -40,6 +40,12 @@
 {% endblock %}
 
 {% block content1 %}
+<style>
+    th, td{
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const courses = JSON.parse(localStorage.getItem('courseInfoResult'));

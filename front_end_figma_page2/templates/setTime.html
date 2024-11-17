@@ -57,7 +57,6 @@
 {% block content1 %}
 <script>
     function validateAndConfirm() {
-        const periodType = document.getElementById('addCourse').checked ? 'add' : 'drop';
         const startTime = document.getElementById('drop_startDate').value;
         const endTime = document.getElementById('drop_endDate').value;
 
@@ -94,6 +93,6 @@
             alert('加退選時間設定失敗');
         }
     }
-    queryEnrollmentPeriod();
+
 </script>
 {% endblock %}

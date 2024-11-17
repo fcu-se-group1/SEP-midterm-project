@@ -179,6 +179,29 @@ def withdraw_check_enrollment_period():
     else:
         return jsonify({'status': 'closed'})
 
+@app.route('/enrollment_periods', methods=['GET']) #抓加選退選時間
+def get_enrollment_periods():
+    try:
+        add_period = query_db('SELECT start_time, end_time FROM EnrollmentPeriod WHERE period_type="加選"', one=True)
+        drop_period = query_db('SELECT start_time, end_time FROM EnrollmentPeriod WHERE period_type="退選"', one=True)
+        
+        if add_period and drop_period:
+            add_start_time = datetime.datetime.strptime(add_period[0], "%Y-%m-%dT%H:%M").replace(tzinfo=datetime.timezone(datetime.timedelta(hours=8)))
+            add_end_time = datetime.datetime.strptime(add_period[1], "%Y-%m-%dT%H:%M").replace(tzinfo=datetime.timezone(datetime.timedelta(hours=8)))
+            drop_start_time = datetime.datetime.strptime(drop_period[0], "%Y-%m-%dT%H:%M").replace(tzinfo=datetime.timezone(datetime.timedelta(hours=8)))
+            drop_end_time = datetime.datetime.strptime(drop_period[1], "%Y-%m-%dT%H:%M").replace(tzinfo=datetime.timezone(datetime.timedelta(hours=8)))
+            
+            return jsonify({
+                'periods': [
+                    {'period_type': '加選', 'start_time': add_start_time, 'end_time': add_end_time},
+                    {'period_type': '退選', 'start_time': drop_start_time, 'end_time': drop_end_time}
+                ]
+            })
+        else:
+            return jsonify({'status': 'error', 'message': 'No enrollment periods found'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+
 @app.route('/enterCourseID/check_addcourse_code', methods=['POST']) #檢查資料庫是否有該課程代碼可以加選
 def check_addcourse_code():
     data = request.json

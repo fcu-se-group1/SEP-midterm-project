@@ -26,7 +26,7 @@
                         </a>
                     </div>
                     
-                    <div class="col-12">
+                    <div class="col-12 ">
                         <a href="{{ url_for('enterID') }}" class="text-decoration-none" onclick="chooseFunction('function_addCourse')">
                             <div class="card border-secondary h-100">
                                 <div class="card-header"><h4 class="fw-bold mb-0">加選</h4></div>
@@ -116,11 +116,9 @@
 
 {% block content1 %}
     <script>
+
         function chooseFunction(functionName){
-            //event.preventDefault();
             localStorage.setItem('selectedFunction', functionName);
-            //console.log('selectedFunction:', functionName);
-            //window.location.href = event.currentTarget.href;
         }
 
         function adjustHeading() {
@@ -159,5 +157,53 @@
         window.addEventListener('resize', adjustHeading);
         window.addEventListener('load', adjustHeading);
 
+        async function getEnrollmentPeriods() {
+            try {
+                const response = await fetch('/enrollment_periods');
+                const data = await response.json();
+                if (data.periods) {
+                    data.periods.forEach(period => {
+                        console.log(`period_type: ${period.period_type}, start_time: ${period.start_time}, end_time: ${period.end_time}`);
+                    });
+                } else {
+                    console.log('No periods found');
+                }
+                return data.periods;
+            } catch (error) {
+                console.error('Error fetching enrollment periods:', error);
+            }
+        }
+
+        async function disableFunctionsIfClosed() {
+            const periods = await getEnrollmentPeriods();
+            const now = new Date();
+
+            periods.forEach(period => {
+                const startTime = new Date(period.start_time);
+                const endTime = new Date(period.end_time);
+
+                if (period.period_type === '加選' && !(startTime <= now && now <= endTime)) {
+                    document.querySelectorAll('a[onclick*="chooseFunction(\'function_addCourse\')"]').forEach(element => {
+                        element.removeAttribute('href');
+                        // element.style.color = 'white';
+                        element.style.pointerEvents = 'none';
+                        element.style.cursor = 'not-allowed';
+                        element.style.opacity = '0.8';
+                    });
+                }
+
+                if (period.period_type === '退選' && !(startTime <= now && now <= endTime)) {
+                    document.querySelectorAll('a[onclick*="chooseFunction(\'function_dropCourse\')"]').forEach(element => {
+                        element.removeAttribute('href');
+                        // element.style.color = 'white';
+                        element.style.pointerEvents = 'none';
+                        element.style.cursor = 'not-allowed';
+                        element.style.opacity = '0.8';
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('load', disableFunctionsIfClosed);
     </script>
 {% endblock %}

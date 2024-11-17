@@ -6,15 +6,16 @@
 <div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
     <div class="col-12 col-md-8 col-lg-6">
         <div class="card border-dark rounded-4 h-100">
-            <div class="card-header p-3 px-4">
-                <h3 class="fw-bold mb-0">填寫教學大綱</h3>
+            <div class="card-header d-flex justify-content-between p-3 px-4">
+                <h3 class="fw-bold mb-0">教學大綱結果頁</h3>
+                <p id="courseCode" class="fw-bold mb-0 d-flex justify-content-center align-items-center text-dark px-1"></p>
             </div>
-            <div class="card-body col-12 text-dark p-4 d-flex justify-content-center align-items-center">
+            <div class="card-body col-12 text-dark p-4 d-flex justify-content-center align-items-center" id="cardBody">
                 <div class="col-12 p-0 d-flex flex-column justify-content-start align-items-start overflow-auto" style="height: 41vh; gap: 0.5rem;">
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程描述:&nbsp;&nbsp;</h5>
                         <div class="col-sm-8">
-                            <textarea class="form-control" id="courseDescription" rows="1" oninput="autoResize(this)" readonly></textarea>
+                            <textarea class="form-control no-scrollbar" id="courseDescription" rows="1" oninput="autoResize(this)" readonly></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
@@ -62,25 +63,25 @@
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">授課進度與內容:&nbsp;&nbsp;</h5>
                         <div class="col-sm-8">
-                            <textarea class="form-control" id="courseSchedule" rows="1" oninput="autoResize(this)" readonly></textarea>
+                            <textarea class="form-control no-scrollbar" id="courseSchedule" rows="1" oninput="autoResize(this)" readonly></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程教材:&nbsp;&nbsp;</h5>
                         <div class="col-sm-8">
-                            <textarea class="form-control" id="courseMaterials" rows="1" oninput="autoResize(this)" readonly></textarea>
+                            <textarea class="form-control no-scrollbar" id="courseMaterials" rows="1" oninput="autoResize(this)" readonly></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">評分規則:&nbsp;&nbsp;</h5>
                         <div class="col-sm-8">
-                            <textarea class="form-control" id="gradingPolicy" rows="1" oninput="autoResize(this)" readonly></textarea>
+                            <textarea class="form-control no-scrollbar" id="gradingPolicy" rows="1" oninput="autoResize(this)" readonly></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課堂規則:&nbsp;&nbsp;</h5>
                         <div class="col-sm-8">
-                            <textarea class="form-control" id="classRules" rows="1" oninput="autoResize(this)" readonly></textarea>
+                            <textarea class="form-control no-scrollbar" id="classRules" rows="1" oninput="autoResize(this)" readonly></textarea>
                         </div>
                     </div>
                 </div>
@@ -97,7 +98,18 @@
 {% endblock %}
 
 {% block content1 %}
+<style>
+    .no-scrollbar {
+        overflow: hidden; /* 移除滾動欄 */
+        resize: none; /* 移除調整大小功能 */
+    }
+</style>
 <script>
+    function autoResize(textarea) {
+        textarea.style.height = 'auto'; // 先重置高度
+        textarea.style.height = (textarea.scrollHeight) + 'px'; // 設置為滾動高度
+    }
+
     async function fetchSyllabusData() {
         const courseId = localStorage.getItem('selectedCourseId');
         const response = await fetch('/course_query/course_syllabus', {
@@ -120,8 +132,16 @@
             document.getElementById('courseMaterials').value = data.course_info[10];
             document.getElementById('gradingPolicy').value = data.course_info[11];
             document.getElementById('classRules').value = data.course_info[12];
+            document.getElementById('courseCode').textContent = `課程代碼: ${ courseId }`;
+
+            autoResize(document.getElementById('courseDescription'));
+            autoResize(document.getElementById('courseSchedule'));
+            autoResize(document.getElementById('courseMaterials'));
+            autoResize(document.getElementById('gradingPolicy'));
+            autoResize(document.getElementById('classRules'));
         } else {
-            alert('無法獲取教學大綱資料');
+            const cardBody = document.getElementById('cardBody');
+            cardBody.innerHTML = '<h3 class="fw-bold mb-0">無法獲取教學大綱資料QQ</h3>';
         }
     }
 

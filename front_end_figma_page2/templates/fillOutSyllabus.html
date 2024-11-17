@@ -8,7 +8,7 @@
         <div class="card border-dark rounded-4 h-100">
             <div class="card-header d-flex justify-content-between p-3 px-4">
                 <h3 class="fw-bold mb-0">填寫教學大綱</h3>
-                <p id="courseCode" class="fw-bold mb-0 d-flex justify-content-center align-items-center text-dark px-1"><script>`課程代碼: ${ localStorage.getItem('selectedCourseCode') }`</script></p>
+                <p id="courseCode" class="fw-bold mb-0 d-flex justify-content-center align-items-center text-dark px-1"></p>
             </div>
             <div class="card-body col-12 text-dark p-4 d-flex justify-content-center align-items-center">
                 <div class="col-12 p-0 d-flex flex-column justify-content-start align-items-start overflow-auto" style="height: 41vh; gap: 0.5rem;">
@@ -182,11 +182,20 @@
         const data = await response.json();
         if (data.status === 'success') {
             alert('教學大綱填寫成功');
+            window.location.href = "{{ url_for('chooseFunction') }}";
         } else {
             alert(`教學大綱填寫失敗：${data.message}`);
+            return;
         }
     }
 
+    function setCourseCode() {
+        const courseCodeElement = document.getElementById('courseCode');
+        const courseCode = localStorage.getItem('selectedCourseCode');
+        courseCodeElement.textContent = `課程代碼: ${courseCode}`;
+    }
+
+    window.addEventListener('load', setCourseCode);
     window.addEventListener('resize', adjustHeading);
     window.addEventListener('load', adjustHeading);
 </script>

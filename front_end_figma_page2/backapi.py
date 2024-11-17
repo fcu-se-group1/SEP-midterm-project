@@ -540,7 +540,7 @@ def course_syllabus_check_course_code():
     if course:
         return jsonify({'status': 'exists', 'course': course})
     else:
-        return jsonify({'status': 'error', 'message': '課程代碼錯誤'})
+        return jsonify({'status': 'error'})
 
 @app.route('/course_syllabus/submit_course_info', methods=['POST'])
 def course_syllabus_submit_course_info():
@@ -555,11 +555,11 @@ def course_syllabus_submit_course_info():
     if existing_course_info:
         query_db('UPDATE CourseInfo SET course_description = ?, instructor_name = ?, instructor_office_hours = ?, instructor_office_location = ?, instructor_email = ?, instructor_extension = ?, ta_name = ?, ta_email = ?, course_materials = ?, schedule = ?, grading_rules = ?, class_rules = ? WHERE course_id = ?',
                  [data['course_description'], instructor_name, data['instructor_office_hours'], data['instructor_office_location'], data['instructor_email'], data['instructor_extension'], data['ta_name'], data['ta_email'], data['course_materials'], data['schedule'], data['grading_rules'], data['class_rules'], course_code])
-        return jsonify({'status': 'success', 'message': '教學大綱更新成功'})
+        return jsonify({'status': 'success'})
     else:
         query_db('INSERT INTO CourseInfo (course_id, course_description, instructor_name, instructor_office_hours, instructor_office_location, instructor_email, instructor_extension, ta_name, ta_email, course_materials, schedule, grading_rules, class_rules) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                  [course_code, data['course_description'], instructor_name, data['instructor_office_hours'], data['instructor_office_location'], data['instructor_email'], data['instructor_extension'], data['ta_name'], data['ta_email'], data['course_materials'], data['schedule'], data['grading_rules'], data['class_rules']])
-        return jsonify({'status': 'success', 'message': '教學大綱填寫成功'})
+        return jsonify({'status': 'success'})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -334,5 +334,14 @@
         return response.json();
     }
 
+    window.addEventListener('load', function() {
+        const selectedFunction = localStorage.getItem('selectedFunction');
+        if (selectedFunction === 'function_addCourse') {
+            setTimeout(function() {
+                alert('逾時未操作，請重新選擇功能');
+                window.location.href = '/';
+            }, 60000); // 1分鐘 = 60000毫秒
+        }
+    });    
 </script>
 {% endblock %}

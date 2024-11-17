@@ -117,7 +117,13 @@
 
         inputs.forEach(input => input.value = '');
         checkboxes.forEach(checkbox => checkbox.checked = false);
-        radios.forEach(radio => radio.checked = false);
+        radios.forEach(radio => {
+        if (radio.id === 'compulsory') {
+            radio.checked = true;
+        } else if (radio.id === 'elective') {
+            radio.checked = false;
+        }
+    });
     }
 
     function adjustHeading() {

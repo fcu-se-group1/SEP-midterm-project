@@ -89,7 +89,7 @@
         const data = await response.json();
         if (data.status === 'success') {
             alert('加退選時間設定成功');
-            getEnrollmentPeriods();
+            window.location.href = "{{ url_for('chooseFunction') }}";
         } else {
             alert('加退選時間設定失敗');
         }

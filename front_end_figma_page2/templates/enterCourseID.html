@@ -152,14 +152,14 @@
         const userId = localStorage.getItem('SID');
 
         let result = await checkSyllabusCourseCode(userId, courseCode, studentRadio);
-        if (result.status !== 'exists') {
-            alert('課程代碼不存在');
-            return;
-        }else{
+        if (result.status === 'exists') {
             const confirmButton = document.getElementById('confirmButton');
             var fillOutSyllabus_url = "{{ url_for('fillOutSyllabus') }}";
             localStorage.setItem('selectedCourseCode', courseCode);
             window.location.href = fillOutSyllabus_url;
+        }else{
+            alert('課程代碼錯誤');
+            return;
         }
     }
     //紀錄課程資訊

@@ -426,7 +426,13 @@ def write_course_course_info():
             
     # 檢查班級限制的班級是否存在
     for class_limit in class_limits:
-        is_class_exist = query_db('''SELECT * FROM Class WHERE class_name=?''', [class_limit])
+        if class_limit=="all":
+            is_class_exist=query_db('SELECT * FROM Class')
+            class_limits=list(is_class_exist)
+            print(type(class_limits))
+            break
+        else:
+            is_class_exist = query_db('''SELECT * FROM Class WHERE class_name=?''', [class_limit])
         if not is_class_exist:
             return jsonify({'status': 'error', 'message': '班級限制的班級不存在，請重新輸入'})
         
@@ -454,12 +460,11 @@ def write_course_course_info():
             INSERT INTO Course_Class_Offering (course_code, class_name)
             VALUES (?, ?)
         ''', [course_code, class_name])
-    
     for class_limit in class_limits:
         query_db('''
             INSERT INTO Course_Class_Restriction (course_code, class_name)
             VALUES (?, ?)
-        ''', [course_code, class_limit])
+        ''', [course_code, class_limit[0]])
 
     return jsonify({'status': 'success', 'message': '已成功紀錄課程資訊'})
 

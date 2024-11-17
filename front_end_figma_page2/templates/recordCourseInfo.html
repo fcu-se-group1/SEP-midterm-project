@@ -125,7 +125,7 @@
             <div class="card-footer px-4">
                 <div class="d-flex justify-content-end" style="gap: 2rem;">
                     <a href="{{ url_for('enterCourseID') }}" class="btn btn-danger">返回</a>
-                    <a href="#" id="confirmButton" class="btn btn-danger" onclick="judge()">確認</a>
+                    <a href="#" id="confirmButton" class="btn btn-danger" onclick="submitCourseInfo()">確認</a>
                 </div>
             </div>
         </div>
@@ -255,6 +255,58 @@ function addClassTime() {
                 title.style.display = '';
             }
         });
+    }
+
+    async function submitCourseInfo() {
+        const coursecode = localStorage.getItem('selectedCourseCode');
+        const courseName = document.getElementById('courseName').value;
+        const credits = document.getElementById('courseCredits').value;
+        const instructor = document.getElementById('teacherName').value;
+        const maxStudents = document.getElementById('maxStudents').value;
+        const location = document.getElementById('classLocation').value;
+        const compulsory = document.querySelector('input[name="flexRadioDefault"]:checked').id === 'requiredCourse' ? 1 : 0;
+
+        const classDays = Array.from(document.querySelectorAll('#classTimeContainer select[id="classDay"]')).map(select => select.value);
+        const timeSlots = Array.from(document.querySelectorAll('#classTimeContainer select[id="startTime"]')).map(select => select.value);
+        const classNames = Array.from(document.querySelectorAll('#classNameContainer input[id="className"]')).map(input => input.value);
+        const classRestrictions = Array.from(document.querySelectorAll('#classRestrictionContainer input[id="classRestriction"]')).map(input => input.value);
+        console.log(JSON.stringify({
+            course_code: coursecode,
+            course_name: courseName,
+            credits: credits,
+            instructor: instructor,
+            max_students: maxStudents,
+            location: location,
+            compulsory: compulsory,
+            weekday: classDays,
+            time_slot: timeSlots,
+            class_name: classNames,
+            class_limit: classRestrictions
+        }))
+        const response = await fetch('/write_course/course_info', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                course_code: coursecode,
+                course_name: courseName,
+                credits: credits,
+                instructor: instructor,
+                max_students: maxStudents,
+                location: location,
+                compulsory: compulsory,
+                weekday: classDays,
+                time_slot: timeSlots,
+                class_name: classNames,
+                class_limit: classRestrictions
+            })
+        });
+
+        const data = await response.json();
+        if (data.status === 'success') {
+            alert('課程資訊紀錄成功');
+        } else {
+            alert(`課程資訊紀錄失敗: ${data.message}`);
+        }
     }
 
     window.addEventListener('resize', adjustHeading);

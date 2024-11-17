@@ -353,18 +353,19 @@ def write_course_check_course_code():
     else:
         return jsonify({'status': 'not_exists'})
 
-@app.route('/write_course/course_info/<course_code>', methods=['POST'])
-def write_course_course_info(course_code):
+@app.route('/write_course/course_info', methods=['POST'])
+def write_course_course_info():
     data=request.json
+    course_code = data['course_code'] 
     course_name = data['course_name']
     credits = data['credits']
-    weekdays = data['weekday[]']
-    time_slots = data['time_slot[]']
+    weekdays = data['weekday']
+    time_slots = data['time_slot']
     instructor = data['instructor']
-    class_names = data['class_name[]']
+    class_names = data['class_name']
     location = data['location']
     compulsory = data['compulsory']
-    class_limits = data['class_limit[]']
+    class_limits = data['class_limit']
     max_students = data['max_students']
 
     existing_course = query_db('SELECT * FROM Course WHERE course_code = ?', [course_code], one=True)
@@ -405,9 +406,12 @@ def write_course_course_info(course_code):
         is_class_exist = query_db('''SELECT * FROM Class WHERE class_name=?''', [class_limit])
         if not is_class_exist:
             return jsonify({'status': 'error', 'message': '班級限制的班級不存在，請重新輸入'})
-
+        
     # 檢查最大修課人數
     location_max_students = query_db('''SELECT capacity FROM Location WHERE location_name=?''', [location])
+    if (not location_max_students):
+        return jsonify({'status': 'error', 'message': '該上課地點不存在，請重新輸入'})
+    
     if int(max_students) > location_max_students[0][0]:
         return jsonify({'status': 'error', 'message': '該上課地點無法容納此課程的最大修課人數，請重新輸入'})
 

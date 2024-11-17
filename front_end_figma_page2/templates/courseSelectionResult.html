@@ -83,7 +83,7 @@
         });
         const data = await response.json();
         if (data.status === 'success') {
-            const creditsText = `目前學分:${data.current_credits} 最低學分:${data.min_credits} 最高學分:${data.max_credits}`;
+            const creditsText = `目前學分: ${data.current_credits}，最低學分: ${data.min_credits}，最高學分: ${data.max_credits}`;
             document.getElementById('credits').textContent = creditsText;
         } else {
             alert('無法取得學分資訊');

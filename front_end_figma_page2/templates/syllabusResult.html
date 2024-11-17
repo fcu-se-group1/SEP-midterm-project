@@ -99,25 +99,33 @@
 {% block content1 %}
 <script>
     async function fetchSyllabusData() {
-        const response = await fetch('/api/get_syllabus_data'); // 假設有一個API端點可以獲取資料
+        const courseId = localStorage.getItem('selectedCourseId');
+        const response = await fetch('/course_query/course_syllabus', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ coursecode: courseId })
+        });
         const data = await response.json();
+        console.log(data);
         if (data.status === 'success') {
-            document.getElementById('courseDescription').value = data.courseDescription;
-            document.getElementById('teacherName').value = data.teacherName;
-            document.getElementById('consultationTime').value = data.consultationTime;
-            document.getElementById('officeLocation').value = data.officeLocation;
-            document.getElementById('teacherEmail').value = data.teacherEmail;
-            document.getElementById('teacherExtension').value = data.teacherExtension;
-            document.getElementById('taName').value = data.taName;
-            document.getElementById('taEmail').value = data.taEmail;
-            document.getElementById('courseSchedule').value = data.courseSchedule;
-            document.getElementById('courseMaterials').value = data.courseMaterials;
-            document.getElementById('gradingPolicy').value = data.gradingPolicy;
-            document.getElementById('classRules').value = data.classRules;
+            document.getElementById('courseDescription').value = data.course_info[1];
+            document.getElementById('teacherName').value = data.course_info[2];
+            document.getElementById('consultationTime').value = data.course_info[3];
+            document.getElementById('officeLocation').value = data.course_info[4];
+            document.getElementById('teacherEmail').value = data.course_info[5];
+            document.getElementById('teacherExtension').value = data.course_info[6];
+            document.getElementById('taName').value = data.course_info[7]
+            document.getElementById('taEmail').value = data.course_info[8];
+            document.getElementById('courseSchedule').value = data.course_info[9];
+            document.getElementById('courseMaterials').value = data.course_info[10];
+            document.getElementById('gradingPolicy').value = data.course_info[11];
+            document.getElementById('classRules').value = data.course_info[12];
         } else {
             alert('無法獲取教學大綱資料');
         }
     }
+
+    window.addEventListener('load', fetchSyllabusData);
 
     window.addEventListener('load', fetchSyllabusData);
 

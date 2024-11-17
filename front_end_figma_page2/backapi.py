@@ -496,13 +496,14 @@ def course_query_check_course_query_input():
 
     return jsonify({'status': 'found', 'courses': courses}) 
 
-@app.route('/course_query/course_syllabus/<course_code>')
-def course_query_course_syllabus(course_code):
-
-    course_info = query_db('SELECT * FROM CourseInfo WHERE course_id = ?', [course_code], one=True)
+@app.route('/course_query/course_syllabus', methods=['POST'])
+def course_query_course_syllabus():
+    data = request.json
+    course_info = query_db('SELECT * FROM CourseInfo WHERE course_id = ?', [data["coursecode"]], one=True)
+    print(course_info)
     if not course_info:
-        return "尚無教學大綱"
-    return render_template('syllabusResult.html', course_info=course_info)
+        return jsonify({'status': 'not_found'})
+    return jsonify({'status': 'success', 'course_info': course_info})
 
 @app.route('/course_syllabus/check_course_code', methods=['POST'])
 def course_syllabus_check_course_code():

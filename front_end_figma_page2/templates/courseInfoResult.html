@@ -60,8 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const courseNameCell = document.createElement('td');
         const courseNameLink = document.createElement('a');
-        courseNameLink.href = `/course_query/course_syllabus/${course[0]}`;
+        courseNameLink.href = `javascript:void(0);`;
         courseNameLink.textContent = course[1];
+        courseNameLink.addEventListener('click', function() {
+            localStorage.setItem('selectedCourseId', course[0]);
+            window.location.href = "/syllabusResult";
+        });
         courseNameCell.appendChild(courseNameLink);
         row.appendChild(courseNameCell);
 

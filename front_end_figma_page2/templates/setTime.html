@@ -89,8 +89,26 @@
         const data = await response.json();
         if (data.status === 'success') {
             alert('加退選時間設定成功');
+            getEnrollmentPeriods();
         } else {
             alert('加退選時間設定失敗');
+        }
+    }
+    getEnrollmentPeriods();
+    async function getEnrollmentPeriods() {
+        try {
+            const response = await fetch('/enrollment_periods');
+            const data = await response.json();
+            if (data.periods) {
+                data.periods.forEach(period => {
+                    console.log(`period_type: ${period.period_type}, start_time: ${period.start_time}, end_time: ${period.end_time}`);
+                });
+            } else {
+                console.log('No periods found');
+            }
+            return data.periods;
+        } catch (error) {
+            console.error('Error fetching enrollment periods:', error);
         }
     }
 

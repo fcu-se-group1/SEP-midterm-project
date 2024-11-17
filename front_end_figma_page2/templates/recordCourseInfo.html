@@ -7,8 +7,9 @@
     <div class="col-12 col-md-8 col-lg-6">
         <div class="card border-info rounded-4 h-100">
 
-            <div class="card-header p-3 px-4">
+            <div class="card-header d-flex justify-content-between p-3 px-4">
                 <h3 class="fw-bold mb-0">紀錄課程資訊</h3>
+                <p id="courseCode" class="fw-bold mb-0 d-flex justify-content-center align-items-center text-dark px-1"></p>
             </div>
 
             <div class="card-body col-12 text-info p-4 d-flex justify-content-center align-items-center">
@@ -135,10 +136,16 @@
 
 {% block content1 %}
 <script>
+    window.addEventListener('load', get_course_code);
 
-function addClassTime() {
+    async function get_course_code(){
+        document.getElementById('courseCode').textContent = `課程代碼: ${ localStorage.getItem('selectedCourseCode') }`;
+    }
+
+    function addClassTime() {
         const container = document.getElementById('classTimeContainer');
         const newClassTime = document.createElement('div');
+
         newClassTime.className = 'd-flex align-items-center';
         newClassTime.innerHTML = `
             <select class="form-control px-2 text-center" id="classDay">

@@ -310,10 +310,10 @@
 
         const data = await response.json();
         if (data.status === 'success') {
-            alert('課程資訊紀錄成功');
+            alert('已成功紀錄課程資訊');
             window.location.href = "{{ url_for('chooseFunction') }}";
         } else {
-            alert(`課程資訊紀錄失敗: ${data.message}`);
+            alert(data.message);
             return;
         }
     }

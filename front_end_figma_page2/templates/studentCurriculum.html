@@ -4,11 +4,11 @@
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
-    <div class="col-10">
+    <div class="col-12 col-lg-10">
         <div class="card border-primary rounded-4 h-100">
             <div class="card-header d-flex justify-content-between p-3 px-4">
                 <h3 class="fw-bold mb-0">學生身分之課表</h3>
-                <p id="credits" class="fw-bold mb-0 d-flex justify-content-center align-items-center text-secondary"></p>
+                <p id="credits" class="fw-bold mb-0 d-none d-sm-flex justify-content-center align-items-center text-secondary"></p>
             </div>
             <div class="card-body text-primary p-4 overflow-auto" style="height: 55vh;">
                 <table class="table table-bordered">
@@ -39,7 +39,7 @@
             <div class="card-footer px-4">
                 <div class="d-flex justify-content-between" style="gap: 2rem;">
                     <a href="{{ url_for('chooseFunction') }}" id="confirmButton" class="btn btn-secondary" onclick="clearLocalStorage()">確認</a>
-                    <div class="text-muted">
+                    <div class="text-muted d-none d-md-inline">
                         備註: 
                         <span style="background-color: #d4edda;">綠色</span> 是已選課程, 
                         <span style="background-color: #fff3cd;">黃色</span> 是已關注課程, 

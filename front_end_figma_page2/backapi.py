@@ -469,7 +469,7 @@ def write_course_course_info():
         query_db('''
             INSERT INTO Course_Class_Restriction (course_code, class_name)
             VALUES (?, ?)
-        ''', [course_code, class_limit[0]])
+        ''', [course_code, class_limit])
 
     return jsonify({'status': 'success', 'message': '已成功紀錄課程資訊'})
 

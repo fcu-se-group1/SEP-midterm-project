@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
-    <div class="col-12 col-md-8 col-lg-6">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6">
         <div class="card border-dark rounded-4 h-100">
             <div class="card-header d-flex justify-content-between p-3 px-4">
                 <h3 class="fw-bold mb-0">填寫教學大綱</h3>
@@ -14,73 +14,73 @@
                 <div class="col-12 p-0 d-flex flex-column justify-content-start align-items-start overflow-auto" style="height: 41vh; gap: 0.5rem;">
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程描述:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <textarea class="form-control no-scrollbar" id="courseDescription" placeholder="請輸入課程描述..." rows="1" oninput="autoResize(this)"></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">授課教師姓名:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <input type="text" class="form-control" id="teacherName" placeholder="請輸入教師姓名...">
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">請益時間:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <input type="text" class="form-control" id="consultationTime" placeholder="請輸入請益時間...">
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">辦公室地點:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <input type="text" class="form-control" id="officeLocation" placeholder="請輸入辦公室地點...">
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師電子郵件:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <input type="email" class="form-control" id="teacherEmail" placeholder="請輸入教師電子郵件...">
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師分機:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <input type="text" class="form-control" id="teacherExtension" placeholder="請輸入教師分機...">
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教學助理姓名:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <input type="text" class="form-control" id="taName" placeholder="請輸入教學助理姓名...">
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教學助理電子郵件:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <input type="email" class="form-control" id="taEmail" placeholder="請輸入助理電子郵件...">
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程教材:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <textarea class="form-control no-scrollbar" id="courseMaterials" placeholder="請輸入課程教材..." rows="1" oninput="autoResize(this)"></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">授課進度與內容:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <textarea class="form-control no-scrollbar" id="courseSchedule" placeholder="請輸入授課進度與內容..." rows="1" oninput="autoResize(this)"></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">評分規則:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <textarea class="form-control no-scrollbar" id="gradingPolicy" placeholder="請輸入評分規則..." rows="1" oninput="autoResize(this)"></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
                         <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課堂規則:&nbsp;&nbsp;</h5>
-                        <div class="col-sm-8">
+                        <div class="col-8 pe-3">
                             <textarea class="form-control no-scrollbar" id="classRules" placeholder="請輸入課堂規則..." rows="1" oninput="autoResize(this)"></textarea>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                 title.innerHTML = `<h6 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
                 title.style.display = '';
             } else {
-                title.innerHTML = `<h6 class="col-4 card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
+                title.innerHTML = `<h6 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
                 title.style.display = '';
             }
         });

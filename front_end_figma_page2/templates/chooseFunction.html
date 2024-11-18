@@ -30,7 +30,7 @@
                         <a href="{{ url_for('enterID') }}" class="text-decoration-none" onclick="chooseFunction('function_addCourse')">
                             <div class="card border-secondary h-100">
                                 <div class="card-header"><h4 class="fw-bold mb-0">加選</h4></div>
-                                <div class="card-body text-secondary">
+                                <div class="card-body text-secondary" id="add_disabled_status">
                                     <h5 class="card-title fw-bold">功能說明:</h5>
                                     <p class="card-text mb-0">使用者可透過輸入學號、身分、課程代碼來加選課程，不同身分有不同的加選限制</p>
                                     <span class="stretched-link"></span>
@@ -43,7 +43,7 @@
                         <a href="{{ url_for('enterID') }}" class="text-decoration-none" onclick="chooseFunction('function_dropCourse')">
                             <div class="card border-success h-100">
                                 <div class="card-header"><h4 class="fw-bold mb-0">退選</h4></div>
-                                <div class="card-body text-success">
+                                <div class="card-body text-success" id="drop_disabled_status">
                                     <h5 class="card-title fw-bold">功能說明:</h5>
                                     <p class="card-text mb-0">使用者可透過輸入學號、身分、課程代碼來退選課程，不同身分有不同的退選限制</p>
                                     <span class="stretched-link"></span>
@@ -189,20 +189,24 @@
                 if (period.period_type === '加選' && !(startTime <= now && now <= endTime)) {
                     document.querySelectorAll('a[onclick*="chooseFunction(\'function_addCourse\')"]').forEach(element => {
                         element.removeAttribute('href');
-                        // element.style.color = 'white';
                         element.style.pointerEvents = 'none';
                         element.style.cursor = 'not-allowed';
                         element.style.opacity = '0.8';
+                        document.getElementById('add_disabled_status').classList.add('d-flex','justify-content-center','align-items-center');
+                        document.getElementById('add_disabled_status').classList.remove('.card-title');
+                        document.getElementById('add_disabled_status').innerHTML = '<h4 class="fw-bold text-danger text-center d-flex align-items-center justify-content-center">非加選時段!</h4>';
                     });
                 }
 
                 if (period.period_type === '退選' && !(startTime <= now && now <= endTime)) {
                     document.querySelectorAll('a[onclick*="chooseFunction(\'function_dropCourse\')"]').forEach(element => {
                         element.removeAttribute('href');
-                        // element.style.color = 'white';
                         element.style.pointerEvents = 'none';
                         element.style.cursor = 'not-allowed';
                         element.style.opacity = '0.8';
+                        document.getElementById('drop_disabled_status').classList.add('d-flex','justify-content-center','align-items-center');
+                        document.getElementById('drop_disabled_status').classList.remove('.card-title');
+                        document.getElementById('drop_disabled_status').innerHTML = '<h4 class="fw-bold text-danger text-center d-flex align-items-center justify-content-center">非退選時段!</h4>';
                     });
                 }
             });

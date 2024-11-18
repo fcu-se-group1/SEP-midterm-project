@@ -48,7 +48,7 @@
             action = '退選';
         }
 
-        const courseResult = `課程代碼${selectedCourseCode}${action}成功，是否繼續${action}課程？`;
+        const courseResult = `課程代碼${selectedCourseCode}${action}成功，是否繼續${action}其他課程？`;
         document.getElementById('courseResult').textContent = courseResult;
 
         await fetchCredits();

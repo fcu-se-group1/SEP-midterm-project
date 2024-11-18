@@ -111,7 +111,6 @@
         const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
         const user_id = localStorage.getItem('SID');
 
-
         let result = await checkDropCourseCode(user_id, courseCode,studentRadio);
         if (result.status !== 'exists') {
             alert('課程代碼不存在或未選該課程');

@@ -119,13 +119,13 @@ def view_schedule():
 
     current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?and status ="已選"', [user_id], one=True)[0]
     
-    if(actor == "admim"):
+    if(actor == "admin"):
         min_credits = 9  # 假設最低學分
         max_credits = 30  # 假設最高學分
     else:
         min_credits = 12  # 假設最低學分
         max_credits = 25  # 假設最高學分        
-
+    print(actor,min_credits,max_credits)
     schedule = {
         'selected': [{'code': course[0], 'schedule': [{'day': course[1], 'period': course[2]}]} for course in selected_courses],
         'registered': [{'code': course[0], 'schedule': [{'day': course[1], 'period': course[2]}]} for course in registered_courses],

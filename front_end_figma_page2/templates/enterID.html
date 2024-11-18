@@ -50,13 +50,11 @@
 
 {% block content1 %}
 <script>
-    async function judge(event) {
-        event.preventDefault(); // 阻止默认行为
+    async function judge() {
 
         const selectedFunction = localStorage.getItem('selectedFunction');
         const studentRadio = document.getElementById('student');
         const adminRadio = document.getElementById('admin');
-        const confirmButton = document.getElementById('confirmButton');
         const SID = document.getElementById('SID').value;
         const identity = document.querySelector('input[name="flexRadioDefault"]:checked').id;
         
@@ -80,23 +78,19 @@
             localStorage.setItem('SID', SID);
         }
 
-        var addorDropCourse_url = "{{ url_for('enterCourseID') }}";
-        var searchCurriculum_std_url = "{{ url_for('studentCurriculum') }}";
-        var searchCurriculum_adm_url = "{{ url_for('adminCurriculum') }}";
-
         localStorage.setItem('identity', identity);
         if (selectedFunction === 'function_addCourse' || selectedFunction === 'function_dropCourse') {
-            window.location.href = addorDropCourse_url;
+            window.location.href = "{{ url_for('enterCourseID') }}";
         } else if (selectedFunction === 'function_searchCurriculum') {
             if (studentRadio.checked) {
                 if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
-                    window.location.href = searchCurriculum_std_url;
+                    window.location.href = "{{ url_for('studentCurriculum') }}";
                 } else {
                     return;
                 }
             } else if (adminRadio.checked) {
                 if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
-                    window.location.href = searchCurriculum_adm_url;
+                    window.location.href = "{{ url_for('adminCurriculum') }}";
                 } else {
                     return;
                 }
@@ -111,6 +105,5 @@
     }
     getUserCredits();
 
-    document.getElementById('confirmButton').addEventListener('click', judge);
 </script>
 {% endblock %}

@@ -174,7 +174,7 @@
 
         let result = await checkRecordCourseInfoCourseCode(userId, courseCode, studentRadio);
         if (result.status === 'exists') {
-            if(confirm('課程代碼已存在，將覆蓋過往資料')){
+            if(confirm('該課程代碼已存在，若繼續輸入將覆蓋所有過往資料')){
                 localStorage.setItem('selectedCourseCode', courseCode);
                 window.location.href = recordCourseInfo_url;
             }else return;

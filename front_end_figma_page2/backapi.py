@@ -96,7 +96,7 @@ def get_user_credits():
 
     for user in users:
         user_id = user[0]
-        current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?', [user_id], one=True)[0]
+        current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ? and status ="已選"', [user_id], one=True)[0]
         if current_credits is None:
             current_credits = 0
         user_credits.append({'user_id': user_id, 'current_credits': current_credits})
@@ -117,9 +117,14 @@ def view_schedule():
     registered_courses = query_db('SELECT Course_Schedule.course_code, weekday, time_slot FROM Enrollment JOIN Course_Schedule ON Enrollment.course_code = Course_Schedule.course_code WHERE user_id = ? AND status = ?', [user_id, '已登記'])
     interested_courses = query_db('SELECT Course_Schedule.course_code, weekday, time_slot FROM Enrollment JOIN Course_Schedule ON Enrollment.course_code = Course_Schedule.course_code WHERE user_id = ? AND status = ?', [user_id, '已關注'])
 
-    current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?', [user_id], one=True)[0]
-    min_credits = 12  # 假設最低學分
-    max_credits = 25  # 假設最高學分
+    current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?and status ="已選"', [user_id], one=True)[0]
+    
+    if(actor == "admim"):
+        min_credits = 9  # 假設最低學分
+        max_credits = 30  # 假設最高學分
+    else:
+        min_credits = 12  # 假設最低學分
+        max_credits = 25  # 假設最高學分        
 
     schedule = {
         'selected': [{'code': course[0], 'schedule': [{'day': course[1], 'period': course[2]}]} for course in selected_courses],
@@ -279,7 +284,7 @@ def registration_check_user_credits():
     actor = data['actor']
     print(actor)
     course = query_db('SELECT credits FROM Course WHERE course_code = ?', [course_code], one=True)[0]
-    current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?', [user_id], one=True)[0]
+    current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ? and status ="已選"', [user_id], one=True)[0]
     if current_credits is None:
         current_credits = 0
     if current_credits + course <= 25 and actor == "student":  # Assuming 25 is the credit limit
@@ -296,7 +301,7 @@ def withdraw_check_user_credits():
     course_code = data['course_code']
     actor = data['actor']
     course_credits = query_db('SELECT credits FROM Course WHERE course_code = ?', [course_code], one=True)[0]
-    current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?', [user_id], one=True)[0]
+    current_credits = query_db('SELECT SUM(credits) FROM Enrollment JOIN Course ON Enrollment.course_code = Course.course_code WHERE user_id = ?and status ="已選"', [user_id], one=True)[0]
     if current_credits is None:
         current_credits = 0
     if current_credits - course_credits >= 12 and actor == "student":  # Assuming 12 is the credit limit

@@ -186,9 +186,9 @@
             localStorage.setItem('courseInfoResult', JSON.stringify(data.courses));
             window.location.href = "/courseInfoResult";
         } else if (data.status === 'not_found') {
-            alert('未找到符合條件的課程');
+            alert('查無符合條件的課程');
         } else if (data.status === 'empty') {
-            alert('請至少填寫一個查詢條件');
+            alert('至少需要一個查詢條件');
         }
     }
 

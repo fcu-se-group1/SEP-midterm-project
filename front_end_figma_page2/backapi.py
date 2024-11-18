@@ -227,7 +227,7 @@ def check_dropcourse_code():
 def get_user_courses():
     data = request.json
     user_id = data['user_id']
-    courses = query_db('SELECT course_code FROM Enrollment WHERE user_id = ?', [user_id])
+    courses = query_db('SELECT course_code FROM Enrollment WHERE user_id = ? AND status = ?', [user_id, '已選'])
     if courses:
         return jsonify({'status': 'success', 'courses': [course[0] for course in courses]})
     else:

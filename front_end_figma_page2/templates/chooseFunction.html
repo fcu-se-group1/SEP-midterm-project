@@ -116,6 +116,10 @@
 
 {% block content1 %}
     <script>
+        clearLocalStorage();
+        function clearLocalStorage(){
+            localStorage.clear();
+        }
 
         function chooseFunction(functionName){
             localStorage.setItem('selectedFunction', functionName);

@@ -38,7 +38,7 @@
             </div>
             <div class="card-footer px-4">
                 <div class="d-flex justify-content-between" style="gap: 2rem;">
-                    <a href="{{ url_for('chooseFunction') }}" id="confirmButton" class="btn btn-secondary">確認</a>
+                    <a href="{{ url_for('chooseFunction') }}" id="confirmButton" class="btn btn-secondary" onclick="clearLocalStorage()">確認</a>
                     <div class="text-muted">
                         備註: 
                         <span style="background-color: #d4edda;">綠色</span> 是已選課程
@@ -52,6 +52,9 @@
 
 {% block content1 %}
 <script>
+    function clearLocalStorage() {
+        localStorage.clear();
+    }
     document.addEventListener('DOMContentLoaded', async function() {
         const identity = localStorage.getItem('identity');
         const SID = localStorage.getItem('SID');

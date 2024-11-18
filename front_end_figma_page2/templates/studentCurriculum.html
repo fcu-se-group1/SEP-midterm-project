@@ -38,7 +38,7 @@
             </div>
             <div class="card-footer px-4">
                 <div class="d-flex justify-content-between" style="gap: 2rem;">
-                    <a href="{{ url_for('chooseFunction') }}" id="confirmButton" class="btn btn-secondary">確認</a>
+                    <a href="{{ url_for('chooseFunction') }}" id="confirmButton" class="btn btn-secondary" onclick="clearLocalStorage()">確認</a>
                     <div class="text-muted">
                         備註: 
                         <span style="background-color: #d4edda;">綠色</span> 是已選課程, 
@@ -55,6 +55,11 @@
 
 {% block content1 %}
 <script>
+
+    function clearLocalStorage() {
+        localStorage.clear();
+    }
+
     document.addEventListener('DOMContentLoaded', async function() {
         const identity = localStorage.getItem('identity');
         const SID = localStorage.getItem('SID');
@@ -147,7 +152,7 @@
         });
         const data = await response.json();
         if (data.status === 'success') {
-            const creditsText = `目前學分：${data.current_credits}，最低學分：${data.min_credits}，最高學分：${data.max_credits}`;
+            const creditsText = `目前學分:${data.current_credits} 最低學分:${data.min_credits} 最高學分:${data.max_credits}`;
             document.getElementById('credits').textContent = creditsText;
         } else {
             alert('無法取得學分資訊');

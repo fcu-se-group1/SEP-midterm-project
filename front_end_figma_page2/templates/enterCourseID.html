@@ -7,11 +7,11 @@
 
     <!-- <div class="row d-flex justify-content-center align-items-center"> -->
         
-        <div class="col-lg-6">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-6">
             <div class="card border-danger rounded-4 h-100">
                 <div class="card-header d-flex justify-content-between p-3 px-4">
                     <h3 class="fw-bold mb-0">請輸入課程代碼</h3>
-                    <p id="credits" class="fw-bold mb-0 d-flex justify-content-center align-items-center text-danger"></p>
+                    <p id="credits" class="col fw-bold mb-0 d-flex justify-content-end align-items-center text-danger"></p>
                 </div>
                 
                 <div class="card-body text-danger d-flex justify-content-center align-items-center p-4">
@@ -41,7 +41,6 @@
 <script>
     const selectedFunction = localStorage.getItem('selectedFunction');
     const identityRadio = localStorage.getItem('identity');
-    const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
     const user_id = localStorage.getItem('SID');
 
     //console_message
@@ -50,10 +49,12 @@
         if (selectedFunction === 'function_addCourse') {
             console.log(`當前功能:\nregistration`);
             console.log(`當前身分:\n${identityRadio}`);
+            console.log(`當前SID:\n${user_id}`);
             fetchCredits()
         } else if (selectedFunction === 'function_dropCourse') {
             console.log(`當前功能:\nwithdraw`);
             console.log(`當前身分:\n${identityRadio}`);
+            console.log(`當前SID:\n${user_id}`);
             fetchCredits()
         } else if (selectedFunction === 'function_recordCourseInfo'){
             console.log(`當前功能:\nrecordCourseInfoCheck`);
@@ -67,6 +68,7 @@
     }
 
     async function judge() {
+
         if (!/^\d{4}$/.test(document.getElementById('courseCodeInput').value)) {
             alert('課程代碼必須是4位數字');
             return;
@@ -86,6 +88,7 @@
     }
     //加選
     async function registration(){
+        const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
         let result = await checkCourseCode(user_id,courseCode,identityRadio);
         if (result.status !== 'exists') {
             alert('查無課程');
@@ -126,6 +129,7 @@
     }
     //退選
     async function withdraw() {
+        const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
         let result = await checkDropCourseCode(user_id, courseCode,identityRadio);
         if (result.status !== 'exists') {
             alert('課程代碼不存在或未選該課程');
@@ -154,7 +158,8 @@
     }
     //填寫教學大綱
     async function FillOutSyllabusCheck() {
-        let result = await checkSyllabusCourseCode(userId, courseCode, identityRadio);
+        const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
+        let result = await checkSyllabusCourseCode(user_id, courseCode, identityRadio);
         if (result.status === 'exists') {
             window.location.href = "{{ url_for('fillOutSyllabus') }}";
         }else{
@@ -164,7 +169,8 @@
     }
     //紀錄課程資訊
     async function recordCourseInfoCheck() {
-        let result = await checkRecordCourseInfoCourseCode(userId, courseCode, identityRadio);
+        const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
+        let result = await checkRecordCourseInfoCourseCode(user_id, courseCode, identityRadio);
         if (result.status === 'exists') {
             if(confirm('該課程代碼已存在，若繼續輸入將覆蓋所有過往資料')){
                 window.location.href = "{{ url_for('recordCourseInfo') }}";
@@ -334,7 +340,7 @@
         const response = await fetch('/course_syllabus/check_course_code', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ user_id: user_id, course_code: courseCode, actor: identityRadio })
+            body: JSON.stringify({course_code: courseCode})
         });
         return response.json();
     }

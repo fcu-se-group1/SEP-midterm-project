@@ -433,8 +433,9 @@ def write_course_course_info():
     for class_limit in class_limits:
         if class_limit=="all":
             is_class_exist=query_db('SELECT * FROM Class')
-            class_limits=list(is_class_exist)
-            print(type(class_limits))
+            class_limits=[]
+            for i in is_class_exist:
+                class_limits.append(i[0])           
             break
         else:
             is_class_exist = query_db('''SELECT * FROM Class WHERE class_name=?''', [class_limit])
@@ -442,11 +443,11 @@ def write_course_course_info():
             return jsonify({'status': 'error', 'message': '班級限制的班級不存在，請重新輸入'})
         
     # 檢查最大修課人數
-    location_max_students = query_db('''SELECT capacity FROM Location WHERE location_name=?''', [location],one=True)
+    location_max_students = query_db('''SELECT capacity FROM Location WHERE location_name=?''', [location])
     if (not location_max_students):
         return jsonify({'status': 'error', 'message': '該上課地點不存在，請重新輸入'})
     
-    if int(max_students) > location_max_students[0]:
+    if int(max_students) > location_max_students[0][0]:
         return jsonify({'status': 'error', 'message': '該上課地點無法容納此課程的最大修課人數，請重新輸入'})
 
     query_db('''

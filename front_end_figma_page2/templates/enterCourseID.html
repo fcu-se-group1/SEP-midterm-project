@@ -43,7 +43,6 @@
     async function judge() {
         const selectedFunction = localStorage.getItem('selectedFunction');
 
-
         if (!/^\d{4}$/.test(document.getElementById('courseCodeInput').value)) {
             alert('課程代碼必須是4位數字');
             return;
@@ -67,6 +66,7 @@
         const studentRadio = localStorage.getItem('identity');
         const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
         const user_id = localStorage.getItem('SID');
+
         let result = await checkCourseCode(user_id,courseCode,studentRadio);
         if (result.status !== 'exists') {
             alert('課程代碼不存在');
@@ -99,10 +99,7 @@
 
         result = await enrollCourse(user_id,courseCode,studentRadio);
         if (result.status === 'success') {
-            alert('加選成功');
-            const confirmButton = document.getElementById('confirmButton');
-            var addorDropCourse_url = "{{ url_for('courseSelectionResult') }}";
-            window.location.href = addorDropCourse_url;
+            window.location.href = "{{ url_for('courseSelectionResult') }}";
         } else {
             alert('加選失敗');
             return;
@@ -123,22 +120,19 @@
 
         result = await checkMandatoryCourse(user_id,courseCode,studentRadio);
         if (result.status === 'restricted') {
-            alert('此課程為本班必修課程，無法退選');
+            alert('此課程為本班必修課程，您無法退選該課程，如要退選請找系所行政人員');
             return;
         }
 
         result = await checkUserCreditsForWithdraw(user_id,courseCode,studentRadio);
         if (result.status !== 'within_limit') {
-            alert('退選後學分低於最低學分限制');
+            alert('超出修課學分下限，退選失敗');
             return;
         }
 
         result = await dropCourse(user_id,courseCode,studentRadio);
         if (result.status === 'success') {
-            alert('退選成功');
-            const confirmButton = document.getElementById('confirmButton');
-            var addorDropCourse_url = "{{ url_for('courseSelectionResult') }}";
-            window.location.href = addorDropCourse_url;
+            window.location.href = "{{ url_for('courseSelectionResult') }}";
         } else {
             alert('退選失敗');
             return;
@@ -153,10 +147,7 @@
 
         let result = await checkSyllabusCourseCode(userId, courseCode, studentRadio);
         if (result.status === 'exists') {
-            const confirmButton = document.getElementById('confirmButton');
-            var fillOutSyllabus_url = "{{ url_for('fillOutSyllabus') }}";
-            localStorage.setItem('selectedCourseCode', courseCode);
-            window.location.href = fillOutSyllabus_url;
+            window.location.href = "{{ url_for('fillOutSyllabus') }}";
         }else{
             alert('課程代碼錯誤');
             return;
@@ -170,17 +161,13 @@
         const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
         const userId = localStorage.getItem('SID');
 
-        var recordCourseInfo_url = "{{ url_for('recordCourseInfo') }}";
-
         let result = await checkRecordCourseInfoCourseCode(userId, courseCode, studentRadio);
         if (result.status === 'exists') {
             if(confirm('課程代碼已存在，將覆蓋過往資料')){
-                localStorage.setItem('selectedCourseCode', courseCode);
-                window.location.href = recordCourseInfo_url;
+                window.location.href = "{{ url_for('recordCourseInfo') }}";
             }else return;
         }else{
-            localStorage.setItem('selectedCourseCode', courseCode);
-            window.location.href = recordCourseInfo_url;
+            window.location.href = "{{ url_for('recordCourseInfo') }}";
         }
     }
 

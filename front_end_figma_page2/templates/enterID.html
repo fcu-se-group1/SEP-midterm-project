@@ -74,7 +74,7 @@
 
         let data = await response.json();
         if (data.status === 'not_exists') {
-            alert('請確認學號是否輸入正確');
+            alert('輸入的學號不存在');
             return;
         } else {
             localStorage.setItem('SID', SID);

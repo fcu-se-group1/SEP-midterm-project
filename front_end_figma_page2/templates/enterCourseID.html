@@ -69,31 +69,31 @@
         const user_id = localStorage.getItem('SID');
         let result = await checkCourseCode(user_id,courseCode,studentRadio);
         if (result.status !== 'exists') {
-            alert('課程代碼不存在');
-            return;
-        }
-
-        result = await checkScheduleConflicts(user_id,courseCode,studentRadio);
-        if (result.status !== 'no_conflict') {
-            alert('課程時間衝突');
+            alert('查無課程');
             return;
         }
 
         result = await checkCourseAvailability(user_id,courseCode,studentRadio);
         if (result.status !== 'available') {
-            alert('課程無名額');
+            alert('課程無名額，加選失敗');
             return;
         }
-
+        
         result = await checkUserCredits(user_id,courseCode,studentRadio); 
         if (result.status === 'exceeds_limit') {
-            alert('超出選課學分上限');
+            alert('超出選課學分上限，加選失敗');
             return;
         }
 
         result = await checkClassRestrictions(user_id,courseCode,studentRadio);
         if (result.status !== 'allowed') {
-            alert('此課程有班級限制');
+            alert('此課程有班級限制，加選失敗');
+            return;
+        }
+
+        result = await checkScheduleConflicts(user_id,courseCode,studentRadio);
+        if (result.status !== 'no_conflict') {
+            alert('加選課程與原本課程衝堂，加選失敗');
             return;
         }
 

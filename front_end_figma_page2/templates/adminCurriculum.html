@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}adminCurriculum{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+    <div class="col-12 col-lg-10">
+        <div class="card border-primary rounded-4 h-100">
+            <div class="card-header d-flex justify-content-between p-3 px-4">
+                <h3 class="fw-bold mb-0">系所行政人員身分之課表</h3>
+                <p id="credits" class="fw-bold mb-0 d-none d-sm-flex justify-content-center align-items-center text-secondary"></p>
+            </div>
+            <div class="card-body text-primary p-4 overflow-auto" style="height: 55vh;">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">節次</th>
+                            <th class="text-center">星期一</th>
+                            <th class="text-center">星期二</th>
+                            <th class="text-center">星期三</th>
+                            <th class="text-center">星期四</th>
+                            <th class="text-center">星期五</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range(1, 15) %}
+                        <tr>
+                            <td class="text-center">{{ i }}</td>
+                            <td class="text-center" style="background-color: white;"></td>
+                            <td class="text-center" style="background-color: white;"></td>
+                            <td class="text-center" style="background-color: white;"></td>
+                            <td class="text-center" style="background-color: #d4edda;"></td>
+                            <td class="text-center" style="background-color: white;"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer px-4">
+                <div class="d-flex justify-content-between" style="gap: 2rem;">
+                    <a href="{{ url_for('chooseFunction') }}" id="confirmButton" class="btn btn-secondary" onclick="clearLocalStorage()">確認</a>
+                    <div class="text-muted d-none d-md-inline">
+                        備註: 
+                        <span style="background-color: #d4edda;">綠色</span> 是已選課程
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    function clearLocalStorage() {
+        localStorage.clear();
+    }
+    document.addEventListener('DOMContentLoaded', async function() {
+        const identity = localStorage.getItem('identity');
+        const SID = localStorage.getItem('SID');
+
+        if (!identity || !SID) {
+            alert('無法取得身份或學號資訊');
+            return;
+        }
+
+        const response = await fetch('/schedule/view_schedule', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                actor: identity,
+                user_id: SID
+            })
+        });
+
+        const data = await response.json();
+        if (data.status === 'success') {
+            displaySchedule(data.schedule);
+        } else {
+            alert('無法取得課表資訊');
+        }
+        await fetchCredits();
+    });
+    function displaySchedule(schedule) {
+        const tableBody = document.querySelector('tbody');
+        tableBody.innerHTML = ''; // 清空表格內容
+        for (let i = 1; i <= 14; i++) {
+            const row = document.createElement('tr');
+            const periodCell = document.createElement('td');
+            periodCell.className = 'text-center';
+            periodCell.textContent = i;
+            row.appendChild(periodCell);
+
+            for (let day = 1; day <= 5; day++) {
+                const cell = document.createElement('td');
+                cell.className = 'text-center';
+                cell.style.backgroundColor = 'white';
+
+                schedule.selected.forEach(course => {
+                    course.schedule.forEach(time => {
+                        if (time.day === String(day) && time.period === String(i)) {
+                            cell.textContent = course.code;
+                            cell.style.backgroundColor = '#d4edda'; // 綠色背景表示已選課程
+                        }
+                    });
+                });
+
+                row.appendChild(cell);
+            }
+
+            tableBody.appendChild(row);
+        }
+    }
+    async function fetchCredits() {
+        const identity = localStorage.getItem('identity');
+        const SID = localStorage.getItem('SID');
+        if (!SID) {
+            alert('無法取得學號資訊');
+            return;
+        }else if(!identity){
+            alert('無法取得身分資訊');
+            return;
+        }
+        console.log(identity);
+        const response = await fetch('/schedule/view_schedule', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                actor: identity,
+                user_id: SID
+            })
+        });
+        const data = await response.json();
+        if (data.status === 'success') {
+            const creditsText = `目前學分:${data.current_credits} 最低學分:${data.min_credits} 最高學分:${data.max_credits}`;
+            document.getElementById('credits').textContent = creditsText;
+        } else {
+            alert('無法取得學分資訊');
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}CourseInfoResult{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+    <div class="col-12 col-md-11">
+        <div class="card border-primary rounded-4 h-100">
+            <div class="card-header p-3 px-4">
+                <h3 class="fw-bold mb-0">課程資訊結果頁</h3>
+            </div>
+            <div class="card-body text-primary p-4 overflow-auto" style="height: 55vh;">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-1">課程代碼</th>
+                            <th class="col-2">課程名稱</th>
+                            <th class="col-1">學分數</th>
+                            <th class="col-1">最大修課人數</th>
+                            <th class="col-1">授課教師</th>
+                            <th class="col-1">上課地點</th>
+                            <th class="col-1">必選修</th>
+                            <th class="col-2">上課時間</th>
+                            <th class="col-2">開課班級</th>
+                        </tr>
+                    </thead>
+                    <tbody style="background-color: #aeaeae;" id="courseTableBody"><!--變不了背景色-->
+                        <!-- Rows will be dynamically inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer px-4">
+                <div class="d-flex justify-content-center" style="gap: 2rem;">
+                    <a href="{{ url_for('chooseFunction') }}" id="confirmButton" class="btn btn-secondary">返回</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content1 %}
+<style>
+    th, td{
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const courses = JSON.parse(localStorage.getItem('courseInfoResult'));
+    const tableBody = document.getElementById('courseTableBody');
+
+    courses.forEach(course => {
+        const row = document.createElement('tr');
+
+        const courseCodeCell = document.createElement('td');
+        courseCodeCell.textContent = course[0];
+        row.appendChild(courseCodeCell);
+
+        const courseNameCell = document.createElement('td');
+        const courseNameLink = document.createElement('a');
+        courseNameLink.href = `javascript:void(0);`;
+        courseNameLink.textContent = course[1];
+        courseNameLink.addEventListener('click', function() {
+            localStorage.setItem('selectedCourseId', course[0]);
+            window.location.href = "/syllabusResult";
+        });
+        courseNameCell.appendChild(courseNameLink);
+        row.appendChild(courseNameCell);
+
+        const classNameCell = document.createElement('td');
+        classNameCell.textContent = course[2];
+        row.appendChild(classNameCell);
+
+        const scheduleCell = document.createElement('td');
+        scheduleCell.textContent = course[3];
+        row.appendChild(scheduleCell);
+
+        const instructorCell = document.createElement('td');
+        instructorCell.textContent = course[4];
+        row.appendChild(instructorCell);
+
+        const locationCell = document.createElement('td');
+        locationCell.textContent = course[5];
+        row.appendChild(locationCell);
+
+        const compulsoryCell = document.createElement('td');
+        compulsoryCell.textContent = course[6] ? '必修' : '選修';
+        row.appendChild(compulsoryCell);
+
+        const timeCell = document.createElement('td');
+        timeCell.textContent = course[7] ;
+        row.appendChild(timeCell);
+
+        const classCell = document.createElement('td');
+        classCell.textContent = course[8] ;
+        row.appendChild(classCell);
+
+        tableBody.appendChild(row);
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}setTime{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+
+    <!-- <div class="row d-flex justify-content-center align-items-center"> -->
+        
+        <div class="col-lg-6">
+            <div class="card border-primary rounded-4 h-100">
+                <div class="card-header p-3 px-4"><h3 class="fw-bold mb-0">設定加退選時間</h2></div>
+
+                <div class="card-body text-primary d-flex flex-column justify-content-center mb-3 px-4" style="gap: 0.75rem;">
+                    <div class="d-flex justify-content-center align-item-center">
+                        <h5 class="card-title col-4 fw-bold mb-0">加退選類型: </h5>
+                        <div class="form-check col-3 mb-0">
+                            <input class="form-check-input" type="radio" name="enrollmentType" id="addCourse" value="addCourse" checked>
+                            <label class="form-check-label" for="addCourse">加選</label>
+                        </div>
+                        <div class="form-check col-3 mb-0">
+                            <input class="form-check-input" type="radio" name="enrollmentType" id="dropCourse" value="dropCourse">
+                            <label class="form-check-label" for="dropCourse">退選</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="col-10 d-flex justify-content-center align-items-center">    
+                            <h5 class="card-title col-4 fw-bold mb-0">開始時間: </h5>
+                            <input class="col" id="drop_startDate" class="form-control" type="datetime-local" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="col-10 d-flex justify-content-center align-items-center">
+                            <h5 class="card-title col-4 fw-bold mb-0">結束時間: </h5>
+                            <input class="col" id="drop_endDate" class="form-control" type="datetime-local" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card-footer px-4">
+                    <div class="d-flex justify-content-end" style="gap: 2rem;">
+                        <a href="{{ url_for('chooseFunction') }}" class="btn btn-primart">返回</a>
+                        <a href="#" id="confirmButton" class="btn btn-success" onclick="validateAndConfirm()">確認</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+</div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    function validateAndConfirm() {
+        const startTime = document.getElementById('drop_startDate').value;
+        const endTime = document.getElementById('drop_endDate').value;
+
+        if (startTime === '' || endTime === '') {
+            alert('請輸入完整時間');
+            return;
+        }
+
+        if (startTime >= endTime) {
+            alert('開始時間需早於結束時間');
+            return;
+        }
+
+        setEnrollmentPeriod();
+    }
+    async function setEnrollmentPeriod() {
+        const periodType = document.getElementById('addCourse').checked ? '加選' : '退選';
+        const startTime = document.getElementById('drop_startDate').value;
+        const endTime = document.getElementById('drop_endDate').value;
+
+        const response = await fetch('/set_enrollment_period', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                period_type: periodType,
+                start_time: startTime,
+                end_time: endTime
+            })
+        });
+        const data = await response.json();
+        if (data.status === 'success') {
+            alert('加退選時間設定成功');
+            window.location.href = "{{ url_for('chooseFunction') }}";
+        } else {
+            alert('加退選時間設定失敗');
+        }
+    }
+    getEnrollmentPeriods();
+    async function getEnrollmentPeriods() {
+        try {
+            const response = await fetch('/enrollment_periods');
+            const data = await response.json();
+            if (data.periods) {
+                data.periods.forEach(period => {
+                    console.log(`period_type: ${period.period_type}, start_time: ${period.start_time}, end_time: ${period.end_time}`);
+                });
+            } else {
+                console.log('No periods found');
+            }
+            return data.periods;
+        } catch (error) {
+            console.error('Error fetching enrollment periods:', error);
+        }
+    }
+
+</script>
+{% endblock %}

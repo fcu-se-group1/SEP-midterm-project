@@ -1,0 +1,63 @@
+.btn-custom {
+    background-color: #6fa6d0;
+    border-color: #6fa6d0;
+    color: #fff; /* 確保文字顏色為白色 */
+}
+
+.btn-custom:hover {
+    background-color: #5a8bb0; /* 調整為你希望的懸停顏色 */
+    border-color: #5a8bb0;
+    color: #fff;
+}
+
+.header{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-position: center bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 56px;
+    width: 100%;
+    z-index: 2; /* 确保navbar在其他内容之上 */
+}
+
+.overlay {
+    position: absolute;
+    top: 56px; /* navbar的高度 */
+    left: 0;
+    width: 100%;
+    bottom: 64px; /* 確保overlay延伸到footer */
+    background-color: rgba(0, 0, 0, 0.3); /* 半透明黑色 */
+    z-index: 1; /* 确保overlay在其他内容之上 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+}
+
+.footer_font{
+    color: gray;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+@media (max-width: 1200px) {
+    .card-text {
+        font-size: 0.8rem;
+    }
+}

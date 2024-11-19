@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}recordCourseInfo{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+        <div class="card border-info rounded-4 h-100">
+
+            <div class="card-header d-flex justify-content-between p-3 px-4">
+                <h3 class="fw-bold mb-0">紀錄課程資訊</h3>
+                <p id="courseCode" class="fw-bold mb-0 d-flex justify-content-center align-items-center text-dark px-1"></p>
+            </div>
+
+            <div class="card-body col-12 text-info p-4 d-flex justify-content-center align-items-center">
+                <div class="col-12 p-0 d-flex flex-column justify-content-start align-items-start overflow-auto" style="height: 41vh; gap: 0.5rem;">
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 col-sm-3 card-title fw-bold mb-0 d-flex justify-content-end">課程名稱:&nbsp;&nbsp;</h5>
+                        <div class="col-8 col-sm-9 pe-3">
+                            <input type="text" class="form-control" id="courseName" placeholder="請輸入課程名稱...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 col-sm-3 card-title fw-bold mb-0 d-flex justify-content-end">課程學分:&nbsp;&nbsp;</h5>
+                        <div class="col-8 col-sm-9 pe-3">
+                            <input type="number" class="form-control" id="courseCredits" placeholder="請輸入課程學分..." min="0">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 col-sm-3 card-title fw-bold mb-0 d-flex justify-content-end">授課教師姓名:&nbsp;&nbsp;</h5>
+                        <div class="col-8 col-sm-9 pe-3">
+                            <input type="text" class="form-control" id="teacherName" placeholder="請輸入教師姓名...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 col-sm-3 card-title fw-bold mb-0 d-flex justify-content-end">最大修課人數:&nbsp;&nbsp;</h5>
+                        <div class="col-8 col-sm-9 pe-3">
+                            <input type="number" class="form-control" id="maxStudents" placeholder="請輸入最大修課人數..." min="0">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 col-sm-3 card-title fw-bold mb-0 d-flex justify-content-end">上課地點:&nbsp;&nbsp;</h5>
+                        <div class="col-8 col-sm-9 pe-3">
+                            <input type="text" class="form-control" id="classLocation" placeholder="請輸入上課地點...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center border border-light border-2 rounded">
+                        <h5 class="col-3 card-title fw-bold mb-0 d-flex justify-content-end align-items-start">上課時間:&nbsp;&nbsp;</h5>
+                        <div class="col-sm-9">
+                            <div id="classTimeContainer">
+                                <div class="d-flex align-items-center">
+                                    <select class="form-control px-2 text-center" id="classDay">
+                                        <option value="1">星期一</option>
+                                        <option value="2">星期二</option>
+                                        <option value="3">星期三</option>
+                                        <option value="4">星期四</option>
+                                        <option value="5">星期五</option>
+                                        <option value="6">星期六</option>
+                                        <option value="7">星期日</option>
+                                    </select>
+                                    <select class="form-control px-2 text-center" id="startTime">
+                                        <option value="1">第一節</option>
+                                        <option value="2">第二節</option>
+                                        <option value="3">第三節</option>
+                                        <option value="4">第四節</option>
+                                        <option value="5">第五節</option>
+                                        <option value="6">第六節</option>
+                                        <option value="7">第七節</option>
+                                        <option value="8">第八節</option>
+                                        <option value="9">第九節</option>
+                                        <option value="10">第十節</option>
+                                        <option value="11">第十一節</option>
+                                        <option value="12">第十二節</option>
+                                        <option value="13">第十三節</option>
+                                        <option value="14">第十四節</option>
+                                    </select>
+                                    <button type="button" class="col-2 btn btn-success ms-2" onclick="addClassTime()">新增</button>
+                                    <button type="button" class="col-2 btn btn-danger ms-2" onclick="removeClassTime(this)">刪除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 d-flex align-items-center border border-light border-2 rounded">
+                        <h5 class="col-4 col-sm-3 card-title fw-bold mb-0 d-flex justify-content-end">開課班級:&nbsp;&nbsp;</h5>
+                        <div class="col-8 col-sm-9">
+                            <div id="classNameContainer">
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control" id="className" placeholder="請輸入開課班級...">
+                                    <button type="button" class="col-2 btn btn-success ms-2" onclick="addClassName()">新增</button>
+                                    <button type="button" class="col-2 btn btn-danger ms-2" onclick="removeClassName(this)">刪除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 d-flex align-items-center border border-light border-2 rounded">
+                        <h5 class="col-4 col-sm-3 card-title fw-bold mb-0 d-flex justify-content-end">班級限制:&nbsp;&nbsp;</h5>
+                        <div class="col-8 col-sm-9">
+                            <div id="classRestrictionContainer">
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control" id="classRestriction" placeholder="請輸入班級限制...">
+                                    <button type="button" class="col-2 btn btn-primary ms-2" onclick="selectAllClassRestriction()">全選</button>
+                                    <button type="button" class="col-2 btn btn-success ms-2" onclick="addClassRestriction()">新增</button>
+                                    <button type="button" class="col-2 btn btn-danger ms-2" onclick="removeClassRestriction(this)">刪除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 col-sm-3 card-title fw-bold mb-0 d-flex justify-content-end">必修/選修:&nbsp;&nbsp;</h5>
+                        <div class="col-8 px-3">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="requiredCourse" checked>
+                                <label class="form-check-label" for="requiredCourse">必修</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="electiveCourse">
+                                <label class="form-check-label" for="electiveCourse">選修</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+
+            <div class="card-footer px-4">
+                <div class="d-flex justify-content-end" style="gap: 2rem;">
+                    <a href="{{ url_for('enterCourseID') }}" class="btn btn-danger">返回</a>
+                    <a href="#" id="confirmButton" class="btn btn-danger" onclick="submitCourseInfo()">確認</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    window.addEventListener('load', get_course_code);
+
+    async function get_course_code(){
+        document.getElementById('courseCode').textContent = `課程代碼: ${ localStorage.getItem('selectedCourseCode') }`;
+    }
+
+    function addClassTime() {
+        const container = document.getElementById('classTimeContainer');
+        const newClassTime = document.createElement('div');
+
+        newClassTime.className = 'd-flex align-items-center';
+        newClassTime.innerHTML = `
+            <select class="form-control px-2 text-center" id="classDay">
+                <option value="1">星期一</option>
+                <option value="2">星期二</option>
+                <option value="3">星期三</option>
+                <option value="4">星期四</option>
+                <option value="5">星期五</option>
+                <option value="6">星期六</option>
+                <option value="7">星期日</option>
+            </select>
+            <select class="form-control px-2 text-center" id="startTime">
+                <option value="1">第一節</option>
+                <option value="2">第二節</option>
+                <option value="3">第三節</option>
+                <option value="4">第四節</option>
+                <option value="5">第五節</option>
+                <option value="6">第六節</option>
+                <option value="7">第七節</option>
+                <option value="8">第八節</option>
+                <option value="9">第九節</option>
+                <option value="10">第十節</option>
+                <option value="11">第十一節</option>
+                <option value="12">第十二節</option>
+                <option value="13">第十三節</option>
+                <option value="14">第十四節</option>
+            </select>
+            <button type="button" class="col-2 btn btn-success ms-2" onclick="addClassTime()">新增</button>
+            <button type="button" class="col-2 btn btn-danger ms-2" onclick="removeClassTime(this)">刪除</button>
+        `;
+        container.appendChild(newClassTime);
+    }
+
+    function removeClassTime(button) {
+        const container = document.getElementById('classTimeContainer');
+        if (container.children.length > 1) {
+            button.parentElement.remove();
+        } else {
+            const selects = container.querySelectorAll('select');
+            selects[0].value = '1';
+            selects[1].value = '1';
+        }
+    }
+
+    function addClassName() {
+        const container = document.getElementById('classNameContainer');
+        const newClassName = document.createElement('div');
+        newClassName.className = 'd-flex align-items-center';
+        newClassName.innerHTML = `
+            <input type="text" class="form-control" id="className" placeholder="請輸入開課班級...">
+            <button type="button" class="col-2 btn btn-success ms-2" onclick="addClassName()">新增</button>
+            <button type="button" class="col-2 btn btn-danger ms-2" onclick="removeClassName(this)">刪除</button>
+        `;
+        container.appendChild(newClassName);
+    }
+
+    function removeClassName(button) {
+        const container = document.getElementById('classNameContainer');
+        if (container.children.length > 1) {
+            button.parentElement.remove();
+        } else {
+            const input = container.querySelector('input');
+            input.value = '';
+        }
+    }
+
+    function addClassRestriction() {
+        const container = document.getElementById('classRestrictionContainer');
+        const newClassRestriction = document.createElement('div');
+        newClassRestriction.className = 'd-flex align-items-center';
+        newClassRestriction.innerHTML = `
+            <input type="text" class="form-control" id="classRestriction" placeholder="請輸入班級限制...">
+            <button type="button" class="col-2 btn btn-primary ms-2" onclick="selectAllClassRestriction()">全選</button>
+            <button type="button" class="col-2 btn btn-success ms-2" onclick="addClassRestriction()">新增</button>
+            <button type="button" class="col-2 btn btn-danger ms-2" onclick="removeClassRestriction(this)">刪除</button>
+        `;
+        container.appendChild(newClassRestriction);
+    }
+
+    function removeClassRestriction(button) {
+        const container = document.getElementById('classRestrictionContainer');
+        if (container.children.length > 1) {
+            button.parentElement.remove();
+        } else {
+            const input = container.querySelector('input');
+            input.value = '';
+        }
+    }
+
+    function selectAllClassRestriction() {
+        const container = document.getElementById('classRestrictionContainer');
+        const inputs = container.getElementsByTagName('input');
+        for (let input of inputs) {
+            input.value = 'all';
+        }
+    }
+
+    function adjustHeading() {
+
+        const titles = document.querySelectorAll('.card-title');
+
+        titles.forEach(title => {
+            if (!title.dataset.originalContent) {
+                title.dataset.originalContent = title.textContent;
+            }
+            if (window.innerWidth >= 1400) {
+                title.innerHTML = `<h5 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h5>`;
+                title.style.display = '';
+            } else if (window.innerWidth >= 1200) {
+                title.innerHTML = `<h6 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
+                title.style.display = '';
+            } else {
+                title.innerHTML = `<h6 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
+                title.style.display = '';
+            }
+        });
+    }
+
+    async function submitCourseInfo() {
+        const coursecode = localStorage.getItem('selectedCourseCode');
+        const courseName = document.getElementById('courseName').value;
+        const credits = document.getElementById('courseCredits').value;
+        const instructor = document.getElementById('teacherName').value;
+        const maxStudents = document.getElementById('maxStudents').value;
+        const location = document.getElementById('classLocation').value;
+        const compulsory = document.querySelector('input[name="flexRadioDefault"]:checked').id === 'requiredCourse' ? 1 : 0;
+
+        const classDays = Array.from(document.querySelectorAll('#classTimeContainer select[id="classDay"]')).map(select => select.value);
+        const timeSlots = Array.from(document.querySelectorAll('#classTimeContainer select[id="startTime"]')).map(select => select.value);
+        const classNames = Array.from(document.querySelectorAll('#classNameContainer input[id="className"]')).map(input => input.value);
+        const classRestrictions = Array.from(document.querySelectorAll('#classRestrictionContainer input[id="classRestriction"]')).map(input => input.value);
+        console.log(JSON.stringify({
+            course_code: coursecode,
+            course_name: courseName,
+            credits: credits,
+            instructor: instructor,
+            max_students: maxStudents,
+            location: location,
+            compulsory: compulsory,
+            weekday: classDays,
+            time_slot: timeSlots,
+            class_name: classNames,
+            class_limit: classRestrictions
+        }))
+        const response = await fetch('/write_course/course_info', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                course_code: coursecode,
+                course_name: courseName,
+                credits: credits,
+                instructor: instructor,
+                max_students: maxStudents,
+                location: location,
+                compulsory: compulsory,
+                weekday: classDays,
+                time_slot: timeSlots,
+                class_name: classNames,
+                class_limit: classRestrictions
+            })
+        });
+
+        const data = await response.json();
+        if (data.status === 'success') {
+            alert('已成功紀錄課程資訊');
+            window.location.href = "{{ url_for('chooseFunction') }}";
+        } else {
+            alert(data.message);
+            return;
+        }
+    }
+
+    window.addEventListener('resize', adjustHeading);
+    window.addEventListener('load', adjustHeading);
+
+</script>
+{% endblock %}

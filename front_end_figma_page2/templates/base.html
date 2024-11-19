@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}base{% endblock %}</title>
+    <link rel="stylesheet" href="../static/stylesheets/bootstrap.css">
+    <link rel="stylesheet" href="../static/stylesheets/custom.css">
+</head>
+<body>
+    <header class="header" style="background-image: url(../static/image/slava-auchynnikau-DdjQaVxAqRA-unsplash.jpg);">
+        <nav class="navbar bg-light px-2">
+            <div class="container d-flex justify-content-center align-items-center">
+                <span class="navbar-brand mb-0 h1 fw-bold">
+                    逢甲選課系統
+                    <span class="d-none d-md-inline"> Feng Chia course selection system</span>
+                </span>
+                <a href="{{ url_for('homepage') }}" class="btn btn-custom ms-auto">首頁</a>
+            </div>
+        </nav>
+        <div class="overlay">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <footer class="footer bg-light p-2">
+            <div class="container d-flex justify-content-between align-items-center">
+                
+                <div class="footer-left">
+                    <div class="fw-bold border-bottom border-secondary d-none d-sm-block">
+                        逢甲選課系統 Feng Chia course selection system
+                    </div>
+                    <span class="footer_font d-block d-md-inline">©Feng Chia University SEP(1432) Group1. All rights reserved.</span>
+                    <a href="#" class="footer_font ps-md-3"><span>使用條款</span></a>
+                    <a href="#" class="footer_font ps-3"><span>隱私權保護政策</span></a>
+                </div>
+
+                <div class="col-2 col-md-1 d-flex flex-column flex-sm-row justify-content-between align-items-center" style="gap: 0.5rem;">
+                    <a href="https://github.com/fcu-se-group1/SEP-midterm-project" target="_blank">
+                        <img src="../static/image/github.png" alt="SEP group1 github icon" class="footer-icon">
+                    </a>
+                    <a href="https://www.iecs.fcu.edu.tw/" target="_blank">
+                        <img src="../static/image/9k.png" alt="SEP group1 notion icon" class="footer-icon">
+                    </a>
+                </div>
+
+            </div>
+        </footer>
+    </header>
+    {% block content1 %}
+    {% endblock %}
+</body>
+</html>

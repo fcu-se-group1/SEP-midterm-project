@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+
+{% block title %}enterCourseID{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+
+    <!-- <div class="row d-flex justify-content-center align-items-center"> -->
+        
+        <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+            <div class="card border-danger rounded-4 h-100">
+                <div class="card-header d-flex justify-content-between p-3 px-4">
+                    <h3 class="fw-bold mb-0">請輸入課程代碼</h3>
+                    <p id="credits" class="col fw-bold mb-0 d-none d-sm-flex justify-content-end align-items-center text-secondary fs-7"></p>
+                </div>
+                
+                <div class="card-body text-danger d-flex justify-content-center align-items-center p-4">
+                    <div class="col-lg-8 d-flex flex-column justify-content-center align-items-start my-3">
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="card-title fw-bold mb-0">課程代碼:&nbsp;&nbsp;</h5>
+                            <input type="text" class="form-control col" placeholder="請輸入課程代碼..." aria-label="SID" id="courseCodeInput" pattern="\d{4}" title="課程代碼必須是4位正整數數字">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer px-4">
+                    <div class="d-flex justify-content-end" style="gap: 2rem;">
+                        <a href="#" class="btn btn-danger" id="backButton" onclick="back()">返回</a>
+                        <a href="#" id="confirmButton" class="btn btn-danger" onclick="judge(), chooseCourseCode(document.getElementById('courseCodeInput').value)">確認</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+</div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    const selectedFunction = localStorage.getItem('selectedFunction');
+    const identityRadio = localStorage.getItem('identity');
+    const user_id = localStorage.getItem('SID');
+
+    //console_message
+    console_message();
+    function console_message(){
+        if (selectedFunction === 'function_addCourse') {
+            console.log(`當前功能:\nregistration`);
+            console.log(`當前身分:\n${identityRadio}`);
+            console.log(`當前SID:\n${user_id}`);
+            fetchCredits()
+        } else if (selectedFunction === 'function_dropCourse') {
+            console.log(`當前功能:\nwithdraw`);
+            console.log(`當前身分:\n${identityRadio}`);
+            console.log(`當前SID:\n${user_id}`);
+            fetchCredits()
+        } else if (selectedFunction === 'function_recordCourseInfo'){
+            console.log(`當前功能:\nrecordCourseInfoCheck`);
+        }else if(selectedFunction === 'function_fillOutSyllabus'){
+            console.log(`當前功能:\nFillOutSyllabusCheck`);
+        }
+    }
+    
+    function chooseCourseCode(functionName){
+        localStorage.setItem('selectedCourseCode', functionName);
+    }
+
+    async function judge() {
+
+        if (!/^\d{4}$/.test(document.getElementById('courseCodeInput').value)) {
+            alert('課程代碼必須是4位數字');
+            return;
+        }
+
+        //api調用路徑判斷
+        if (selectedFunction === 'function_addCourse') {
+            registration();//加選
+        } else if (selectedFunction === 'function_dropCourse') {
+            withdraw();//退選
+        } else if (selectedFunction === 'function_recordCourseInfo'){
+            recordCourseInfoCheck()
+        }else if(selectedFunction === 'function_fillOutSyllabus'){
+            FillOutSyllabusCheck();
+        }
+        
+    }
+    //加選
+    async function registration(){
+        const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
+        let result = await checkCourseCode(user_id,courseCode,identityRadio);
+        if (result.status !== 'exists') {
+            alert('查無課程');
+            return;
+        }
+
+        result = await checkCourseAvailability(user_id,courseCode,identityRadio);
+        if (result.status !== 'available') {
+            alert('課程無名額，加選失敗');
+            return;
+        }
+        
+        result = await checkUserCredits(user_id,courseCode,identityRadio); 
+        if (result.status === 'exceeds_limit') {
+            alert('超出選課學分上限，加選失敗');
+            return;
+        }
+
+        result = await checkClassRestrictions(user_id,courseCode,identityRadio);
+        if (result.status !== 'allowed') {
+            alert('此課程有班級限制，加選失敗');
+            return;
+        }
+
+        result = await checkScheduleConflicts(user_id,courseCode,identityRadio);
+        if (result.status !== 'no_conflict') {
+            alert('加選課程與原本課程衝堂，加選失敗');
+            return;
+        }
+
+        result = await enrollCourse(user_id,courseCode,identityRadio);
+        if (result.status === 'success') {
+            window.location.href = "{{ url_for('courseSelectionResult') }}";
+        } else {
+            alert('加選失敗');
+            return;
+        }
+    }
+    //退選
+    async function withdraw() {
+        const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
+        let result = await checkDropCourseCode(user_id, courseCode,identityRadio);
+        if (result.status !== 'exists') {
+            alert('課程代碼不存在或未選該課程');
+            return;
+        }
+
+        result = await checkMandatoryCourse(user_id,courseCode,identityRadio);
+        if (result.status === 'restricted') {
+            alert('此課程為本班必修課程，您無法退選該課程，如要退選請找系所行政人員');
+            return;
+        }
+
+        result = await checkUserCreditsForWithdraw(user_id,courseCode,identityRadio);
+        if (result.status !== 'within_limit') {
+            alert('超出修課學分下限，退選失敗');
+            return;
+        }
+
+        result = await dropCourse(user_id,courseCode,identityRadio);
+        if (result.status === 'success') {
+            window.location.href = "{{ url_for('courseSelectionResult') }}";
+        } else {
+            alert('退選失敗');
+            return;
+        }
+    }
+    //填寫教學大綱
+    async function FillOutSyllabusCheck() {
+        const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
+        let result = await checkSyllabusCourseCode(user_id, courseCode, identityRadio);
+        if (result.status === 'exists') {
+            window.location.href = "{{ url_for('fillOutSyllabus') }}";
+        }else{
+            alert('課程代碼錯誤');
+            return;
+        }
+    }
+    //紀錄課程資訊
+    async function recordCourseInfoCheck() {
+        const courseCode = document.querySelector('input[placeholder="請輸入課程代碼..."]').value;
+        let result = await checkRecordCourseInfoCourseCode(user_id, courseCode, identityRadio);
+        if (result.status === 'exists') {
+            if(confirm('該課程代碼已存在，若繼續輸入將覆蓋所有過往資料')){
+                window.location.href = "{{ url_for('recordCourseInfo') }}";
+            }else return;
+        }else{
+            window.location.href = "{{ url_for('recordCourseInfo') }}";
+        }
+    }
+
+    async function fetchCredits() {
+
+        if (!user_id) {
+            alert('無法取得學號資訊');
+            return;
+        }else if(!identityRadio){
+            alert('無法取得身分資訊');
+            return;
+        }
+        const response = await fetch('/schedule/view_schedule', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                actor: identityRadio,
+                user_id: user_id
+            })
+        });
+        const data = await response.json();
+        if (data.status === 'success') {
+            const creditsText = `目前學分：${data.current_credits}，最低學分：${data.min_credits}，最高學分：${data.max_credits}`;
+            document.getElementById('credits').textContent = creditsText;
+        } else {
+            alert('無法取得學分資訊');
+        }
+    }
+
+    async function fetchCourseCode() {                  //抓db有的課程代碼
+        let response = await fetch('/enterCourseID/get_course_code');
+        let data = await response.json();
+        if (data.length > 0) {
+            console.log('課程ID: ', data.map(course => course[0]).join(', '));
+        } else {
+            console.log('沒有找到任何課程ID');
+        }
+    }
+    fetchCourseCode();
+    
+    fetchUserCourses();
+    async function fetchUserCourses() {           //抓學生所選課程ID
+        let response = await fetch('/enterCourseID/get_user_courses', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({user_id: localStorage.getItem('SID')})
+        });
+        let data = await response.json();
+        if (data.status === 'success') {
+            console.log('學生所選課程ID: ', data.courses.join(', '));
+        } else {
+            console.log('學生沒有已選課程ID或該功能不需輸入學號');
+        }
+    }
+
+    function back(){//返回按鈕返回上一頁的對應功能之頁面及清除localStorage
+        if (selectedFunction === 'function_addCourse' || selectedFunction === 'function_dropCourse') {
+            localStorage.removeItem('SID');
+            localStorage.removeItem('identity');
+            window.location.href = "{{ url_for('enterID') }}";
+        } else if (selectedFunction === 'function_recordCourseInfo') {
+            localStorage.removeItem('selectedFunction');
+            window.location.href = "{{ url_for('chooseFunction') }}";
+        } else if (selectedFunction === 'function_fillOutSyllabus') {
+            localStorage.removeItem('selectedFunction');
+            window.location.href = "{{ url_for('chooseFunction') }}";
+        }
+    }//返回按鈕返回上一頁的對應功能之頁面及清除localStorage
+
+    // API functions(勿動)
+    async function checkCourseCode(user_id,courseCode,identityRadio) {
+        const response = await fetch('/registration/check_course_code', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ course_code: courseCode })
+        });
+        return response.json();
+    }
+
+    async function checkCourseAvailability(user_id,courseCode,identityRadio) {
+        const response = await fetch('/registration/check_course_availability', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ course_code: courseCode })
+        });
+        return response.json();
+    }
+
+    async function checkUserCredits(user_id,courseCode,identityRadio) {
+        const response = await fetch('/registration/check_user_credits', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: user_id, course_code: courseCode, actor: identityRadio })
+        });
+        return response.json();
+    }
+    async function checkClassRestrictions(user_id,courseCode,identityRadio) {
+        const response = await fetch('/registration/check_class_restrictions', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: user_id, course_code: courseCode, actor: identityRadio })
+        });
+        return response.json();
+    }
+
+    async function checkScheduleConflicts(user_id,courseCode,identityRadio) {
+        const response = await fetch('/registration/check_schedule_conflicts', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: user_id, course_code: courseCode , actor: identityRadio})
+        });
+        return response.json();
+    }
+
+    async function enrollCourse(user_id,courseCode,identityRadio) {
+        const response = await fetch('/registration/enroll_course', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: user_id, course_code: courseCode , actor: identityRadio})
+        });
+        return response.json();
+    }
+
+    async function checkDropCourseCode(user_id,courseCode,identityRadio) {
+        const response = await fetch('/enterCourseID/check_dropcourse_code', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: user_id, course_code: courseCode , actor: identityRadio})
+        });
+        return response.json();
+    }
+
+    async function checkMandatoryCourse(user_id,courseCode,identityRadio) {
+        const response = await fetch('/withdraw/check_class_restrictions', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: user_id, course_code: courseCode, actor: identityRadio })
+        });
+        return response.json();
+    }
+
+    async function checkUserCreditsForWithdraw(user_id,courseCode,identityRadio) {
+        const response = await fetch('/withdraw/check_user_credits', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: user_id, course_code: courseCode, actor: identityRadio })
+        });
+        return response.json();
+    }
+
+    async function dropCourse(user_id,courseCode,identityRadio) {
+        const response = await fetch('/withdraw/drop_course', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: user_id, course_code: courseCode, actor: identityRadio })
+        });
+        return response.json();
+    }
+
+    async function checkSyllabusCourseCode(user_id, courseCode, identityRadio) {
+        const response = await fetch('/course_syllabus/check_course_code', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({course_code: courseCode})
+        });
+        return response.json();
+    }
+
+    async function checkRecordCourseInfoCourseCode(user_id, courseCode, identityRadio) {
+        const response = await fetch('/write_course/check_course_code', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: user_id, course_code: courseCode, actor: identityRadio })
+        });
+        return response.json();
+    }
+
+    window.addEventListener('load', function() {
+        if (selectedFunction === 'function_addCourse') {
+            setTimeout(function() {
+                alert('逾時未操作，請重新選擇功能');
+                window.location.href = '/';
+            }, 60000); // 1分鐘 = 60000毫秒
+        }
+    });    
+</script>
+{% endblock %}

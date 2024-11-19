@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}syllabusResult{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+        <div class="card border-dark rounded-4 h-100">
+            <div class="card-header d-flex justify-content-between p-3 px-4">
+                <h3 class="fw-bold mb-0">教學大綱結果頁</h3>
+                <p id="courseCode" class="fw-bold mb-0 d-flex justify-content-center align-items-center text-dark px-1"></p>
+            </div>
+            <div class="card-body col-12 text-dark p-4 d-flex justify-content-center align-items-center" id="cardBody">
+                <div class="col-12 p-0 d-flex flex-column justify-content-start align-items-start overflow-auto" style="height: 41vh; gap: 0.5rem;">
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程描述:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <textarea class="form-control no-scrollbar" id="courseDescription" rows="1" oninput="autoResize(this)" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師姓名:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="text" class="form-control" id="teacherName" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">請益時間:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="text" class="form-control" id="consultationTime" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">辦公室地點:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="text" class="form-control" id="officeLocation" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師電子郵件:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="email" class="form-control" id="teacherEmail" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師分機:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="text" class="form-control" id="teacherExtension" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教學助理姓名:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="text" class="form-control" id="taName" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">助理電子郵件:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="email" class="form-control" id="taEmail" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">授課進度與內容:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <textarea class="form-control no-scrollbar" id="courseSchedule" rows="1" oninput="autoResize(this)" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程教材:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <textarea class="form-control no-scrollbar" id="courseMaterials" rows="1" oninput="autoResize(this)" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">評分規則:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <textarea class="form-control no-scrollbar" id="gradingPolicy" rows="1" oninput="autoResize(this)" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課堂規則:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <textarea class="form-control no-scrollbar" id="classRules" rows="1" oninput="autoResize(this)" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer px-4">
+                <div class="d-flex justify-content-end" style="gap: 2rem;">
+                    <a href="{{ url_for('chooseFunction') }}" class="btn btn-danger">返回</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content1 %}
+<style>
+    .no-scrollbar {
+        overflow: hidden; /* 移除滾動欄 */
+        resize: none; /* 移除調整大小功能 */
+    }
+</style>
+<script>
+    function autoResize(textarea) {
+        textarea.style.height = 'auto'; // 先重置高度
+        textarea.style.height = (textarea.scrollHeight) + 'px'; // 設置為滾動高度
+    }
+
+    async function fetchSyllabusData() {
+        const courseId = localStorage.getItem('selectedCourseId');
+        const response = await fetch('/course_query/course_syllabus', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ coursecode: courseId })
+        });
+        const data = await response.json();
+        console.log(data);
+        if (data.status === 'success') {
+            document.getElementById('courseDescription').value = data.course_info[1];
+            document.getElementById('teacherName').value = data.course_info[2];
+            document.getElementById('consultationTime').value = data.course_info[3];
+            document.getElementById('officeLocation').value = data.course_info[4];
+            document.getElementById('teacherEmail').value = data.course_info[5];
+            document.getElementById('teacherExtension').value = data.course_info[6];
+            document.getElementById('taName').value = data.course_info[7]
+            document.getElementById('taEmail').value = data.course_info[8];
+            document.getElementById('courseSchedule').value = data.course_info[9];
+            document.getElementById('courseMaterials').value = data.course_info[10];
+            document.getElementById('gradingPolicy').value = data.course_info[11];
+            document.getElementById('classRules').value = data.course_info[12];
+            document.getElementById('courseCode').textContent = `課程代碼: ${ courseId }`;
+
+            autoResize(document.getElementById('courseDescription'));
+            autoResize(document.getElementById('courseSchedule'));
+            autoResize(document.getElementById('courseMaterials'));
+            autoResize(document.getElementById('gradingPolicy'));
+            autoResize(document.getElementById('classRules'));
+        } else {
+            const cardBody = document.getElementById('cardBody');
+            cardBody.innerHTML = '<h3 class="fw-bold mb-0">無法獲取教學大綱資料QQ</h3>';
+        }
+    }
+
+    window.addEventListener('load', fetchSyllabusData);
+
+    window.addEventListener('load', fetchSyllabusData);
+
+    function adjustHeading() {
+        const titles = document.querySelectorAll('.card-title');
+        titles.forEach(title => {
+            if (!title.dataset.originalContent) {
+                title.dataset.originalContent = title.textContent;
+            }
+            if (window.innerWidth >= 1400) {
+                title.innerHTML = `<h5 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h5>`;
+                title.style.display = '';
+            } else if (window.innerWidth >= 1200) {
+                title.innerHTML = `<h6 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
+                title.style.display = '';
+            } else {
+                title.innerHTML = `<h6 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
+                title.style.display = '';
+            }
+        });
+    }
+
+    window.addEventListener('resize', adjustHeading);
+    window.addEventListener('load', adjustHeading);
+</script>
+{% endblock %}

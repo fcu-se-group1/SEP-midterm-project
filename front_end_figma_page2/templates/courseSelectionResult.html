@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}courseSelectionResult{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+
+    <!-- <div class="row d-flex justify-content-center align-items-center"> -->
+        
+        <div class="col-lg-4">
+            <div class="card border-secondary rounded-4 h-100">
+                <div class="card-header p-3 px-4"><h3 class="fw-bold mb-0">選課結果</h2></div>
+                
+                <div class="card-body text-secondary d-flex justify-content-center align-items-center p-2">
+                    <div class="d-flex flex-column justify-content-center align-items-start my-3" style="gap: 0.5rem;">
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <p id="courseResult" class="fw-bold mb-0"></p>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <p id="credits" class="fw-bold mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer px-4">
+                    <div class="d-flex justify-content-end" style="gap: 2rem;">
+                        <a href="{{ url_for('chooseFunction') }}" class="btn btn-secondary" id="noButton">否</a>
+                        <a href="{{ url_for('enterCourseID') }}" id="confirmButton" class="btn btn-secondary">是</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+</div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        const selectedCourseCode = localStorage.getItem('selectedCourseCode');
+        const selectedFunction = localStorage.getItem('selectedFunction');
+        let action = '';
+
+        if (selectedFunction === 'function_addCourse') {
+            action = '加選';
+        } else if (selectedFunction === 'function_dropCourse') {
+            action = '退選';
+        }
+
+        const courseResult = `課程代碼${selectedCourseCode}${action}成功，是否繼續${action}其他課程？`;
+        document.getElementById('courseResult').textContent = courseResult;
+
+        await fetchCredits();
+    });
+
+    document.getElementById('noButton').addEventListener('click', function() {
+        localStorage.clear();
+    });
+
+    document.getElementById('confirmButton').addEventListener('click', function() {
+        localStorage.removeItem('selectedCourseCode');
+    });
+
+    async function fetchCredits() {
+        const identity = localStorage.getItem('identity');
+        const SID = localStorage.getItem('SID');
+        if (!SID) {
+            alert('無法取得學號資訊');
+            return;
+        }else if(!identity){
+            alert('無法取得身分資訊');
+            return;
+        }
+        console.log(identity);
+        const response = await fetch('/schedule/view_schedule', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                actor: identity,
+                user_id: SID
+            })
+        });
+        const data = await response.json();
+        if (data.status === 'success') {
+            const creditsText = `目前學分: ${data.current_credits}，最低學分: ${data.min_credits}，最高學分: ${data.max_credits}`;
+            document.getElementById('credits').textContent = creditsText;
+        } else {
+            alert('無法取得學分資訊');
+        }
+    }
+</script>
+{% endblock %}

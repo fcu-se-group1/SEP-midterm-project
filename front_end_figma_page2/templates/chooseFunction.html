@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}chooseFunction{% endblock %}
+
+{% block content %}
+    <div class="container d-flex flex-column justify-content-center align-items-center" style="height: 80%; gap: 1rem;">
+        <div class="d-flex flex-column justify-content-start align-items-center overflow-auto" style="height: 55vh;">
+            <div class="text-white" >
+                <h1 class=" fw-bold mb-0">選擇選課系統功能</h1>
+            </div>
+    
+            <div class="col-12 d-flex flex-column justify-content-start align-items-center" >
+    
+                <div class="col-9 row row-cols-1 row-cols-md-3 d-flex justify-content-center mb-md-3">
+                    
+                    <div class="col-12">
+                        <a href="{{ url_for('setTime') }}" class="text-decoration-none" onclick="chooseFunction('function_setTime')">
+                            <div class="card border-primary h-100">
+                                <div class="card-header"><h4 class="fw-bold mb-0">設定加退選時間</h4></div>
+                                <div class="card-body text-primary">
+                                    <h5 class="card-title fw-bold">功能說明:</h5>
+                                    <p class="card-text mb-0">課務組可設定加選或退選功能的日期，只有在設定並且符合日期時才會開啟加退選功能</p>
+                                    <span class="stretched-link"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="col-12 ">
+                        <a href="{{ url_for('enterID') }}" class="text-decoration-none" onclick="chooseFunction('function_addCourse')">
+                            <div class="card border-secondary h-100">
+                                <div class="card-header"><h4 class="fw-bold mb-0">加選</h4></div>
+                                <div class="card-body text-secondary" id="add_disabled_status">
+                                    <h5 class="card-title fw-bold">功能說明:</h5>
+                                    <p class="card-text mb-0">使用者可透過輸入學號、身分、課程代碼來加選課程，不同身分有不同的加選限制</p>
+                                    <span class="stretched-link"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="col-12">
+                        <a href="{{ url_for('enterID') }}" class="text-decoration-none" onclick="chooseFunction('function_dropCourse')">
+                            <div class="card border-success h-100">
+                                <div class="card-header"><h4 class="fw-bold mb-0">退選</h4></div>
+                                <div class="card-body text-success" id="drop_disabled_status">
+                                    <h5 class="card-title fw-bold">功能說明:</h5>
+                                    <p class="card-text mb-0">使用者可透過輸入學號、身分、課程代碼來退選課程，不同身分有不同的退選限制</p>
+                                    <span class="stretched-link"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+    
+                </div>
+    
+                <div class="col-12 row row-cols-1 row-cols-md-4  d-flex justify-content-center">
+    
+                    <div class="col-9">
+                        <a href="{{ url_for('enterID') }}" class="text-decoration-none" onclick="chooseFunction('function_searchCurriculum')">
+                            <div class="card border-danger h-100">
+                                <div class="card-header"><h4 class="fw-bold mb-0">查看課表</h4></div>
+                                <div class="card-body text-danger">
+                                    <h5 class="card-title fw-bold">功能說明:</h5>
+                                    <p class="card-text mb-0">使用者可透過輸入學號、身分來查詢該學號的課表，不同身分可看到的顏色註記會不一樣</p>
+                                    <span class="stretched-link"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+    
+                    <div class="col-9">
+                        <a href="{{ url_for('searchCourseInfo') }}" class="text-decoration-none" onclick="chooseFunction('function_searchCourse')">
+                            <div class="card border-warning h-100">
+                                <div class="card-header"><h4 class="fw-bold mb-0">查詢課程</h4></div>
+                                <div class="card-body text-warning">
+                                    <h5 class="card-title fw-bold">功能說明:</h5>
+                                    <p class="card-text mb-0">使用者可透過課程代碼、課程名稱、課程時間、授課教師、必修/選修等條件查詢課程</p>
+                                <span class="stretched-link"></span>                  
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+    
+                    <div class="col-9">
+                        <a href="{{ url_for('enterCourseID') }}" class="text-decoration-none" onclick="chooseFunction('function_recordCourseInfo')">
+                            <div class="card border-info h-100">
+                                <div class="card-header"><h4 class="fw-bold mb-0">紀錄課程資訊</h4></div>
+                                <div class="card-body text-info">
+                                    <h5 class="card-title fw-bold">功能說明:</h5>
+                                    <p class="card-text mb-0">系所行政人員可輸入課程名稱、課程學分、教師姓名等訊息紀錄課程資訊
+                                    <span class="stretched-link"></span>課程資訊</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+    
+                    <div class="col-9">
+                        <a href="{{ url_for('enterCourseID') }}" class="text-decoration-none" onclick="chooseFunction('function_fillOutSyllabus')">
+                            <div class="card border-dark h-100">
+                                <div class="card-header"><h4 class="fw-bold mb-0">填寫教學大綱</h4></div>
+                                <div class="card-body text-dark">
+                                    <h5 class="card-title fw-bold">功能說明:</h5>
+                                    <p class="card-text mb-0">老師可輸入課程描述、教師/助教姓名和電子郵件、評分/課堂規則等訊息填寫教學大綱</p>
+                                    <span class="stretched-link"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content1 %}
+    <script>
+        clearLocalStorage();
+        function clearLocalStorage(){
+            localStorage.clear();
+        }
+
+        function chooseFunction(functionName){
+            localStorage.setItem('selectedFunction', functionName);
+        }
+
+        function adjustHeading() {
+            const headers = document.querySelectorAll('.card-header');
+            const titles = document.querySelectorAll('.card-title');
+
+            headers.forEach(header => {
+                if (!header.dataset.originalContent) {
+                    header.dataset.originalContent = header.textContent;
+                }
+                if (window.innerWidth >= 1400) {
+                    header.innerHTML = `<h4 class="fw-bold mb-0">${header.dataset.originalContent}</h4>`;
+                } else if (window.innerWidth >= 1200) {
+                    header.innerHTML = `<h5 class="fw-bold mb-0">${header.dataset.originalContent}</h5>`;
+                } else {
+                    header.innerHTML = `<h6 class="fw-bold mb-0">${header.dataset.originalContent}</h6>`;
+                }
+            });
+
+            titles.forEach(title => {
+                if (!title.dataset.originalContent) {
+                    title.dataset.originalContent = title.textContent;
+                }
+                if (window.innerWidth >= 1400) {
+                    title.innerHTML = `<h5 class="card-title fw-bold">${title.dataset.originalContent}</h5>`;
+                    title.style.display = '';
+                } else if (window.innerWidth >= 1200) {
+                    title.innerHTML = `<h6 class="card-title fw-bold">${title.dataset.originalContent}</h6>`;
+                    title.style.display = '';
+                } else {
+                    title.style.display = `none`;
+                }
+            });
+        }
+
+        window.addEventListener('resize', adjustHeading);
+        window.addEventListener('load', adjustHeading);
+
+        async function getEnrollmentPeriods() {
+            try {
+                const response = await fetch('/enrollment_periods');
+                const data = await response.json();
+                if (data.periods) {
+                    data.periods.forEach(period => {
+                        console.log(`period_type: ${period.period_type}, start_time: ${period.start_time}, end_time: ${period.end_time}`);
+                    });
+                } else {
+                    console.log('No periods found');
+                }
+                return data.periods;
+            } catch (error) {
+                console.error('Error fetching enrollment periods:', error);
+            }
+        }
+
+        async function disableFunctionsIfClosed() {
+            const periods = await getEnrollmentPeriods();
+            const now = new Date();
+
+            periods.forEach(period => {
+                const startTime = new Date(period.start_time);
+                const endTime = new Date(period.end_time);
+
+                if (period.period_type === '加選' && !(startTime <= now && now <= endTime)) {
+                    document.querySelectorAll('a[onclick*="chooseFunction(\'function_addCourse\')"]').forEach(element => {
+                        element.removeAttribute('href');
+                        element.style.pointerEvents = 'none';
+                        element.style.cursor = 'not-allowed';
+                        element.style.opacity = '0.8';
+                        document.getElementById('add_disabled_status').classList.add('d-flex','justify-content-center','align-items-center');
+                        document.getElementById('add_disabled_status').classList.remove('.card-title');
+                        document.getElementById('add_disabled_status').innerHTML = '<h4 class="fw-bold text-danger text-center d-flex align-items-center justify-content-center">非加選時段!</h4>';
+                    });
+                }
+
+                if (period.period_type === '退選' && !(startTime <= now && now <= endTime)) {
+                    document.querySelectorAll('a[onclick*="chooseFunction(\'function_dropCourse\')"]').forEach(element => {
+                        element.removeAttribute('href');
+                        element.style.pointerEvents = 'none';
+                        element.style.cursor = 'not-allowed';
+                        element.style.opacity = '0.8';
+                        document.getElementById('drop_disabled_status').classList.add('d-flex','justify-content-center','align-items-center');
+                        document.getElementById('drop_disabled_status').classList.remove('.card-title');
+                        document.getElementById('drop_disabled_status').innerHTML = '<h4 class="fw-bold text-danger text-center d-flex align-items-center justify-content-center">非退選時段!</h4>';
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('load', disableFunctionsIfClosed);
+    </script>
+{% endblock %}

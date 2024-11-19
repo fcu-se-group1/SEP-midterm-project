@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}fillOutSyllabus{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+        <div class="card border-dark rounded-4 h-100">
+            <div class="card-header d-flex justify-content-between p-3 px-4">
+                <h3 class="fw-bold mb-0">填寫教學大綱</h3>
+                <p id="courseCode" class="fw-bold mb-0 d-flex justify-content-center align-items-center text-secondary px-1"></p>
+            </div>
+            <div class="card-body col-12 text-dark p-4 d-flex justify-content-center align-items-center">
+                <div class="col-12 p-0 d-flex flex-column justify-content-start align-items-start overflow-auto" style="height: 41vh; gap: 0.5rem;">
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程描述:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <textarea class="form-control no-scrollbar" id="courseDescription" placeholder="請輸入課程描述..." rows="1" oninput="autoResize(this)"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">授課教師姓名:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="text" class="form-control" id="teacherName" placeholder="請輸入教師姓名...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">請益時間:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="text" class="form-control" id="consultationTime" placeholder="請輸入請益時間...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">辦公室地點:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="text" class="form-control" id="officeLocation" placeholder="請輸入辦公室地點...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師電子郵件:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="email" class="form-control" id="teacherEmail" placeholder="請輸入教師電子郵件...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教師分機:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="text" class="form-control" id="teacherExtension" placeholder="請輸入教師分機...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教學助理姓名:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="text" class="form-control" id="taName" placeholder="請輸入教學助理姓名...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">教學助理電子郵件:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <input type="email" class="form-control" id="taEmail" placeholder="請輸入助理電子郵件...">
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課程教材:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <textarea class="form-control no-scrollbar" id="courseMaterials" placeholder="請輸入課程教材..." rows="1" oninput="autoResize(this)"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">授課進度與內容:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <textarea class="form-control no-scrollbar" id="courseSchedule" placeholder="請輸入授課進度與內容..." rows="1" oninput="autoResize(this)"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">評分規則:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <textarea class="form-control no-scrollbar" id="gradingPolicy" placeholder="請輸入評分規則..." rows="1" oninput="autoResize(this)"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <h5 class="col-4 card-title fw-bold mb-0 d-flex justify-content-end">課堂規則:&nbsp;&nbsp;</h5>
+                        <div class="col-8 pe-3">
+                            <textarea class="form-control no-scrollbar" id="classRules" placeholder="請輸入課堂規則..." rows="1" oninput="autoResize(this)"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer px-4">
+                <div class="d-flex justify-content-end" style="gap: 2rem;">
+                    <a href="{{ url_for('enterCourseID') }}" class="btn btn-secondary">返回</a>
+                    <a href="#" id="confirmButton" class="btn btn-secondary" onclick="submitSyllabus()">確認</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content1 %}
+<style>
+    .no-scrollbar {
+        overflow: hidden; /* 移除滾動欄 */
+        resize: none; /* 移除調整大小功能 */
+    }
+</style>
+<script>
+    function adjustHeading() {
+        const titles = document.querySelectorAll('.card-title');
+        titles.forEach(title => {
+            if (!title.dataset.originalContent) {
+                title.dataset.originalContent = title.textContent;
+            }
+            if (window.innerWidth >= 1400) {
+                title.innerHTML = `<h5 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h5>`;
+                title.style.display = '';
+            } else if (window.innerWidth >= 1200) {
+                title.innerHTML = `<h6 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
+                title.style.display = '';
+            } else {
+                title.innerHTML = `<h6 class="card-title fw-bold mb-0">${title.dataset.originalContent}</h6>`;
+                title.style.display = '';
+            }
+        });
+    }
+
+    function autoResize(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    async function submitSyllabus() {
+        const coursecode = localStorage.getItem('selectedCourseCode');
+        const courseDescription = document.getElementById('courseDescription').value;
+        const instructor = document.getElementById('teacherName').value;
+        const consultationTime = document.getElementById('consultationTime').value;
+        const location = document.getElementById('officeLocation').value;
+        const teacherEmail = document.getElementById('teacherEmail').value;
+        const teacherExtension = document.getElementById('teacherExtension').value;
+        const taName = document.getElementById('taName').value;
+        const taEmail = document.getElementById('taEmail').value;
+        const courseSchedule = document.getElementById('courseSchedule').value;
+        const courseMaterials = document.getElementById('courseMaterials').value;
+        const gradingPolicy = document.getElementById('gradingPolicy').value;
+        const classRules = document.getElementById('classRules').value;
+
+        console.log(JSON.stringify({
+            course_code: coursecode,
+                course_description: courseDescription,
+                instructor_name: instructor,
+                instructor_office_hours: consultationTime,
+                instructor_office_location: location,
+                instructor_email: teacherEmail,
+                instructor_extension: teacherExtension,
+                ta_name: taName,
+                ta_email: taEmail,
+                course_schedule: courseSchedule,
+                course_materials: courseMaterials,
+                grading_policy: gradingPolicy,
+                class_rules: classRules
+        }))
+        const response = await fetch('/course_syllabus/submit_course_info', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                course_code: coursecode,
+                course_description: courseDescription,
+                instructor_name: instructor,
+                instructor_office_hours: consultationTime,
+                instructor_office_location: location,
+                instructor_email: teacherEmail,
+                instructor_extension: teacherExtension,
+                ta_name: taName,
+                ta_email: taEmail,
+                course_materials: courseMaterials,
+                schedule: courseSchedule,
+                grading_rules: gradingPolicy,
+                class_rules: classRules
+            })
+        });
+
+        const data = await response.json();
+        if (data.status === 'success') {
+            alert('教學大綱填寫成功');
+            window.location.href = "{{ url_for('chooseFunction') }}";
+        } else {
+            alert(`教學大綱填寫失敗：${data.message}`);
+            return;
+        }
+    }
+
+    function setCourseCode() {
+        const courseCodeElement = document.getElementById('courseCode');
+        const courseCode = localStorage.getItem('selectedCourseCode');
+        courseCodeElement.textContent = `課程代碼: ${courseCode}`;
+    }
+
+    window.addEventListener('load', setCourseCode);
+    window.addEventListener('resize', adjustHeading);
+    window.addEventListener('load', adjustHeading);
+</script>
+{% endblock %}

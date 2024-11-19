@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}enterID{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80%;">
+
+    <!-- <div class="row d-flex justify-content-center align-items-center"> -->
+        
+        <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+            <div class="card border-success rounded-4 h-100">
+                <div class="card-header p-3 px-4"><h3 class="fw-bold mb-0">請輸入身分和學號</h2></div>
+                
+                <div class="card-body text-success d-flex justify-content-center align-items-center p-4">
+                    <div class="col-lg-8 d-flex flex-column justify-content-center align-items-start" style="gap: 1rem;">
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="card-title col-3 col-xl-2 fw-bold mb-0">學號:</h5>
+                            <input type="text" class="form-control col" id="SID" placeholder="請輸入學號..." aria-label="SID">
+                        </div>
+
+                        <div class="col-12 d-flex align-items-center">
+                            <h5 class="card-title col-3 col-xl-2 fw-bold mb-0">身分:</h5>
+                            <div class="form-check col-3 mb-0">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="student" checked>
+                                <label class="form-check-label" for="student">學生</label>
+                            </div>
+
+                            <div class="form-check col mb-0">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="admin">
+                                <label class="form-check-label" for="admin">系所行政人員</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer px-4">
+                    <div class="d-flex justify-content-end" style="gap: 2rem;">
+                        <a href="{{ url_for('chooseFunction') }}" class="btn btn-success">返回</a>
+                        <a href="#" id="confirmButton" class="btn btn-success" onclick="judge()">確認</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+</div>
+{% endblock %}
+
+{% block content1 %}
+<script>
+    async function judge() {
+
+        const selectedFunction = localStorage.getItem('selectedFunction');
+        const studentRadio = document.getElementById('student');
+        const adminRadio = document.getElementById('admin');
+        const SID = document.getElementById('SID').value;
+        const identity = document.querySelector('input[name="flexRadioDefault"]:checked').id;
+        
+        if (SID === '') {
+            alert('請輸入學號');
+            return;
+        }
+
+        // Check if the user ID exists in the database
+        let response = await fetch('/check_user_id', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({user_id: SID})
+        });
+
+        let data = await response.json();
+        if (data.status === 'not_exists') {
+            alert('輸入的學號不存在');
+            return;
+        } else {
+            localStorage.setItem('SID', SID);
+        }
+
+        localStorage.setItem('identity', identity);
+        if (selectedFunction === 'function_addCourse' || selectedFunction === 'function_dropCourse') {
+            window.location.href = "{{ url_for('enterCourseID') }}";
+        } else if (selectedFunction === 'function_searchCurriculum') {
+            if (studentRadio.checked) {
+                if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
+                    window.location.href = "{{ url_for('studentCurriculum') }}";
+                } else {
+                    return;
+                }
+            } else if (adminRadio.checked) {
+                if (confirm(`您確定要查詢學號 ${SID} 的課表嗎？`)) {
+                    window.location.href = "{{ url_for('adminCurriculum') }}";
+                } else {
+                    return;
+                }
+            }
+        }
+    }
+
+    async function getUserCredits() {
+        let response = await fetch('/get_user_credits');
+        let userIds = await response.json();
+        console.log(userIds);
+    }
+    getUserCredits();
+
+</script>
+{% endblock %}
